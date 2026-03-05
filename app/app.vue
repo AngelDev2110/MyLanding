@@ -1,5 +1,5 @@
 <template>
-  <h1>Welcome</h1>
+  <Hero />
 </template>
 
 <script lang="ts" setup>
@@ -7,6 +7,7 @@
 import "~/assets/normalize/normalize.css";
 
 // Component Options
+useWindowScroll();
 
 // Props and Emits
 
