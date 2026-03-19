@@ -1,5 +1,6 @@
 <template>
   <Hero />
+  <MyFrameworks />
 </template>
 
 <script lang="ts" setup>
