@@ -16,6 +16,12 @@
           :text="$t('funnyQuote')"
           class="hero__funny-quote"
         />
+        <img
+          src="/gifs/coffee.png"
+          alt=""
+          class="animate__animated animate__fadeInUp"
+        />
+        <!-- TODO: ADD LINK TO ICONS8 LICENSE -->
       </template>
     </header>
   </section>
