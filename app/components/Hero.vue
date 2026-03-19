@@ -35,7 +35,7 @@ const { scrollY } = useInjectWindowScroll();
 
 // Computed Properties
 const isVisible = computed(() => ({
-  firstSection: (scrollY?.value ?? 0) < window.innerHeight * 0.6,
+  firstSection: (scrollY?.value ?? 0) < (window?.innerHeight ?? 1) * 0.6,
 }));
 
 // Watchers
