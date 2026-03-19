@@ -57,7 +57,7 @@ const isVisible = computed(() => ({
   align-items: flex-start
   width: 100%
   height: 200vh
-  background: linear-gradient(
+  background: url("/img/worn-dots.png"), linear-gradient(
   to bottom,
   $dark-navy,
   $gray-900,
