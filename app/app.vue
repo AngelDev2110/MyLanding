@@ -1,10 +1,12 @@
 <template>
   <Hero />
+  <MyFrameworks />
 </template>
 
 <script lang="ts" setup>
 // Imports
 import "~/assets/normalize/normalize.css";
+import "~/assets/sass/main.sass";
 
 // Component Options
 useWindowScroll();

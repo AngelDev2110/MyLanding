@@ -16,6 +16,12 @@
           :text="$t('funnyQuote')"
           class="hero__funny-quote"
         />
+        <img
+          src="/gifs/coffee.png"
+          alt=""
+          class="animate__animated animate__fadeInUp"
+        />
+        <!-- TODO: ADD LINK TO ICONS8 LICENSE -->
       </template>
     </header>
   </section>
@@ -35,7 +41,7 @@ const { scrollY } = useInjectWindowScroll();
 
 // Computed Properties
 const isVisible = computed(() => ({
-  firstSection: (scrollY?.value ?? 0) < window.innerHeight * 0.6,
+  firstSection: (scrollY?.value ?? 0) < (window?.innerHeight ?? 1) * 0.6,
 }));
 
 // Watchers
@@ -51,7 +57,7 @@ const isVisible = computed(() => ({
   align-items: flex-start
   width: 100%
   height: 200vh
-  background: linear-gradient(
+  background: url("/img/worn-dots.png"), linear-gradient(
   to bottom,
   $dark-navy,
   $gray-900,
