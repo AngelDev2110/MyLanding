@@ -171,6 +171,7 @@ import { TRAITS } from "./constants";
     position: relative
     flex-shrink: 0
     animation-fill-mode: both
+    overflow: visible
     @media (min-width: $bp-lg)
       margin-left: auto
 
@@ -209,7 +210,10 @@ import { TRAITS } from "./constants";
     top: 14px
     left: 14px
     z-index: -1
+    // Hidden on small screens to avoid horizontal overflow
+    display: none
     @media (min-width: $bp-md)
+      display: block
       width: 340px
       height: 400px
 
@@ -230,9 +234,13 @@ import { TRAITS } from "./constants";
     &--top
       top: -16px
       right: -20px
+      @media (max-width: $bp-md)
+        right: 0
     &--bottom
       bottom: 20px
       left: -30px
+      @media (max-width: $bp-md)
+        left: 0
 
   &__chip-dot
     width: 7px

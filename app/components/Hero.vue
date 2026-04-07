@@ -134,6 +134,7 @@ function scrollToSection(selector: string) {
   height: 360vh
   background: $dark-navy
   padding: 0
+  overflow-x: hidden
 
 .hero__bg-grid
   position: absolute
