@@ -1,78 +1,80 @@
 <template>
-  <div id="stack" ref="wrapperRef" class="tech-stack-wrapper">
-    <div class="tech-stack-progress">
-      <div
-        class="tech-stack-progress__bar"
-        :style="{ width: `${progress * 100}%` }"
-      />
-    </div>
-
-    <div class="tech-stack-pin">
-      <div class="tech-stack__header">
-        <p class="section-label">{{ $t("stack.label") }}</p>
-        <h2 class="section-heading">{{ $t("stack.heading") }}</h2>
-        <p class="section-subheading">{{ $t("stack.sub") }}</p>
-        <p class="tech-stack__scroll-hint">
-          <span class="tech-stack__scroll-hint-arrow">↓</span>
-          {{ $t("stack.scroll") }}
-        </p>
+  <div id="stack">
+    <div ref="wrapperRef" class="tech-stack-wrapper">
+      <div class="tech-stack-progress">
+        <div
+          class="tech-stack-progress__bar"
+          :style="{ width: `${progress * 100}%` }"
+        />
       </div>
 
-      <div ref="trackRef" class="tech-stack__track">
-        <div
-          v-for="category in CATEGORIES"
-          :key="category"
-          class="tech-stack__slide"
-        >
-          <h3 class="tech-stack__slide-title">
-            {{ $t(`stack.categories.${category}`) }}
-          </h3>
-          <div class="tech-stack__cards">
-            <TechCard
-              v-for="tech in techByCategory[category]"
-              :key="tech.title"
-              :title="tech.title"
-              :src="tech.src"
-              :category="tech.category"
-            />
+      <div class="tech-stack-pin">
+        <div class="tech-stack__header">
+          <p class="section-label">{{ $t("stack.label") }}</p>
+          <h2 class="section-heading">{{ $t("stack.heading") }}</h2>
+          <p class="section-subheading">{{ $t("stack.sub") }}</p>
+          <p class="tech-stack__scroll-hint">
+            <span class="tech-stack__scroll-hint-arrow">↓</span>
+            {{ $t("stack.scroll") }}
+          </p>
+        </div>
+
+        <div ref="trackRef" class="tech-stack__track">
+          <div
+            v-for="category in CATEGORIES"
+            :key="category"
+            class="tech-stack__slide"
+          >
+            <h3 class="tech-stack__slide-title">
+              {{ $t(`stack.categories.${category}`) }}
+            </h3>
+            <div class="tech-stack__cards">
+              <TechCard
+                v-for="tech in techByCategory[category]"
+                :key="tech.title"
+                :title="tech.title"
+                :src="tech.src"
+                :category="tech.category"
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="tech-stack__dots">
-        <div
-          v-for="(cat, i) in CATEGORIES"
-          :key="cat"
-          class="tech-stack__dot"
-          :class="{ 'tech-stack__dot--active': activeSlide === i }"
-        />
+        <div class="tech-stack__dots">
+          <div
+            v-for="(cat, i) in CATEGORIES"
+            :key="cat"
+            class="tech-stack__dot"
+            :class="{ 'tech-stack__dot--active': activeSlide === i }"
+          />
+        </div>
       </div>
     </div>
+
+    <section class="tech-stack-mobile">
+      <p class="section-label">{{ $t("stack.label") }}</p>
+      <h2 class="section-heading">{{ $t("stack.heading") }}</h2>
+      <p class="section-subheading">{{ $t("stack.sub") }}</p>
+      <div
+        v-for="category in CATEGORIES"
+        :key="category"
+        class="tech-stack-mobile__group"
+      >
+        <h3 class="tech-stack-mobile__group-title">
+          {{ $t(`stack.categories.${category}`) }}
+        </h3>
+        <div class="tech-stack-mobile__cards">
+          <TechCard
+            v-for="tech in techByCategory[category]"
+            :key="tech.title"
+            :title="tech.title"
+            :src="tech.src"
+            :category="tech.category"
+          />
+        </div>
+      </div>
+    </section>
   </div>
-
-  <section id="stack-mobile" class="tech-stack-mobile">
-    <p class="section-label">{{ $t("stack.label") }}</p>
-    <h2 class="section-heading">{{ $t("stack.heading") }}</h2>
-    <p class="section-subheading">{{ $t("stack.sub") }}</p>
-    <div
-      v-for="category in CATEGORIES"
-      :key="category"
-      class="tech-stack-mobile__group"
-    >
-      <h3 class="tech-stack-mobile__group-title">
-        {{ $t(`stack.categories.${category}`) }}
-      </h3>
-      <div class="tech-stack-mobile__cards">
-        <TechCard
-          v-for="tech in techByCategory[category]"
-          :key="tech.title"
-          :title="tech.title"
-          :src="tech.src"
-          :category="tech.category"
-        />
-      </div>
-    </div>
-  </section>
 </template>
 
 <script lang="ts" setup>
