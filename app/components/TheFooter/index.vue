@@ -13,19 +13,6 @@
       <p class="footer__copy">
         © {{ year }} Angel De La Torre. {{ $t("footer.rights") }}.
       </p>
-
-      <!-- Right: Lang toggle -->
-      <div class="footer__lang">
-        <button
-          v-for="localeCode in availableLocales"
-          :key="localeCode"
-          class="footer__lang-btn"
-          :class="{ 'footer__lang-btn--active': currentLocale === localeCode }"
-          @click="setLocale(localeCode)"
-        >
-          {{ localeCode.toUpperCase() }}
-        </button>
-      </div>
     </div>
   </footer>
 </template>
@@ -108,22 +95,4 @@ const year = new Date().getFullYear();
   &__lang
     display: flex
     gap: 6px
-
-  &__lang-btn
-    font-family: $font-mono
-    font-size: 0.75rem
-    background: none
-    border: 1px solid $border
-    color: $text-muted
-    padding: 4px 10px
-    border-radius: 4px
-    cursor: pointer
-    transition: all $transition-fast
-    &:hover
-      border-color: $accent
-      color: $accent
-    &--active
-      border-color: $accent
-      color: $accent
-      background: $accent-dim
 </style>
