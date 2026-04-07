@@ -1,0 +1,68 @@
+@use 'animate.css'
+
+*
+  box-sizing: border-box
+
+html
+  scroll-behavior: smooth
+
+body
+  color: $white
+  font-family: $font-nunito
+  background-color: $dark-navy
+  overflow-x: hidden
+  &::-webkit-scrollbar
+    width: 6px
+  &::-webkit-scrollbar-track
+    background: $dark-navy
+  &::-webkit-scrollbar-thumb
+    background: $gray-700
+    border-radius: 3px
+    &:hover
+      background: $accent
+
+::selection
+  background: $accent-dim
+  color: $accent
+
+section
+  padding: $section-padding-mobile 20px
+  box-sizing: border-box
+  @media (min-width: $bp-md)
+    padding: $section-padding 60px
+  @media (min-width: $bp-lg)
+    padding: $section-padding 100px
+
+.section-label
+  font-family: $font-mono
+  font-size: 0.75rem
+  color: $accent
+  letter-spacing: 0.15em
+  text-transform: uppercase
+  margin-bottom: 12px
+  display: flex
+  align-items: center
+  gap: 12px
+  &::after
+    content: ''
+    display: block
+    width: 60px
+    height: 1px
+    background: $accent
+
+.section-heading
+  font-family: $font-lora
+  font-size: clamp(2rem, 5vw, 3.2rem)
+  font-weight: 700
+  color: $white
+  margin: 0 0 16px
+
+.section-subheading
+  font-size: clamp(1rem, 2.5vw, 1.2rem)
+  color: $text-muted
+  max-width: 560px
+  line-height: 1.7
+  margin: 0
+
+.accent
+  color: $accent

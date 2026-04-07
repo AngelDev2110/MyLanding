@@ -1,0 +1,60 @@
+{
+  "myName": "Angel De La Torre",
+  "myRole": "Frontend Developer",
+  "funnyQuote": "Clean code, strong coffee and minimal errors.",
+  "tagline": "Crafting interfaces that feel as good as they look.",
+  "yearsExp": "2 yrs experience",
+  "openToWork": "Open to new opportunities",
+  "terminalCmd": "npm run start-day -- --coffee=true",
+  "nav": {
+    "about": "About",
+    "stack": "Stack",
+    "experience": "Experience",
+    "contact": "Contact"
+  },
+  "about": {
+    "label": "About me",
+    "heading": "Passionate about the craft of the web",
+    "bio1": "I'm a Frontend Developer based in México with 2 years of professional experience building modern web interfaces that are fast, clean, and intuitive.",
+    "bio2": "I specialize in Vue.js and the Nuxt ecosystem, but I'm comfortable working across the JavaScript landscape — React, Next.js, TypeScript, and beyond. I care deeply about code quality, component design, and the user experience.",
+    "bio3": "When I'm not coding, I'm probably drinking coffee and thinking about it anyway.",
+    "traits": {
+      "clean": "Clean code advocate",
+      "detail": "Pixel-perfect attention to detail",
+      "collab": "Strong collaborator",
+      "learner": "Continuous learner"
+    }
+  },
+  "stack": {
+    "label": "Tech stack",
+    "heading": "Tools I work with",
+    "sub": "A curated set of technologies I use to build reliable, scalable, and beautiful web products.",
+    "categories": {
+      "frameworks": "Frameworks & Libraries",
+      "languages": "Languages",
+      "tools": "Tools & Workflow"
+    },
+    "scroll": "Scroll to explore"
+  },
+  "experience": {
+    "label": "Experience",
+    "heading": "My journey so far",
+    "sub": "Two years of shipping real products, growing as an engineer, and learning what it means to write code that lasts."
+  },
+  "contact": {
+    "label": "Contact",
+    "heading": "Let's work together",
+    "sub": "I'm always open to interesting projects, collaborations, or just a good conversation about web development.",
+    "email": "angeldev2110{'@'}gmail.com",
+    "copyEmail": "Copy email",
+    "emailCopied": "Copied!",
+    "findMe": "Find me on"
+  },
+  "footer": {
+    "built": "Built with Nuxt, Vue & passion",
+    "rights": "All rights reserved"
+  },
+  "hero": {
+    "label": "Dev"
+  }
+}
