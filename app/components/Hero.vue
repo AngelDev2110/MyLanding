@@ -134,7 +134,6 @@ function scrollToSection(selector: string) {
   height: 360vh
   background: $dark-navy
   padding: 0
-  overflow-x: hidden
 
 .hero__bg-grid
   position: absolute
@@ -148,8 +147,10 @@ function scrollToSection(selector: string) {
   position: absolute
   top: 0
   left: -5%
-  width: 700px
-  height: 700px
+  width: 100vw
+  height: 100vw
+  max-width: 700px
+  max-height: 700px
   background: radial-gradient(circle, rgba(100,255,218,0.08) 0%, transparent 65%)
   pointer-events: none
   z-index: 0
@@ -264,7 +265,6 @@ function scrollToSection(selector: string) {
     border-radius: 50%
     animation: pulse 2s ease infinite
 
-// ── Terminal block ──
 .hero__terminal
   background: rgba(14, 17, 22, 0.85)
   border: 1px solid rgba(100,255,218,0.22)
