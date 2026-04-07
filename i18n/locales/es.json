@@ -2,5 +2,59 @@
   "myName": "Angel De La Torre",
   "myRole": "Desarrollador Frontend",
   "funnyQuote": "Código limpio, café fuerte y errores mínimos.",
-  "myFrameworks": "Especializado en el desarrollo profesional de páginas y aplicaciones web con librerías y frameworks."
+  "tagline": "Creando interfaces que se sienten tan bien como se ven.",
+  "yearsExp": "2 años de experiencia",
+  "openToWork": "Abierto a nuevas oportunidades",
+  "terminalCmd": "npm run iniciar-dia -- --cafe=true",
+  "nav": {
+    "about": "Sobre mí",
+    "stack": "Stack",
+    "experience": "Experiencia",
+    "contact": "Contacto"
+  },
+  "about": {
+    "label": "Sobre mí",
+    "heading": "Apasionado por el arte del desarrollo web",
+    "bio1": "Soy un Desarrollador Frontend basado en México con 2 años de experiencia profesional construyendo interfaces web modernas, rápidas, limpias e intuitivas.",
+    "bio2": "Me especializo en Vue.js y el ecosistema Nuxt, aunque me desenvuelvo en todo el ecosistema JavaScript — React, Next.js, TypeScript y más. Me importa profundamente la calidad del código, el diseño de componentes y la experiencia de usuario.",
+    "bio3": "Cuando no estoy programando, probablemente estoy tomando café y pensando en programar de todas formas.",
+    "traits": {
+      "clean": "Defensor del código limpio",
+      "detail": "Atención al detalle pixel-perfect",
+      "collab": "Buen colaborador en equipo",
+      "learner": "Aprendizaje continuo"
+    }
+  },
+  "stack": {
+    "label": "Stack tecnológico",
+    "heading": "Herramientas con las que trabajo",
+    "sub": "Un conjunto curado de tecnologías que uso para construir productos web confiables, escalables y hermosos.",
+    "categories": {
+      "frameworks": "Frameworks y Librerías",
+      "languages": "Lenguajes",
+      "tools": "Herramientas y Flujo de trabajo"
+    },
+    "scroll": "Desplázate para explorar"
+  },
+  "experience": {
+    "label": "Experiencia",
+    "heading": "Mi camino hasta aquí",
+    "sub": "Dos años enviando productos reales, creciendo como ingeniero y aprendiendo qué significa escribir código que perdura."
+  },
+  "contact": {
+    "label": "Contacto",
+    "heading": "Trabajemos juntos",
+    "sub": "Siempre estoy abierto a proyectos interesantes, colaboraciones o simplemente una buena conversación sobre desarrollo web.",
+    "email": "angeldev2110{'@'}gmail.com",
+    "copyEmail": "Copiar correo",
+    "emailCopied": "¡Copiado!",
+    "findMe": "Encuéntrame en"
+  },
+  "footer": {
+    "built": "Construido con Nuxt, Vue y pasión",
+    "rights": "Todos los derechos reservados"
+  },
+  "hero": {
+    "label": "Dev"
+  }
 }

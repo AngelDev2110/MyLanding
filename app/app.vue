@@ -1,6 +1,13 @@
 <template>
-  <Hero />
-  <MyFrameworks />
+  <TheNavbar />
+  <main>
+    <Hero />
+    <AboutMe />
+    <TechStack />
+    <Experience />
+    <Contact />
+  </main>
+  <TheFooter />
 </template>
 
 <script lang="ts" setup>
@@ -9,11 +16,7 @@ import "~/assets/normalize/normalize.css";
 import "~/assets/sass/main.sass";
 
 // Component Options
-useWindowScroll();
-
-// Props and Emits
-
-// Composition API Helpers
+useScrollProvider();
 
 // Reactive Variables
 

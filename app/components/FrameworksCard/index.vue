@@ -3,8 +3,7 @@
     class="frameworks-card animate__animated"
     v-intersect="{
       enterClass: 'animate__flipInX',
-      leaveClass: 'animate__flipOutX',
-      threshold: 0.7,
+      threshold: 0.2,
     }"
   >
     <img :src="getImageSrc()" alt="" class="frameworks-card__image" />

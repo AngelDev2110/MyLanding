@@ -1,4 +1,4 @@
-export function useWindowScroll() {
+export function useScrollProvider() {
   const scrollY = ref<number>(0);
 
   const updateScroll = () => {
