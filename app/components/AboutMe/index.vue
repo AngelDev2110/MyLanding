@@ -39,7 +39,7 @@
       >
         <div class="about__photo-container">
           <img
-            src="/img/me.jpeg"
+            src="/img/meFormal.jpeg"
             alt="Angel De La Torre"
             class="about__photo"
           />
