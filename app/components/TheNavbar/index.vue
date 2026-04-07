@@ -112,7 +112,7 @@ onMounted(() => {
         if (entry.isIntersecting) activeSection.value = entry.target.id;
       });
     },
-    { threshold: 0.3 },
+    { threshold: 0.2 },
   );
   sections.forEach((id) => {
     const el = document.getElementById(id);
