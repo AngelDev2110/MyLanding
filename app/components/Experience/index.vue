@@ -28,19 +28,29 @@
 <script lang="ts" setup>
 // Imports
 import { useIntersectionObserver } from "@vueuse/core";
-import { EXPERIENCE } from "./constants";
+import type { ExperienceEntry } from "./constants";
 
 // Component Options
 
 // Props and Emits
 
 // Composition API Helpers
+const { tm, rt } = useI18n();
 
 // Reactive Variables
 const lineRef = ref<HTMLElement | null>(null);
 const lineStarted = ref(false);
 
 // Computed Properties
+const EXPERIENCE = computed<ExperienceEntry[]>(() =>
+  (tm("experience.entries") as any[]).map((entry) => ({
+    role: rt(entry.role),
+    period: rt(entry.period),
+    type: rt(entry.type),
+    highlights: (entry.highlights as any[]).map((h) => rt(h)),
+    tags: (entry.tags as any[]).map((tag) => rt(tag)),
+  })),
+);
 
 // Watchers
 

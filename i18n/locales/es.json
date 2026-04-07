@@ -39,7 +39,46 @@
   "experience": {
     "label": "Experiencia",
     "heading": "Mi camino hasta aquí",
-    "sub": "Dos años enviando productos reales, creciendo como ingeniero y aprendiendo qué significa escribir código que perdura."
+    "sub": "Dos años enviando productos reales, creciendo como ingeniero y aprendiendo qué significa escribir código que perdura.",
+    "entries": [
+      {
+        "role": "Desarrollador Frontend",
+        "period": "2023 — Presente",
+        "type": "Tiempo completo",
+        "highlights": [
+          "Construí y mantuve aplicaciones web a escala empresarial con Vue.js y Nuxt.js",
+          "Diseñé e implementé librerías de componentes mejorando la velocidad de desarrollo del equipo",
+          "Colaboré estrechamente con diseñadores UX/UI traduciendo mockups en interfaces pixel-perfect",
+          "Integré APIs REST y gestioné el estado en flujos de usuario complejos de múltiples pasos",
+          "Participé en revisiones de código, planificación de sprints y ceremonias ágiles"
+        ],
+        "tags": ["Vue.js", "Nuxt.js", "TypeScript", "Sass", "REST APIs", "Git"]
+      },
+      {
+        "role": "Desarrollador Frontend Junior",
+        "period": "2023",
+        "type": "Nivel de entrada",
+        "highlights": [
+          "Inicié mi carrera construyendo funcionalidades UI reales a partir de especificaciones de diseño",
+          "Desarrollé layouts responsivos y componentes reutilizables en React y JavaScript",
+          "Aprendí buenas prácticas de control de versiones, calidad de código y flujos de trabajo en equipo",
+          "Colaboré con desarrolladores senior y aproveché la mentoría para mejorar habilidades rápidamente"
+        ],
+        "tags": ["React", "JavaScript", "CSS", "GitHub", "Scrum"]
+      },
+      {
+        "role": "Desarrollador Autodidacta",
+        "period": "2020 — 2022",
+        "type": "Fase de aprendizaje",
+        "highlights": [
+          "Aprendí por mi cuenta HTML, CSS, JavaScript y los fundamentos del desarrollo web",
+          "Construí proyectos personales para practicar habilidades frontend y explorar frameworks modernos",
+          "Exploré Vue.js, React y el ecosistema JavaScript a través de documentación y cursos",
+          "Desarrollé una mentalidad sólida de resolución de problemas y pasión por el código limpio y mantenible"
+        ],
+        "tags": ["HTML", "CSS", "JavaScript", "Vue.js", "Autodidacta"]
+      }
+    ]
   },
   "contact": {
     "label": "Contacto",
