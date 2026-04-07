@@ -22,14 +22,14 @@
               />
               <p
                 class="hero__tagline animate__animated animate__fadeInUp"
-                style="animation-delay: 0.9s"
+                style="animation-delay: 0.5s"
               >
                 {{ $t("tagline") }}
               </p>
 
               <div
                 class="hero__ctas animate__animated animate__fadeInUp"
-                style="animation-delay: 1.1s"
+                style="animation-delay: 0.7s"
               >
                 <a
                   href="#stack"
@@ -50,7 +50,7 @@
 
               <div
                 class="hero__badge animate__animated animate__fadeInUp"
-                style="animation-delay: 1.3s"
+                style="animation-delay: 1s"
               >
                 <span class="hero__badge-dot" />
                 {{ $t("yearsExp") }}
@@ -119,7 +119,8 @@ const { y: scrollY } = useScroll(typeof window !== "undefined" ? window : null);
 // Computed
 const showIntro = computed(
   () =>
-    scrollY.value < (typeof window !== "undefined" ? window.innerHeight : 900),
+    scrollY.value <
+    (typeof window !== "undefined" ? window.innerHeight / 4 : 400),
 );
 
 // Methods
@@ -131,7 +132,7 @@ function scrollToSection(selector: string) {
 <style lang="sass" scoped>
 .hero
   position: relative
-  height: 360vh
+  height: 220vh
   background: $dark-navy
   padding: 0
 
@@ -348,7 +349,7 @@ function scrollToSection(selector: string) {
   flex-shrink: 0
   opacity: 1
   transform: translateY(0) scale(1)
-  transition: opacity 0.5s ease, transform 0.5s ease
+  transition: opacity 0.3s ease, transform 0.3s ease
   display: none
   @media (min-width: $bp-lg)
     display: block
