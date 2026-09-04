@@ -10,6 +10,14 @@ export const SOCIAL_LINKS: SocialCardProps[] = [
     external: true,
   },
   {
+    label: "GitHub",
+    href: "https://github.com/AngelDev2110",
+    icon: "github.svg",
+    username: "@AngelDev2110",
+    description: "Check out my code & projects",
+    external: true,
+  },
+  {
     label: "WakaTime",
     href: "https://wakatime.com/@AngelDev21",
     icon: "wakatime.svg",
