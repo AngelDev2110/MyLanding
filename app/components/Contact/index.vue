@@ -59,9 +59,9 @@
 
       <div class="contact__socials">
         <ContactSocialCard
-          v-for="link in SOCIAL_LINKS"
-          :key="link.href"
-          v-bind="link"
+          v-for="social in SOCIALS"
+          :key="social.href"
+          v-bind="social"
         />
       </div>
     </div>
@@ -72,6 +72,7 @@
 // Imports
 import { useClipboard } from "@vueuse/core";
 import { SOCIAL_LINKS } from "./constants";
+import type { Props as SocialCardProps } from "./SocialCard/SocialCard.d.ts";
 
 // Component Options
 
@@ -79,11 +80,22 @@ import { SOCIAL_LINKS } from "./constants";
 
 // Composition API Helpers
 const { copy, copied } = useClipboard({ copiedDuring: 2500 });
+const { t } = useI18n();
 
 // Reactive Variables
 const EMAIL = "angeldev2110@gmail.com";
 
 // Computed Properties
+const SOCIALS = computed<SocialCardProps[]>(() =>
+  SOCIAL_LINKS.map((link) => ({
+    href: link.href,
+    icon: link.icon,
+    username: link.username,
+    external: link.external,
+    label: t(`contact.socials.${link.key}.label`),
+    description: t(`contact.socials.${link.key}.description`),
+  })),
+);
 
 // Watchers
 

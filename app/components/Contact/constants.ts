@@ -1,28 +1,33 @@
-import type { Props as SocialCardProps } from "./SocialCard/SocialCard.d.ts";
+export type SocialKey = "linkedin" | "github" | "wakatime";
 
-export const SOCIAL_LINKS: SocialCardProps[] = [
+export interface SocialLink {
+  key: SocialKey;
+  href: string;
+  icon: string;
+  username: string;
+  external: boolean;
+}
+
+export const SOCIAL_LINKS: SocialLink[] = [
   {
-    label: "LinkedIn",
+    key: "linkedin",
     href: "https://www.linkedin.com/in/angel-de-la-torre-alcantar/",
     icon: "linkedin.svg",
     username: "Angel De La Torre",
-    description: "Connect with me professionally",
     external: true,
   },
   {
-    label: "GitHub",
+    key: "github",
     href: "https://github.com/AngelDev2110",
     icon: "github.svg",
     username: "@AngelDev2110",
-    description: "Check out my code & projects",
     external: true,
   },
   {
-    label: "WakaTime",
+    key: "wakatime",
     href: "https://wakatime.com/@AngelDev21",
     icon: "wakatime.svg",
     username: "@AngelDev21",
-    description: "See my coding activity & stats",
     external: true,
   },
 ];
