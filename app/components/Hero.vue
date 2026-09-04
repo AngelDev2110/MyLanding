@@ -111,15 +111,14 @@
 
 <script lang="ts" setup>
 // Imports
-import { useScroll } from "@vueuse/core";
 
-// Reactive Variables
-const { y: scrollY } = useScroll(typeof window !== "undefined" ? window : null);
+// Composition API Helpers
+const { scrollY } = useInjectWindowScroll();
 
 // Computed
 const showIntro = computed(
   () =>
-    scrollY.value <
+    (scrollY?.value ?? 0) <
     (typeof window !== "undefined" ? window.innerHeight / 4 : 400),
 );
 
