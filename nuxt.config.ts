@@ -23,14 +23,26 @@ export default defineNuxtConfig({
             "Frontend Developer based in México. Crafting interfaces that feel as good as they look.",
         },
         { property: "og:type", content: "website" },
-        { name: "theme-color", content: "#0e1116" },
-      ],
-      link: [
-        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+        { property: "og:image", content: "/img/me.jpeg" },
+        { property: "og:image:width", content: "1280" },
+        { property: "og:image:height", content: "960" },
         {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap",
+          property: "og:image:alt",
+          content: "Angel De La Torre — Frontend Developer",
         },
+        { property: "og:site_name", content: "Angel De La Torre" },
+        { name: "twitter:card", content: "summary_large_image" },
+        {
+          name: "twitter:title",
+          content: "Angel De La Torre — Frontend Developer",
+        },
+        {
+          name: "twitter:description",
+          content:
+            "Frontend Developer based in México. Crafting interfaces that feel as good as they look.",
+        },
+        { name: "twitter:image", content: "/img/me.jpeg" },
+        { name: "theme-color", content: "#0e1116" },
       ],
     },
   },
@@ -51,6 +63,7 @@ export default defineNuxtConfig({
     families: [
       { name: "Lora", weights: [400, 600, 700] },
       { name: "Nunito", weights: [400, 500, 600, 700] },
+      { name: "JetBrains Mono", weights: [400, 500, 700] },
     ],
   },
 
