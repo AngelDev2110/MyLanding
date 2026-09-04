@@ -1,8 +1,8 @@
 {
   "myName": "Angel De La Torre",
   "myRole": "Desarrollador Frontend",
-  "funnyQuote": "Código limpio, café fuerte y errores mínimos.",
-  "tagline": "Creando interfaces que se sienten tan bien como se ven.",
+  "funnyQuote": "Depuro con console.log y no me arrepiento.",
+  "tagline": "Construyo webs que funcionan, cargan rápido y no hacen que quieras golpear la pantalla.",
   "yearsExp": "3 años de experiencia",
   "openToWork": "Abierto a nuevas oportunidades",
   "terminalCmd": "npm run iniciar-dia -- --cafe=true",
@@ -10,25 +10,26 @@
     "about": "Sobre mí",
     "stack": "Stack",
     "experience": "Experiencia",
+    "projects": "Proyectos",
     "contact": "Contacto"
   },
   "about": {
     "label": "Sobre mí",
-    "heading": "Apasionado por el arte del desarrollo web",
-    "bio1": "Soy un Desarrollador Frontend basado en México con 3 años de experiencia profesional construyendo interfaces web modernas, rápidas, limpias e intuitivas.",
-    "bio2": "Me especializo en Vue.js y el ecosistema Nuxt, aunque me desenvuelvo en todo el ecosistema JavaScript — React, Next.js, TypeScript y más. Me importa profundamente la calidad del código, el diseño de componentes y la experiencia de usuario.",
+    "heading": "Siempre encantado de aprender algo nuevo.",
+    "bio1": "Soy Desarrollador Frontend en México con 3 años de experiencia construyendo interfaces web rápidas, limpias y que se sienten bien de usar.",
+    "bio2": "Vue.js y Nuxt son mi zona de confort, pero también me muevo bien en todo el ecosistema JS — React, Next.js, TypeScript, lo que se necesite. Me obsesiono con el código limpio y con componentes que le hagan sentido a quien los toque después.",
     "bio3": "Cuando no estoy programando, probablemente estoy tomando café y pensando en programar de todas formas.",
     "traits": {
-      "clean": "Defensor del código limpio",
-      "detail": "Atención al detalle pixel-perfect",
-      "collab": "Buen colaborador en equipo",
-      "learner": "Aprendizaje continuo"
+      "clean": "Obsesionado con el código limpio",
+      "detail": "Detecta hasta un pixel mal alineado",
+      "collab": "Fácil de tratar, en serio",
+      "learner": "Siempre aprendiendo algo nuevo"
     }
   },
   "stack": {
     "label": "Stack tecnológico",
     "heading": "Herramientas con las que trabajo",
-    "sub": "Un conjunto curado de tecnologías que uso para construir productos web confiables, escalables y hermosos.",
+    "sub": "Las herramientas a las que realmente recurro para construir cosas que funcionan, escalan y no se ven como una plantilla.",
     "categories": {
       "frameworks": "Frameworks y Librerías",
       "languages": "Lenguajes",
@@ -38,19 +39,19 @@
   },
   "experience": {
     "label": "Experiencia",
-    "heading": "Mi camino hasta aquí",
-    "sub": "Tres años enviando productos reales, creciendo como ingeniero y aprendiendo qué significa escribir código que perdura.",
+    "heading": "Dónde he trabajado (hasta ahora)",
+    "sub": "Tres años enviando productos reales, rompiendo cosas en staging (no en producción, casi nunca...) y aprendiendo qué necesita realmente el código para durar.",
     "entries": [
       {
         "role": "Desarrollador Frontend",
         "period": "2023 — Presente",
         "type": "Tiempo completo",
         "highlights": [
-          "Construí y mantuve aplicaciones web a escala empresarial con Vue.js y Nuxt.js",
-          "Diseñé e implementé librerías de componentes mejorando la velocidad de desarrollo del equipo",
-          "Colaboré estrechamente con diseñadores UX/UI traduciendo mockups en interfaces pixel-perfect",
-          "Integré APIs REST y gestioné el estado en flujos de usuario complejos de múltiples pasos",
-          "Participé en revisiones de código, planificación de sprints y ceremonias ágiles"
+          "Construí y mantuve aplicaciones web grandes con Vue.js y Nuxt.js",
+          "Armé librerías de componentes que ayudaron al equipo a entregar más rápido",
+          "Trabajé de cerca con diseñadores, convirtiendo mockups en interfaces pixel-perfect",
+          "Integré APIs REST y manejé estado en flujos de varios pasos genuinamente complicados",
+          "Revisé código, planeé sprints, hice toda la rutina ágil"
         ],
         "tags": ["Vue.js", "Nuxt.js", "TypeScript", "Sass", "REST APIs", "Git"]
       },
@@ -59,10 +60,10 @@
         "period": "2023",
         "type": "Nivel de entrada",
         "highlights": [
-          "Inicié mi carrera construyendo funcionalidades UI reales a partir de especificaciones de diseño",
-          "Desarrollé layouts responsivos y componentes reutilizables en React y JavaScript",
-          "Aprendí buenas prácticas de control de versiones, calidad de código y flujos de trabajo en equipo",
-          "Colaboré con desarrolladores senior y aproveché la mentoría para mejorar habilidades rápidamente"
+          "Arranqué mi carrera construyendo funcionalidades UI reales a partir de diseños",
+          "Construí layouts responsivos y componentes reutilizables en React y JavaScript",
+          "Aprendí lo básico del mundo real: control de versiones, calidad de código, flujos de equipo",
+          "Trabajé junto a devs senior y subí de nivel rápido"
         ],
         "tags": ["React", "JavaScript", "CSS", "GitHub", "Scrum"]
       },
@@ -71,26 +72,90 @@
         "period": "2020 — 2022",
         "type": "Fase de aprendizaje",
         "highlights": [
-          "Aprendí por mi cuenta HTML, CSS, JavaScript y los fundamentos del desarrollo web",
-          "Construí proyectos personales para practicar habilidades frontend y explorar frameworks modernos",
-          "Exploré Vue.js, React y el ecosistema JavaScript a través de documentación y cursos",
-          "Desarrollé una mentalidad sólida de resolución de problemas y pasión por el código limpio y mantenible"
+          "Aprendí por mi cuenta HTML, CSS, JavaScript y los fundamentos — sin bootcamp, solo documentación y terquedad",
+          "Construí proyectos personales para practicar de verdad, no solo ver tutoriales",
+          "Exploré Vue.js, React y el ecosistema JS con documentación, cursos y bastante prueba y error",
+          "Desarrollé una mentalidad de resolver problemas primero y un hábito real de escribir código limpio y mantenible"
         ],
         "tags": ["HTML", "CSS", "JavaScript", "Vue.js", "Autodidacta"]
+      }
+    ]
+  },
+  "projects": {
+    "label": "Proyectos",
+    "heading": "Cosas que he construido",
+    "sub": "Un par de cosas que he estado construyendo últimamente — vienen más.",
+    "viewProject": "Ver proyecto",
+    "entries": [
+      {
+        "title": "Angel Front Themes",
+        "description": "Generador y editor de paletas y temas de UI en Vue 3 + TypeScript: conversión de color propia (HEX↔RGB↔OKLCH), armonías cromáticas, modo claro/oscuro, validación WCAG y exportación a CSS/Tailwind/SCSS/JSON.",
+        "tags": [
+          "Vue 3",
+          "TypeScript",
+          "Composition API",
+          "Pinia",
+          "Vite",
+          "VueUse",
+          "Vitest",
+          "Canvas API",
+          "OKLCH",
+          "WCAG 2.1",
+          "CSS Custom Properties",
+          "ESLint",
+          "Bun"
+        ]
+      },
+      {
+        "title": "Noob Draw",
+        "description": "Pictionary multijugador donde Postgres es el servidor — funciones SQL protegidas con RLS manejan cada turno, puntaje y pista, sincronizados en vivo por WebSockets.",
+        "tags": [
+          "React 19",
+          "TypeScript",
+          "Vite",
+          "TanStack Router",
+          "TanStack Query",
+          "Supabase",
+          "PostgreSQL",
+          "Tailwind CSS v4",
+          "Radix UI",
+          "Vercel",
+          "Multijugador en tiempo real",
+          "Row-Level Security",
+          "Sin backend propio",
+          "Elección de líder por presencia",
+          "Temporizadores sincronizados con el servidor"
+        ]
       }
     ]
   },
   "contact": {
     "label": "Contacto",
     "heading": "Trabajemos juntos",
-    "sub": "Siempre estoy abierto a proyectos interesantes, colaboraciones o simplemente una buena conversación sobre desarrollo web.",
+    "sub": "¿Tienes un proyecto, una vacante, o solo quieres hablar de algo tecnológico? Aquí estoy.",
     "email": "angeldev2110{'@'}gmail.com",
+    "getInTouch": "Ponte en contacto",
     "copyEmail": "Copiar correo",
+    "sendEmail": "Enviar correo",
     "emailCopied": "¡Copiado!",
-    "findMe": "Encuéntrame en"
+    "findMe": "Encuéntrame en",
+    "socials": {
+      "linkedin": {
+        "label": "LinkedIn",
+        "description": "Conectemos como se debe"
+      },
+      "github": {
+        "label": "GitHub",
+        "description": "Donde vive el código de verdad"
+      },
+      "wakatime": {
+        "label": "WakaTime",
+        "description": "Mis stats de código, para los curiosos"
+      }
+    }
   },
   "footer": {
-    "built": "Construido con Nuxt, Vue y pasión",
+    "built": "Construido con Nuxt, Vue y demasiado café",
     "rights": "Todos los derechos reservados"
   },
   "hero": {

@@ -1,8 +1,8 @@
 {
   "myName": "Angel De La Torre",
   "myRole": "Frontend Developer",
-  "funnyQuote": "Clean code, strong coffee and minimal errors.",
-  "tagline": "Crafting interfaces that feel as good as they look.",
+  "funnyQuote": "I debug with console.log and I regret nothing.",
+  "tagline": "I build web stuff that works, loads fast, and doesn't make people rage-quit.",
   "yearsExp": "3 yrs experience",
   "openToWork": "Open to new opportunities",
   "terminalCmd": "npm run start-day -- --coffee=true",
@@ -10,25 +10,26 @@
     "about": "About",
     "stack": "Stack",
     "experience": "Experience",
+    "projects": "Projects",
     "contact": "Contact"
   },
   "about": {
     "label": "About me",
-    "heading": "Passionate about the craft of the web",
-    "bio1": "I'm a Frontend Developer based in México with 3 years of professional experience building modern web interfaces that are fast, clean, and intuitive.",
-    "bio2": "I specialize in Vue.js and the Nuxt ecosystem, but I'm comfortable working across the JavaScript landscape — React, Next.js, TypeScript, and beyond. I care deeply about code quality, component design, and the user experience.",
+    "heading": "Always delighted to learn something new.",
+    "bio1": "I'm a Frontend Developer based in Mexico with 3 years of hands-on experience building web interfaces that are fast, clean, and actually pleasant to use.",
+    "bio2": "Vue.js and Nuxt are my home turf, but I move comfortably across the JS ecosystem too — React, Next.js, TypeScript, you name it. I obsess over clean code and components that actually make sense to whoever touches them next.",
     "bio3": "When I'm not coding, I'm probably drinking coffee and thinking about it anyway.",
     "traits": {
-      "clean": "Clean code advocate",
-      "detail": "Pixel-perfect attention to detail",
-      "collab": "Strong collaborator",
-      "learner": "Continuous learner"
+      "clean": "Obsessed with clean code",
+      "detail": "Notices every misaligned pixel",
+      "collab": "Easy to work with, seriously",
+      "learner": "Always poking at something new"
     }
   },
   "stack": {
     "label": "Tech stack",
     "heading": "Tools I work with",
-    "sub": "A curated set of technologies I use to build reliable, scalable, and beautiful web products.",
+    "sub": "The stuff I actually reach for when building things that need to work, scale, and not look like a template.",
     "categories": {
       "frameworks": "Frameworks & Libraries",
       "languages": "Languages",
@@ -38,19 +39,19 @@
   },
   "experience": {
     "label": "Experience",
-    "heading": "My journey so far",
-    "sub": "Three years of shipping real products, growing as an engineer, and learning what it means to write code that lasts.",
+    "heading": "Where I've worked (so far)",
+    "sub": "Three years of shipping real products, breaking things in staging (not prod, mostly...), and learning what code actually needs to last.",
     "entries": [
       {
         "role": "Frontend Developer",
         "period": "2023 — Present",
         "type": "Full-time",
         "highlights": [
-          "Built and maintained enterprise-scale web applications with Vue.js and Nuxt.js",
-          "Designed and implemented component libraries improving team development velocity",
-          "Worked closely with UX/UI designers translating mockups into pixel-perfect interfaces",
-          "Integrated REST APIs and managed state across complex multi-step user flows",
-          "Participated in code reviews, sprint planning, and agile ceremonies"
+          "Built and maintained large-scale web apps with Vue.js and Nuxt.js",
+          "Built component libraries that helped the team ship faster",
+          "Worked closely with designers, turning mockups into pixel-perfect UI",
+          "Integrated REST APIs and handled state across some genuinely gnarly multi-step flows",
+          "Reviewed code, planned sprints, did the full agile routine"
         ],
         "tags": ["Vue.js", "Nuxt.js", "TypeScript", "Sass", "REST APIs", "Git"]
       },
@@ -59,10 +60,10 @@
         "period": "2023",
         "type": "Entry level",
         "highlights": [
-          "Kickstarted career building real-world UI features from design specifications",
-          "Developed responsive layouts and reusable components in React and JavaScript",
-          "Learned best practices around version control, code quality, and team workflows",
-          "Collaborated with senior developers and absorbed mentorship to sharpen skills fast"
+          "Started my career building real UI features straight from design specs",
+          "Built responsive layouts and reusable components in React and JavaScript",
+          "Picked up the real-world basics: version control, code quality, team workflows",
+          "Worked alongside senior devs and leveled up fast"
         ],
         "tags": ["React", "JavaScript", "CSS", "GitHub", "Scrum"]
       },
@@ -71,26 +72,90 @@
         "period": "2020 — 2022",
         "type": "Learning phase",
         "highlights": [
-          "Self-taught HTML, CSS, JavaScript, and fundamentals of web development",
-          "Built personal projects to practice frontend skills and explore modern frameworks",
-          "Explored Vue.js, React, and the JavaScript ecosystem through documentation and courses",
-          "Developed a strong problem-solving mindset and passion for clean, maintainable code"
+          "Taught myself HTML, CSS, JavaScript, and the fundamentals — no bootcamp, just docs and stubbornness",
+          "Built personal projects to actually practice, not just watch tutorials",
+          "Explored Vue.js, React, and the JS ecosystem through docs, courses, and a lot of trial and error",
+          "Built a real problem-solving mindset and an actual habit of writing clean, maintainable code"
         ],
         "tags": ["HTML", "CSS", "JavaScript", "Vue.js", "Self-taught"]
+      }
+    ]
+  },
+  "projects": {
+    "label": "Projects",
+    "heading": "Things I've built",
+    "sub": "A couple of things I've been building lately — more coming soon.",
+    "viewProject": "View project",
+    "entries": [
+      {
+        "title": "Angel Front Themes",
+        "description": "UI palette and theme generator built with Vue 3 + TypeScript: custom HEX↔RGB↔OKLCH color engine, color-harmony generation, light/dark theming, WCAG contrast validation, and CSS/Tailwind/SCSS/JSON export.",
+        "tags": [
+          "Vue 3",
+          "TypeScript",
+          "Composition API",
+          "Pinia",
+          "Vite",
+          "VueUse",
+          "Vitest",
+          "Canvas API",
+          "OKLCH",
+          "WCAG 2.1",
+          "CSS Custom Properties",
+          "ESLint",
+          "Bun"
+        ]
+      },
+      {
+        "title": "Noob Draw",
+        "description": "Multiplayer Pictionary where Postgres is the server — RLS-secured SQL functions run every turn, score, and hint, live-synced over WebSockets.",
+        "tags": [
+          "React 19",
+          "TypeScript",
+          "Vite",
+          "TanStack Router",
+          "TanStack Query",
+          "Supabase",
+          "PostgreSQL",
+          "Tailwind CSS v4",
+          "Radix UI",
+          "Vercel",
+          "Realtime multiplayer",
+          "Row-Level Security",
+          "Zero custom backend",
+          "Presence-based leader election",
+          "Server-synced timers"
+        ]
       }
     ]
   },
   "contact": {
     "label": "Contact",
     "heading": "Let's work together",
-    "sub": "I'm always open to interesting projects, collaborations, or just a good conversation about web development.",
+    "sub": "Got a project, a role, or just want to chat about something tech? I'm around.",
     "email": "angeldev2110{'@'}gmail.com",
+    "getInTouch": "Get in touch",
     "copyEmail": "Copy email",
+    "sendEmail": "Send email",
     "emailCopied": "Copied!",
-    "findMe": "Find me on"
+    "findMe": "Find me on",
+    "socials": {
+      "linkedin": {
+        "label": "LinkedIn",
+        "description": "Let's connect properly"
+      },
+      "github": {
+        "label": "GitHub",
+        "description": "Where the actual code lives"
+      },
+      "wakatime": {
+        "label": "WakaTime",
+        "description": "My coding stats, for the curious"
+      }
+    }
   },
   "footer": {
-    "built": "Built with Nuxt, Vue & passion",
+    "built": "Built with Nuxt, Vue, and way too much coffee",
     "rights": "All rights reserved"
   },
   "hero": {

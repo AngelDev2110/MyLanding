@@ -5,6 +5,7 @@
     <AboutMe />
     <TechStack />
     <Experience />
+    <Projects />
     <Contact />
   </main>
   <TheFooter />
