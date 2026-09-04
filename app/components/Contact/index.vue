@@ -13,18 +13,37 @@
         class="contact__email-wrap animate__animated"
         v-intersect="{ enterClass: 'animate__fadeInUp', threshold: 0.3 }"
       >
-        <span class="contact__email-label">{{ $t("contact.copyEmail") }}</span>
-        <button class="contact__email-btn" @click="handleCopy">
+        <span class="contact__email-label">{{ $t("contact.getInTouch") }}</span>
+        <div class="contact__email-row">
           <span class="contact__email-text">{{ $t("contact.email") }}</span>
-          <Transition name="copy-icon">
-            <span v-if="!copied" class="contact__email-icon">⎘</span>
-            <span
-              v-else
-              class="contact__email-icon contact__email-icon--success"
-              >✓</span
+          <div class="contact__email-btns">
+            <button
+              class="contact__icon-btn"
+              type="button"
+              :aria-label="$t('contact.copyEmail')"
+              @click="handleCopy"
             >
-          </Transition>
-        </button>
+              <Transition name="copy-icon" mode="out-in">
+                <span v-if="!copied" key="copy" class="contact__email-icon"
+                  >⎘</span
+                >
+                <span
+                  v-else
+                  key="success"
+                  class="contact__email-icon contact__email-icon--success"
+                  >✓</span
+                >
+              </Transition>
+            </button>
+            <a
+              :href="`mailto:${EMAIL}`"
+              class="contact__icon-btn"
+              :aria-label="$t('contact.sendEmail')"
+            >
+              <span class="contact__email-icon">✉</span>
+            </a>
+          </div>
+        </div>
         <Transition name="copy-toast">
           <div v-if="copied" class="contact__toast">
             {{ $t("contact.emailCopied") }}
@@ -62,6 +81,7 @@ import { SOCIAL_LINKS } from "./constants";
 const { copy, copied } = useClipboard({ copiedDuring: 2500 });
 
 // Reactive Variables
+const EMAIL = "angeldev2110@gmail.com";
 
 // Computed Properties
 
@@ -71,7 +91,7 @@ const { copy, copied } = useClipboard({ copiedDuring: 2500 });
 
 // Methods
 function handleCopy() {
-  copy("angeldev2110@gmail.com");
+  copy(EMAIL);
 }
 </script>
 
@@ -131,34 +151,51 @@ function handleCopy() {
     letter-spacing: 0.1em
     text-transform: uppercase
 
-  &__email-btn
+  &__email-row
     display: flex
-    align-items: center
-    gap: 14px
+    align-items: stretch
     background: $surface-card
     border: 1px solid $border
     border-radius: 12px
-    padding: 16px 28px
-    cursor: pointer
+    overflow: hidden
     transition: all $transition-base
     &:hover
       border-color: rgba(100,255,218,0.4)
-      background: $accent-dim
       box-shadow: 0 0 30px rgba(100,255,218,0.1)
 
   &__email-text
+    display: flex
+    align-items: center
+    padding: 16px 24px
     font-family: $font-mono
     font-size: clamp(0.85rem, 2.5vw, 1.1rem)
     color: $white
     letter-spacing: 0.02em
 
+  &__email-btns
+    display: flex
+
+  &__icon-btn
+    display: flex
+    align-items: center
+    justify-content: center
+    width: 52px
+    background: none
+    border: none
+    border-left: 1px solid $border
+    text-decoration: none
+    cursor: pointer
+    transition: background $transition-fast
+    &:hover
+      background: $accent-dim
+
   &__email-icon
-    font-size: 1.3rem
+    font-size: 1.2rem
     color: $accent
     display: inline-flex
     align-items: center
     justify-content: center
-    width: 28px
+    width: 22px
     transition: all $transition-fast
     &--success
       color: $accent
