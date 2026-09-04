@@ -30,7 +30,7 @@
 
       <span class="project-card__link">
         {{ $t("projects.viewProject") }}
-        <span class="project-card__arrow">↗</span>
+        <span class="project-card__arrow">↗︎</span>
       </span>
     </div>
   </a>

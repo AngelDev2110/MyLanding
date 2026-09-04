@@ -40,7 +40,7 @@
               class="contact__icon-btn"
               :aria-label="$t('contact.sendEmail')"
             >
-              <span class="contact__email-icon">✉</span>
+              <span class="contact__email-icon">✉︎</span>
             </a>
           </div>
         </div>

@@ -17,7 +17,7 @@
       <span class="social-card__username">{{ props.username }}</span>
       <span class="social-card__desc">{{ props.description }}</span>
     </div>
-    <span class="social-card__arrow">↗</span>
+    <span class="social-card__arrow">↗︎</span>
   </a>
 </template>
 
