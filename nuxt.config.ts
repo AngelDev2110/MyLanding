@@ -10,7 +10,7 @@ export default defineNuxtConfig({
         {
           name: "description",
           content:
-            "Personal portfolio of Angel De La Torre, a Frontend Developer based in México specializing in Vue.js, Nuxt, React and TypeScript.",
+            "Angel De La Torre — Frontend Developer in Mexico building fast, clean web interfaces with Vue.js, Nuxt, React, and TypeScript.",
         },
         { name: "author", content: "Angel De La Torre" },
         {
@@ -20,7 +20,7 @@ export default defineNuxtConfig({
         {
           property: "og:description",
           content:
-            "Frontend Developer based in México. Crafting interfaces that feel as good as they look.",
+            "Frontend Developer based in Mexico. I build web stuff that works, loads fast, and doesn't make people rage-quit.",
         },
         { property: "og:type", content: "website" },
         { property: "og:image", content: "/img/me.jpeg" },
@@ -39,7 +39,7 @@ export default defineNuxtConfig({
         {
           name: "twitter:description",
           content:
-            "Frontend Developer based in México. Crafting interfaces that feel as good as they look.",
+            "Frontend Developer based in Mexico. I build web stuff that works, loads fast, and doesn't make people rage-quit.",
         },
         { name: "twitter:image", content: "/img/me.jpeg" },
         { name: "theme-color", content: "#0e1116" },
