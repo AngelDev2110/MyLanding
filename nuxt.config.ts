@@ -74,4 +74,13 @@ export default defineNuxtConfig({
       { code: "es", name: "Español", file: "es.json", language: "es-ES" },
     ],
   },
+
+  nitro: {
+    routeRules: {
+      "/angel-front-themes/**": {
+        proxy: "https://angel-front-themes.vercel.app/angel-front-themes/**",
+      },
+      "/noob-draw/**": { proxy: "https://noob-draw.vercel.app/noob-draw/**" },
+    },
+  },
 });
