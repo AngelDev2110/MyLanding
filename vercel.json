@@ -7,6 +7,14 @@
     {
       "source": "/angel-front-themes/:path*",
       "destination": "https://angel-front-themes.vercel.app/angel-front-themes/:path*"
+    },
+    {
+      "source": "/noob-draw",
+      "destination": "https://noob-draw.vercel.app/noob-draw"
+    },
+    {
+      "source": "/noob-draw/:path*",
+      "destination": "https://noob-draw.vercel.app/noob-draw/:path*"
     }
   ]
 }
