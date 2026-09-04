@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/angel-front-themes",
+      "destination": "https://angel-front-themes.vercel.app/angel-front-themes"
+    },
+    {
+      "source": "/angel-front-themes/:path*",
+      "destination": "https://angel-front-themes.vercel.app/angel-front-themes/:path*"
+    }
+  ]
+}
