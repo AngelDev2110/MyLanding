@@ -3,7 +3,7 @@
   "myRole": "Frontend Developer",
   "funnyQuote": "Clean code, strong coffee and minimal errors.",
   "tagline": "Crafting interfaces that feel as good as they look.",
-  "yearsExp": "2 yrs experience",
+  "yearsExp": "3 yrs experience",
   "openToWork": "Open to new opportunities",
   "terminalCmd": "npm run start-day -- --coffee=true",
   "nav": {
@@ -15,7 +15,7 @@
   "about": {
     "label": "About me",
     "heading": "Passionate about the craft of the web",
-    "bio1": "I'm a Frontend Developer based in México with 2 years of professional experience building modern web interfaces that are fast, clean, and intuitive.",
+    "bio1": "I'm a Frontend Developer based in México with 3 years of professional experience building modern web interfaces that are fast, clean, and intuitive.",
     "bio2": "I specialize in Vue.js and the Nuxt ecosystem, but I'm comfortable working across the JavaScript landscape — React, Next.js, TypeScript, and beyond. I care deeply about code quality, component design, and the user experience.",
     "bio3": "When I'm not coding, I'm probably drinking coffee and thinking about it anyway.",
     "traits": {
@@ -39,7 +39,7 @@
   "experience": {
     "label": "Experience",
     "heading": "My journey so far",
-    "sub": "Two years of shipping real products, growing as an engineer, and learning what it means to write code that lasts.",
+    "sub": "Three years of shipping real products, growing as an engineer, and learning what it means to write code that lasts.",
     "entries": [
       {
         "role": "Frontend Developer",
