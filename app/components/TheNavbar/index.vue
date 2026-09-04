@@ -95,6 +95,7 @@ const navLinks = [
   { key: "about" },
   { key: "stack" },
   { key: "experience" },
+  { key: "projects" },
   { key: "contact" },
 ];
 

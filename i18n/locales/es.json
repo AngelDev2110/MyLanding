@@ -10,6 +10,7 @@
     "about": "Sobre mí",
     "stack": "Stack",
     "experience": "Experiencia",
+    "projects": "Proyectos",
     "contact": "Contacto"
   },
   "about": {
@@ -77,6 +78,54 @@
           "Desarrollé una mentalidad sólida de resolución de problemas y pasión por el código limpio y mantenible"
         ],
         "tags": ["HTML", "CSS", "JavaScript", "Vue.js", "Autodidacta"]
+      }
+    ]
+  },
+  "projects": {
+    "label": "Proyectos",
+    "heading": "Cosas que he construido",
+    "sub": "Un par de proyectos en los que he trabajado recientemente — pronto habrá más.",
+    "viewProject": "Ver proyecto",
+    "entries": [
+      {
+        "title": "Angel Front Themes",
+        "description": "Generador y editor de paletas y temas de UI en Vue 3 + TypeScript: conversión de color propia (HEX↔RGB↔OKLCH), armonías cromáticas, modo claro/oscuro, validación WCAG y exportación a CSS/Tailwind/SCSS/JSON.",
+        "tags": [
+          "Vue 3",
+          "TypeScript",
+          "Composition API",
+          "Pinia",
+          "Vite",
+          "VueUse",
+          "Vitest",
+          "Canvas API",
+          "OKLCH",
+          "WCAG 2.1",
+          "CSS Custom Properties",
+          "ESLint",
+          "Bun"
+        ]
+      },
+      {
+        "title": "Noob Draw",
+        "description": "Pictionary multijugador donde Postgres es el servidor — funciones SQL protegidas con RLS manejan cada turno, puntaje y pista, sincronizados en vivo por WebSockets.",
+        "tags": [
+          "React 19",
+          "TypeScript",
+          "Vite",
+          "TanStack Router",
+          "TanStack Query",
+          "Supabase",
+          "PostgreSQL",
+          "Tailwind CSS v4",
+          "Radix UI",
+          "Vercel",
+          "Multijugador en tiempo real",
+          "Row-Level Security",
+          "Sin backend propio",
+          "Elección de líder por presencia",
+          "Temporizadores sincronizados con el servidor"
+        ]
       }
     ]
   },

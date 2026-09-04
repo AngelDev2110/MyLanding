@@ -10,6 +10,7 @@
     "about": "About",
     "stack": "Stack",
     "experience": "Experience",
+    "projects": "Projects",
     "contact": "Contact"
   },
   "about": {
@@ -77,6 +78,54 @@
           "Developed a strong problem-solving mindset and passion for clean, maintainable code"
         ],
         "tags": ["HTML", "CSS", "JavaScript", "Vue.js", "Self-taught"]
+      }
+    ]
+  },
+  "projects": {
+    "label": "Projects",
+    "heading": "Things I've built",
+    "sub": "A couple of projects I've worked on recently — more to come soon.",
+    "viewProject": "View project",
+    "entries": [
+      {
+        "title": "Angel Front Themes",
+        "description": "UI palette and theme generator built with Vue 3 + TypeScript: custom HEX↔RGB↔OKLCH color engine, color-harmony generation, light/dark theming, WCAG contrast validation, and CSS/Tailwind/SCSS/JSON export.",
+        "tags": [
+          "Vue 3",
+          "TypeScript",
+          "Composition API",
+          "Pinia",
+          "Vite",
+          "VueUse",
+          "Vitest",
+          "Canvas API",
+          "OKLCH",
+          "WCAG 2.1",
+          "CSS Custom Properties",
+          "ESLint",
+          "Bun"
+        ]
+      },
+      {
+        "title": "Noob Draw",
+        "description": "Multiplayer Pictionary where Postgres is the server — RLS-secured SQL functions run every turn, score, and hint, live-synced over WebSockets.",
+        "tags": [
+          "React 19",
+          "TypeScript",
+          "Vite",
+          "TanStack Router",
+          "TanStack Query",
+          "Supabase",
+          "PostgreSQL",
+          "Tailwind CSS v4",
+          "Radix UI",
+          "Vercel",
+          "Realtime multiplayer",
+          "Row-Level Security",
+          "Zero custom backend",
+          "Presence-based leader election",
+          "Server-synced timers"
+        ]
       }
     ]
   },
