@@ -3,7 +3,7 @@
   "myRole": "Desarrollador Frontend",
   "funnyQuote": "Código limpio, café fuerte y errores mínimos.",
   "tagline": "Creando interfaces que se sienten tan bien como se ven.",
-  "yearsExp": "2 años de experiencia",
+  "yearsExp": "3 años de experiencia",
   "openToWork": "Abierto a nuevas oportunidades",
   "terminalCmd": "npm run iniciar-dia -- --cafe=true",
   "nav": {
@@ -15,7 +15,7 @@
   "about": {
     "label": "Sobre mí",
     "heading": "Apasionado por el arte del desarrollo web",
-    "bio1": "Soy un Desarrollador Frontend basado en México con 2 años de experiencia profesional construyendo interfaces web modernas, rápidas, limpias e intuitivas.",
+    "bio1": "Soy un Desarrollador Frontend basado en México con 3 años de experiencia profesional construyendo interfaces web modernas, rápidas, limpias e intuitivas.",
     "bio2": "Me especializo en Vue.js y el ecosistema Nuxt, aunque me desenvuelvo en todo el ecosistema JavaScript — React, Next.js, TypeScript y más. Me importa profundamente la calidad del código, el diseño de componentes y la experiencia de usuario.",
     "bio3": "Cuando no estoy programando, probablemente estoy tomando café y pensando en programar de todas formas.",
     "traits": {
@@ -39,7 +39,7 @@
   "experience": {
     "label": "Experiencia",
     "heading": "Mi camino hasta aquí",
-    "sub": "Dos años enviando productos reales, creciendo como ingeniero y aprendiendo qué significa escribir código que perdura.",
+    "sub": "Tres años enviando productos reales, creciendo como ingeniero y aprendiendo qué significa escribir código que perdura.",
     "entries": [
       {
         "role": "Desarrollador Frontend",

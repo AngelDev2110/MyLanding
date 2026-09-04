@@ -34,7 +34,6 @@
                 :key="tech.title"
                 :title="tech.title"
                 :src="tech.src"
-                :category="tech.category"
               />
             </div>
           </div>
@@ -69,7 +68,6 @@
             :key="tech.title"
             :title="tech.title"
             :src="tech.src"
-            :category="tech.category"
           />
         </div>
       </div>

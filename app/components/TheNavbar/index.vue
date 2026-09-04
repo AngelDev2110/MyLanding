@@ -37,6 +37,8 @@
         :class="{ 'navbar__burger--open': menuOpen }"
         @click="menuOpen = !menuOpen"
         aria-label="Toggle menu"
+        aria-controls="navbar-mobile-menu"
+        :aria-expanded="menuOpen"
       >
         <span />
         <span />
@@ -45,7 +47,7 @@
     </div>
 
     <Transition name="mobile-menu">
-      <div v-if="menuOpen" class="navbar__mobile">
+      <div v-if="menuOpen" id="navbar-mobile-menu" class="navbar__mobile">
         <a
           v-for="link in navLinks"
           :key="link.key"
@@ -75,7 +77,6 @@
 
 <script lang="ts" setup>
 // Imports
-import { useScroll } from "@vueuse/core";
 
 // Component Options
 
@@ -84,6 +85,7 @@ import { useScroll } from "@vueuse/core";
 // Composition API Helpers
 const { locale, availableLocales, setLocale } = useI18n();
 const currentLocale = computed(() => locale.value);
+const { scrollY } = useInjectWindowScroll();
 
 // Reactive Variables
 const menuOpen = ref(false);
@@ -96,8 +98,7 @@ const navLinks = [
   { key: "contact" },
 ];
 
-const { y: scrollY } = useScroll(typeof window !== "undefined" ? window : null);
-const isScrolled = computed(() => (scrollY.value ?? 0) > 60);
+const isScrolled = computed(() => (scrollY?.value ?? 0) > 60);
 
 // Computed Properties
 
