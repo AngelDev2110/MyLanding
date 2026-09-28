@@ -1,68 +1,78 @@
 <template>
   <section id="contact" class="contact">
-    <div class="contact__bg-glow" />
-
     <div class="contact__inner">
       <div class="contact__header">
-        <p class="section-label">{{ $t("contact.label") }}</p>
         <h2 class="section-heading">{{ $t("contact.heading") }}</h2>
         <p class="section-subheading">{{ $t("contact.sub") }}</p>
       </div>
 
       <div
-        class="contact__email-wrap animate__animated"
+        class="contact__terminal-wrap animate__animated"
         v-intersect="{ enterClass: 'animate__fadeInUp', threshold: 0.3 }"
       >
-        <span class="contact__email-label">{{ $t("contact.getInTouch") }}</span>
-        <div class="contact__email-row">
-          <span class="contact__email-text">{{ $t("contact.email") }}</span>
-          <div class="contact__email-btns">
+        <TerminalWindow title="angel@dev: ~/contact" class="contact__terminal">
+          <p class="terminal__line">
+            <span class="terminal__prompt">$</span>
+            <span class="terminal__cmd">mail angel</span>
+          </p>
+          <p class="contact__email">{{ emailUser }}@<wbr />{{ emailDomain }}</p>
+          <div class="contact__actions">
             <button
-              class="contact__icon-btn"
               type="button"
-              :aria-label="$t('contact.copyEmail')"
+              class="contact__action contact__action--copy"
               @click="handleCopy"
             >
-              <Transition name="copy-icon" mode="out-in">
-                <span v-if="!copied" key="copy" class="contact__email-icon"
-                  >⎘</span
-                >
-                <span
-                  v-else
-                  key="success"
-                  class="contact__email-icon contact__email-icon--success"
-                  >✓</span
-                >
-              </Transition>
+              <AppIcon :name="copied ? 'check' : 'copy'" />
+              {{ $t("contact.copyEmail") }}
             </button>
             <a
               :href="`mailto:${EMAIL}`"
-              class="contact__icon-btn"
-              :aria-label="$t('contact.sendEmail')"
+              class="contact__action contact__action--send"
             >
-              <span class="contact__email-icon">✉︎</span>
+              <AppIcon name="mail" />
+              {{ $t("contact.sendEmail") }}
             </a>
           </div>
-        </div>
-        <Transition name="copy-toast">
-          <div v-if="copied" class="contact__toast">
-            {{ $t("contact.emailCopied") }}
-          </div>
-        </Transition>
-      </div>
-
-      <div class="contact__divider">
-        <span class="contact__divider-line" />
-        <span class="contact__divider-text">{{ $t("contact.findMe") }}</span>
-        <span class="contact__divider-line" />
-      </div>
-
-      <div class="contact__socials">
-        <ContactSocialCard
-          v-for="social in SOCIALS"
-          :key="social.href"
-          v-bind="social"
-        />
+          <p
+            role="status"
+            aria-live="polite"
+            class="terminal__output contact__status"
+            :class="{ 'contact__status--error': copyFailed && !copied }"
+          >
+            <template v-if="copied">
+              <AppIcon name="check" :size="16" />
+              {{ $t("contact.emailCopied") }}
+            </template>
+            <template v-else-if="copyFailed">{{ $t("contact.copyFailed") }}</template>
+          </p>
+          <ul class="contact__links">
+            <li v-for="social in SOCIAL_LINKS" :key="social.key">
+              <a
+                :href="social.href"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="contact__link"
+              >
+                <span class="terminal__prompt" aria-hidden="true">$</span>
+                <span class="contact__link-body">
+                  <span class="contact__link-cmd">open {{ social.key }}</span>
+                  <span class="contact__link-note">
+                    <span aria-hidden="true">// </span>
+                    {{ $t(`contact.socials.${social.key}.description`) }}
+                  </span>
+                </span>
+                <span class="contact__link-arrow">
+                  <AppIcon name="arrow-up-right" :size="16" />
+                </span>
+                <span class="sr-only">({{ $t("contact.newTab") }})</span>
+              </a>
+            </li>
+          </ul>
+          <p class="terminal__line" aria-hidden="true">
+            <span class="terminal__prompt">$</span>
+            <span class="contact__cursor">▮</span>
+          </p>
+        </TerminalWindow>
       </div>
     </div>
   </section>
@@ -72,62 +82,58 @@
 // Imports
 import { useClipboard } from "@vueuse/core";
 import { SOCIAL_LINKS } from "./constants";
-import type { Props as SocialCardProps } from "./SocialCard/SocialCard.d.ts";
 
 // Component Options
 
 // Props and Emits
 
 // Composition API Helpers
-const { copy, copied } = useClipboard({ copiedDuring: 2500 });
-const { t } = useI18n();
+const { copy, copied } = useClipboard({ copiedDuring: 2500, legacy: true });
 
 // Reactive Variables
 const EMAIL = "angeldev2110@gmail.com";
+const [emailUser, emailDomain] = EMAIL.split("@");
+const copyFailed = ref(false);
+let copyFailedTimer: ReturnType<typeof setTimeout> | undefined;
 
 // Computed Properties
-const SOCIALS = computed<SocialCardProps[]>(() =>
-  SOCIAL_LINKS.map((link) => ({
-    href: link.href,
-    icon: link.icon,
-    username: link.username,
-    external: link.external,
-    label: t(`contact.socials.${link.key}.label`),
-    description: t(`contact.socials.${link.key}.description`),
-  })),
-);
 
 // Watchers
 
 // Lifecycle Hooks
+onBeforeUnmount(() => clearTimeout(copyFailedTimer));
 
 // Methods
-function handleCopy() {
-  copy(EMAIL);
+async function handleCopy() {
+  clearTimeout(copyFailedTimer);
+  copyFailed.value = false;
+  try {
+    await copy(EMAIL);
+    if (!copied.value) throw new Error("Clipboard unavailable");
+  } catch {
+    copyFailed.value = true;
+    copyFailedTimer = setTimeout(() => (copyFailed.value = false), 4000);
+  }
 }
 </script>
 
 <style lang="sass" scoped>
+=contact-primary
+  color: $dark-navy
+  background: $accent
+  border-color: $accent
+  &:hover,
+  &:focus-visible
+    background: rgba($accent, 0.85)
+    border-color: $accent
+
 .contact
-  background: $dark-navy
+  background: $surface
   position: relative
   overflow: hidden
   text-align: center
 
-  &__bg-glow
-    position: absolute
-    top: 50%
-    left: 50%
-    transform: translate(-50%, -50%)
-    width: 600px
-    height: 600px
-    background: radial-gradient(circle, rgba(100,255,218,0.05) 0%, transparent 70%)
-    pointer-events: none
-    z-index: 0
-
   &__inner
-    position: relative
-    z-index: 1
     max-width: 680px
     margin: 0 auto
     display: flex
@@ -137,149 +143,137 @@ function handleCopy() {
 
   &__header
     margin-bottom: 48px
-    .section-label,
     .section-heading,
     .section-subheading
       margin-left: auto
       margin-right: auto
-    .section-label
-      justify-content: center
-      &::after
-        display: none
 
-  &__email-wrap
-    position: relative
-    display: flex
-    flex-direction: column
-    align-items: center
-    gap: 12px
+  &__terminal-wrap
+    width: 100%
     animation-fill-mode: both
-    margin-bottom: 48px
 
-  &__email-label
-    font-family: $font-mono
-    font-size: 0.75rem
-    color: $text-muted
-    letter-spacing: 0.1em
-    text-transform: uppercase
-
-  &__email-row
-    display: flex
-    align-items: stretch
-    background: $surface-card
-    border: 1px solid $border
-    border-radius: 12px
-    overflow: hidden
-    transition: all $transition-base
-    &:hover
-      border-color: rgba(100,255,218,0.4)
-      box-shadow: 0 0 30px rgba(100,255,218,0.1)
-
-  &__email-text
-    display: flex
-    align-items: center
-    padding: 16px 24px
-    font-family: $font-mono
-    font-size: clamp(0.85rem, 2.5vw, 1.1rem)
+  &__email
+    margin: 4px 0 0
+    font-family: $font-display
+    font-size: clamp(1rem, 5.4vw, 2.75rem)
+    font-weight: 700
+    line-height: 1.15
+    letter-spacing: -0.015em
     color: $white
-    letter-spacing: 0.02em
+    overflow-wrap: anywhere
 
-  &__email-btns
+  &__actions
     display: flex
+    flex-wrap: wrap
+    gap: 12px
+    margin-top: 8px
 
-  &__icon-btn
-    display: flex
-    align-items: center
-    justify-content: center
-    width: 52px
-    background: none
-    border: none
-    border-left: 1px solid $border
-    text-decoration: none
-    cursor: pointer
-    transition: background $transition-fast
-    &:hover
-      background: $accent-dim
-
-  &__email-icon
-    font-size: 1.2rem
-    color: $accent
+  &__action
     display: inline-flex
     align-items: center
     justify-content: center
-    width: 22px
-    transition: all $transition-fast
-    &--success
-      color: $accent
-      animation: successPop 0.3s cubic-bezier(0.4, 0, 0.2, 1)
-
-  &__toast
-    position: absolute
-    bottom: -36px
-    left: 50%
-    transform: translateX(-50%)
+    gap: 10px
+    flex: 1 1 180px
+    min-height: 48px
+    padding: 0 20px
     font-family: $font-mono
-    font-size: 0.78rem
+    font-size: 0.9rem
+    font-weight: 500
     color: $accent
     background: $accent-dim
-    border: 1px solid rgba(100,255,218,0.25)
-    padding: 5px 14px
-    border-radius: 100px
-    white-space: nowrap
-    pointer-events: none
+    border: 1px solid rgba($accent, 0.3)
+    border-radius: 8px
+    text-decoration: none
+    cursor: pointer
+    transition: background $transition-fast, border-color $transition-fast
+    &:hover,
+    &:focus-visible
+      background: rgba($accent, 0.2)
+      border-color: $accent
 
-  &__divider
+  // One primary action: on phones mailto opens the mail app, so Send leads; on
+  // desktop there is often no mail client set up, so Copy leads
+  &__action--send
+    @media (max-width: $bp-md - 1)
+      +contact-primary
+  &__action--copy
+    @media (min-width: $bp-md)
+      +contact-primary
+
+  &__status
     display: flex
     align-items: center
-    gap: 16px
-    width: 100%
-    margin-bottom: 32px
+    gap: 8px
+    min-height: 1.5em
+    &--error
+      color: $text-muted
+      text-shadow: none
 
-  &__divider-line
-    flex: 1
-    height: 1px
-    background: $border
-
-  &__divider-text
-    font-family: $font-mono
-    font-size: 0.75rem
-    color: $text-muted
-    white-space: nowrap
-    letter-spacing: 0.08em
-
-  &__socials
+  // Secondary to the email actions: plain terminal lines that light up like a selected row
+  &__links
+    list-style: none
+    margin: -8px 0 0
+    padding: 0
     display: flex
     flex-direction: column
-    gap: 16px
-    width: 100%
+    gap: 4px
 
-// Transitions
-.copy-icon-enter-active,
-.copy-icon-leave-active
-  transition: all $transition-fast
+  // 24px lines + 12px padding: one line fills the 48px target, and a wrapped note keeps $ on the first line
+  &__link
+    display: flex
+    align-items: flex-start
+    gap: 10px
+    min-height: 48px
+    // Negative margin keeps the $ aligned with the other prompts while the hover row bleeds past it
+    margin: 0 -12px
+    padding: 12px
+    line-height: 24px
+    border-radius: 6px
+    font-family: $font-mono
+    font-size: 0.95rem
+    text-decoration: none
+    transition: background-color $transition-fast
+    &:hover,
+    &:focus-visible
+      background: rgba($accent, 0.08)
+      .contact__link-cmd
+        color: $accent
+      .contact__link-arrow
+        transform: translate(2px, -2px)
 
-.copy-icon-enter-from
-  opacity: 0
-  transform: scale(0.5)
+  &__link-body
+    display: flex
+    flex-wrap: wrap
+    align-items: baseline
+    gap: 2px 14px
+    flex: 1
+    min-width: 0
 
-.copy-icon-leave-to
-  opacity: 0
-  transform: scale(0.5)
+  &__link-cmd
+    color: $white
+    transition: color $transition-fast
 
-.copy-toast-enter-active,
-.copy-toast-leave-active
-  transition: all $transition-base
+  &__link-note
+    font-size: 0.82rem
+    line-height: 20px
+    color: $text-muted
 
-.copy-toast-enter-from,
-.copy-toast-leave-to
-  opacity: 0
-  transform: translateX(-50%) translateY(8px)
+  &__link-arrow
+    display: inline-flex
+    align-items: center
+    height: 24px
+    color: $accent
+    flex-shrink: 0
+    transition: transform $transition-fast
 
-@keyframes successPop
-  0%
-    transform: scale(0.5)
-  60%
-    transform: scale(1.2)
-  100%
-    transform: scale(1)
+  // The page ends on a live prompt; the global reduced-motion block stops the blink
+  &__cursor
+    color: $accent
+    animation: blink 1.1s step-end infinite
+
+@keyframes blink
+  0%, 100%
+    opacity: 1
+  50%
+    opacity: 0
 </style>

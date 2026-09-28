@@ -1,57 +1,67 @@
 {
   "myName": "Angel De La Torre",
+  "skipLink": "Saltar al contenido",
   "myRole": "Desarrollador Frontend",
   "funnyQuote": "Depuro con console.log y no me arrepiento.",
-  "tagline": "Construyo webs que funcionan, cargan rápido y no hacen que quieras golpear la pantalla.",
+  "tagline": "Construyo webs que funcionan, cargan rápido y no hacen que quieras golpear la pantalla. Frontend primero, y full stack o backend cuando el proyecto lo pide.",
   "yearsExp": "3 años de experiencia",
-  "openToWork": "Abierto a nuevas oportunidades",
   "terminalCmd": "npm run iniciar-dia -- --cafe=true",
   "nav": {
     "about": "Sobre mí",
     "stack": "Stack",
     "experience": "Experiencia",
     "projects": "Proyectos",
-    "contact": "Contacto"
+    "contact": "Contacto",
+    "menu": "Menú",
+    "language": "Idioma"
   },
   "about": {
-    "label": "Sobre mí",
-    "heading": "Siempre encantado de aprender algo nuevo.",
-    "bio1": "Soy Desarrollador Frontend en México con 3 años de experiencia construyendo interfaces web rápidas, limpias y que se sienten bien de usar.",
-    "bio2": "Vue.js y Nuxt son mi zona de confort, pero también me muevo bien en todo el ecosistema JS — React, Next.js, TypeScript, lo que se necesite. Me obsesiono con el código limpio y con componentes que le hagan sentido a quien los toque después.",
+    "heading": "UI fiel al pixel, sobre código que se mantiene limpio.",
+    "bio1": "Convierto mockups en interfaces que les son fieles pixel por pixel, hechas con componentes que el siguiente dev puede leer sin mapa.",
+    "bio2": "Vue y Nuxt son mi casa; React, Next.js y TypeScript, el barrio. Y no me quedo en el navegador: escribo con el mismo gusto el SQL, las reglas de acceso y la sincronización en tiempo real que hay detrás.",
     "bio3": "Cuando no estoy programando, probablemente estoy tomando café y pensando en programar de todas formas.",
     "traits": {
-      "clean": "Obsesionado con el código limpio",
-      "detail": "Detecta hasta un pixel mal alineado",
-      "collab": "Fácil de tratar, en serio",
-      "learner": "Siempre aprendiendo algo nuevo"
+      "detail": {
+        "claim": "Detecta hasta un pixel mal alineado",
+        "proof": "el código de este sitio"
+      },
+      "clean": {
+        "claim": "Código limpio y con tests",
+        "proof": "Angel Front Themes"
+      },
+      "backend": {
+        "claim": "Cómodo más allá del navegador",
+        "proof": "Noob Draw"
+      },
+      "collab": {
+        "claim": "Fácil de tratar, en serio"
+      }
     }
   },
   "stack": {
-    "label": "Stack tecnológico",
     "heading": "Herramientas con las que trabajo",
     "sub": "Las herramientas a las que realmente recurro para construir cosas que funcionan, escalan y no se ven como una plantilla.",
     "categories": {
-      "frameworks": "Frameworks y Librerías",
-      "languages": "Lenguajes",
-      "tools": "Herramientas y Flujo de trabajo"
+      "frameworks": "frameworks",
+      "styling": "estilos",
+      "languages": "lenguajes",
+      "backend": "backend",
+      "workflow": "flujo de trabajo"
     },
     "scroll": "Desplázate para explorar"
   },
   "experience": {
-    "label": "Experiencia",
     "heading": "Dónde he trabajado (hasta ahora)",
-    "sub": "Tres años enviando productos reales, rompiendo cosas en staging (no en producción, casi nunca...) y aprendiendo qué necesita realmente el código para durar.",
+    "sub": "Productos reales, fechas de entrega reales y una lista creciente de lecciones sobre qué hace que el código dure.",
     "entries": [
       {
         "role": "Desarrollador Frontend",
-        "period": "2023 — Presente",
+        "period": "2023 – Presente",
         "type": "Tiempo completo",
         "highlights": [
-          "Construí y mantuve aplicaciones web grandes con Vue.js y Nuxt.js",
           "Armé librerías de componentes que ayudaron al equipo a entregar más rápido",
-          "Trabajé de cerca con diseñadores, convirtiendo mockups en interfaces pixel-perfect",
           "Integré APIs REST y manejé estado en flujos de varios pasos genuinamente complicados",
-          "Revisé código, planeé sprints, hice toda la rutina ágil"
+          "Convertí mockups de diseño en interfaces pixel-perfect en aplicaciones grandes con Vue.js y Nuxt.js"
         ],
         "tags": ["Vue.js", "Nuxt.js", "TypeScript", "Sass", "REST APIs", "Git"]
       },
@@ -60,105 +70,92 @@
         "period": "2023",
         "type": "Nivel de entrada",
         "highlights": [
-          "Arranqué mi carrera construyendo funcionalidades UI reales a partir de diseños",
           "Construí layouts responsivos y componentes reutilizables en React y JavaScript",
-          "Aprendí lo básico del mundo real: control de versiones, calidad de código, flujos de equipo",
-          "Trabajé junto a devs senior y subí de nivel rápido"
+          "Entregué funcionalidades de UI directo desde las especificaciones de diseño",
+          "Aprendí los flujos de equipo (Git, calidad de código, Scrum) trabajando junto a devs senior"
         ],
         "tags": ["React", "JavaScript", "CSS", "GitHub", "Scrum"]
       },
       {
         "role": "Desarrollador Autodidacta",
-        "period": "2020 — 2022",
+        "period": "2020–2022",
         "type": "Fase de aprendizaje",
         "highlights": [
-          "Aprendí por mi cuenta HTML, CSS, JavaScript y los fundamentos — sin bootcamp, solo documentación y terquedad",
-          "Construí proyectos personales para practicar de verdad, no solo ver tutoriales",
-          "Exploré Vue.js, React y el ecosistema JS con documentación, cursos y bastante prueba y error",
-          "Desarrollé una mentalidad de resolver problemas primero y un hábito real de escribir código limpio y mantenible"
+          "Aprendí por mi cuenta HTML, CSS y JavaScript, y luego Vue.js y React, con documentación, proyectos personales y pura terquedad. Sin bootcamp."
         ],
         "tags": ["HTML", "CSS", "JavaScript", "Vue.js", "Autodidacta"]
       }
     ]
   },
   "projects": {
-    "label": "Proyectos",
     "heading": "Cosas que he construido",
-    "sub": "Un par de cosas que he estado construyendo últimamente — vienen más.",
+    "sub": "Dos apps en producción y el sitio en el que estás, cada uno con su código.",
     "viewProject": "Ver proyecto",
+    "viewCode": "Código",
     "entries": [
       {
         "title": "Angel Front Themes",
         "description": "Generador y editor de paletas y temas de UI en Vue 3 + TypeScript: conversión de color propia (HEX↔RGB↔OKLCH), armonías cromáticas, modo claro/oscuro, validación WCAG y exportación a CSS/Tailwind/SCSS/JSON.",
-        "tags": [
-          "Vue 3",
-          "TypeScript",
-          "Composition API",
-          "Pinia",
-          "Vite",
-          "VueUse",
-          "Vitest",
-          "Canvas API",
-          "OKLCH",
-          "WCAG 2.1",
-          "CSS Custom Properties",
-          "ESLint",
-          "Bun"
-        ]
+        "tags": ["Vue 3", "TypeScript", "OKLCH", "WCAG 2.1", "Vitest"]
       },
       {
         "title": "Noob Draw",
-        "description": "Pictionary multijugador donde Postgres es el servidor — funciones SQL protegidas con RLS manejan cada turno, puntaje y pista, sincronizados en vivo por WebSockets.",
+        "description": "Pictionary multijugador donde Postgres es el servidor: funciones SQL protegidas con RLS manejan cada turno, puntaje y pista, sincronizados en vivo por WebSockets.",
         "tags": [
           "React 19",
-          "TypeScript",
-          "Vite",
-          "TanStack Router",
-          "TanStack Query",
           "Supabase",
           "PostgreSQL",
-          "Tailwind CSS v4",
-          "Radix UI",
-          "Vercel",
-          "Multijugador en tiempo real",
           "Row-Level Security",
-          "Sin backend propio",
-          "Elección de líder por presencia",
-          "Temporizadores sincronizados con el servidor"
+          "Multijugador en tiempo real"
+        ]
+      },
+      {
+        "title": "angeldlt.dev",
+        "description": "La página que estás recorriendo ahora mismo: Nuxt 4 y Vue 3 con TypeScript, bilingüe desde la base y una terminal que se escribe sola.",
+        "tags": [
+          "Nuxt 4",
+          "Vue 3",
+          "TypeScript",
+          "Sass",
+          "i18n",
+          "GSAP"
         ]
       }
-    ]
+    ],
+    "screenshotAlt": "Captura de {title}"
   },
   "contact": {
-    "label": "Contacto",
-    "heading": "Trabajemos juntos",
-    "sub": "¿Tienes un proyecto, una vacante, o solo quieres hablar de algo tecnológico? Aquí estoy.",
-    "email": "angeldev2110{'@'}gmail.com",
+    "heading": "¿Buscas un dev? Hablemos.",
+    "sub": "Disponible para tiempo completo. ¿Tienes una vacante, un proyecto o solo quieres hablar de algo técnico? El correo es la forma más rápida de encontrarme.",
     "getInTouch": "Ponte en contacto",
     "copyEmail": "Copiar correo",
     "sendEmail": "Enviar correo",
     "emailCopied": "¡Copiado!",
-    "findMe": "Encuéntrame en",
+    "copyFailed": "No se pudo copiar. Selecciona el correo y cópialo a mano.",
+    "newTab": "se abre en una pestaña nueva",
     "socials": {
       "linkedin": {
-        "label": "LinkedIn",
         "description": "Conectemos como se debe"
       },
       "github": {
-        "label": "GitHub",
         "description": "Donde vive el código de verdad"
-      },
-      "wakatime": {
-        "label": "WakaTime",
-        "description": "Mis stats de código, para los curiosos"
       }
     }
   },
   "footer": {
     "built": "Construido con Nuxt, Vue y demasiado café",
-    "rights": "Todos los derechos reservados"
+    "stats": "Mis stats de código, para los curiosos:"
   },
   "hero": {
-    "label": "Dev"
+    "ctaProjects": "Ver mis proyectos",
+    "availability": "Disponible para tiempo completo",
+    "location": "Desde México",
+    "scroll": "Desliza",
+    "photoAlt": "Angel De La Torre recargado en un arco de piedra sobre una bahía en México"
+  },
+  "seo": {
+    "title": "Angel De La Torre — Desarrollador Frontend",
+    "description": "Angel De La Torre, Desarrollador Frontend en México que construye interfaces web rápidas y limpias con Vue.js, Nuxt, React y TypeScript.",
+    "socialDescription": "Desarrollador Frontend en México. Construyo webs que funcionan, cargan rápido y no hacen que quieras golpear la pantalla."
   }
 }

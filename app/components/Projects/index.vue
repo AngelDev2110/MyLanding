@@ -1,17 +1,22 @@
 <template>
   <section id="projects" class="projects">
-    <div class="projects__intro">
-      <p class="section-label">{{ $t("projects.label") }}</p>
-      <h2 class="section-heading">{{ $t("projects.heading") }}</h2>
-      <p class="section-subheading">{{ $t("projects.sub") }}</p>
-    </div>
+    <div class="projects__inner">
+      <div class="projects__intro">
+        <h2 class="section-heading">{{ $t("projects.heading") }}</h2>
+        <p class="section-subheading">{{ $t("projects.sub") }}</p>
+      </div>
 
-    <div class="projects__grid">
-      <ProjectsProjectCard
-        v-for="project in PROJECTS"
-        :key="project.title"
-        v-bind="project"
-      />
+      <p class="projects__prompt" aria-hidden="true">
+        <span class="projects__prompt-sign">$</span> ls projects/
+      </p>
+
+      <div class="projects__grid">
+        <ProjectsProjectCard
+          v-for="project in PROJECTS"
+          :key="project.title"
+          v-bind="project"
+        />
+      </div>
     </div>
   </section>
 </template>
@@ -37,6 +42,7 @@ const PROJECTS = computed<ProjectCardProps[]>(() =>
     description: rt(entry.description),
     tags: (entry.tags as any[]).map((tag) => rt(tag)),
     link: PROJECT_LINKS[index]?.link ?? "#",
+    repo: PROJECT_LINKS[index]?.repo ?? null,
     image: PROJECT_LINKS[index]?.image ?? null,
   })),
 );
@@ -50,17 +56,31 @@ const PROJECTS = computed<ProjectCardProps[]>(() =>
 
 <style lang="sass" scoped>
 .projects
-  background: $surface
+  background: $dark-navy
   position: relative
+
+  &__inner
+    max-width: 1140px
+    margin: 0 auto
 
   &__intro
     max-width: 600px
-    margin-bottom: 56px
+    margin-bottom: 40px
 
+  &__prompt
+    margin: 0 0 16px
+    font-family: $font-mono
+    font-size: 0.95rem
+    color: $white
+
+  &__prompt-sign
+    color: $accent
+    font-weight: 700
+    margin-right: 6px
+    text-shadow: 0 0 8px rgba($accent, 0.45)
+
+  // One showcase per row: the screenshots get the full width to be legible
   &__grid
     display: grid
-    grid-template-columns: 1fr
-    gap: 28px
-    @media (min-width: $bp-md)
-      grid-template-columns: repeat(2, 1fr)
+    gap: 40px
 </style>

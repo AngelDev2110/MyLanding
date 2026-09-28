@@ -1,39 +1,68 @@
 <template>
-  <a
-    :href="props.link"
-    target="_blank"
-    rel="noopener noreferrer"
+  <article
     class="project-card animate__animated"
+    :class="{ 'project-card--compact': !props.image }"
     v-intersect="{ enterClass: 'animate__fadeInUp', threshold: 0.2 }"
   >
-    <div class="project-card__media">
-      <img
-        v-if="props.image"
-        :src="`/img/${props.image}`"
-        :alt="props.title"
-        class="project-card__image"
-      />
-      <div v-else class="project-card__placeholder">
-        <span class="project-card__placeholder-icon">&lt;/&gt;</span>
-      </div>
-    </div>
-
-    <div class="project-card__body">
-      <h3 class="project-card__title">{{ props.title }}</h3>
-      <p class="project-card__description">{{ props.description }}</p>
-
-      <div class="project-card__tags">
-        <span v-for="tag in props.tags" :key="tag" class="project-card__tag">
-          {{ tag }}
-        </span>
+    <TerminalWindow :title="`~/projects/${folder}`" class="project-card__window">
+      <div v-if="props.image" class="project-card__media">
+        <img
+          :src="`/img/${props.image}`"
+          :alt="$t('projects.screenshotAlt', { title: props.title })"
+          loading="lazy"
+          decoding="async"
+          class="project-card__image"
+        />
       </div>
 
-      <span class="project-card__link">
-        {{ $t("projects.viewProject") }}
-        <span class="project-card__arrow">↗︎</span>
-      </span>
-    </div>
-  </a>
+      <div class="project-card__info">
+        <div class="project-card__head">
+          <h3 class="project-card__title">
+            <a
+              :href="primaryHref"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="project-card__link"
+            >
+              {{ props.title }}
+              <span v-if="!props.image" class="sr-only"
+                >: {{ $t("projects.viewCode") }}</span
+              >
+              <span class="sr-only">({{ $t("contact.newTab") }})</span>
+            </a>
+          </h3>
+          <ul class="project-card__tags">
+            <li v-for="tag in props.tags" :key="tag" class="project-card__tag">
+              <span aria-hidden="true">#</span>{{ tag }}
+            </li>
+          </ul>
+        </div>
+
+        <p class="project-card__description">{{ props.description }}</p>
+
+        <div class="project-card__actions">
+          <span class="project-card__cta" aria-hidden="true">
+            {{ props.image ? $t("projects.viewProject") : $t("projects.viewCode") }}
+            <span class="project-card__arrow">
+              <AppIcon name="arrow-up-right" :size="16" />
+            </span>
+          </span>
+          <a
+            v-if="props.image && props.repo"
+            :href="props.repo"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="project-card__code"
+          >
+            {{ $t("projects.viewCode") }}
+            <span class="sr-only">: {{ props.title }}</span>
+            <AppIcon name="arrow-up-right" :size="16" />
+            <span class="sr-only">({{ $t("contact.newTab") }})</span>
+          </a>
+        </div>
+      </div>
+    </TerminalWindow>
+  </article>
 </template>
 
 <script lang="ts" setup>
@@ -50,6 +79,24 @@ const props = defineProps<Props>();
 // Reactive Variables
 
 // Computed Properties
+// The window title mirrors the deployed path (/angel-front-themes), or the host
+// for a site served at the root, like this one
+const folder = computed(() => {
+  try {
+    const url = new URL(props.link);
+    return (
+      url.pathname.replace(/^\/|\/$/g, "") || url.hostname.replace(/^www\./, "")
+    );
+  } catch {
+    return "app";
+  }
+});
+
+// Without a screenshot there is no demo to show (it is this very page), so the
+// card's one link is its code
+const primaryHref = computed(() =>
+  props.image ? props.link : (props.repo ?? props.link),
+);
 
 // Watchers
 
@@ -59,92 +106,152 @@ const props = defineProps<Props>();
 </script>
 
 <style lang="sass" scoped>
+// Showcase: the screenshot spans the whole window so the app is legible, and
+// the facts sit in one row under it (title + tags, description, actions)
 .project-card
+  position: relative
   display: flex
-  flex-direction: column
-  background: $surface-card
-  border: 1px solid $border
-  border-radius: 16px
-  overflow: hidden
-  text-decoration: none
   animation-fill-mode: both
-  transition: border-color $transition-fast, box-shadow $transition-fast, transform $transition-fast
-  &:hover
-    border-color: rgba(100,255,218,0.25)
-    box-shadow: 0 8px 40px rgba(0,0,0,0.3)
-    transform: translateY(-3px)
-    .project-card__arrow
-      transform: translate(3px, -3px)
-    .project-card__title
-      color: $accent
+
+  &__window
+    flex: 1
+    display: flex
+    flex-direction: column
+    transition: border-color $transition-fast
+    :deep(.terminal__body)
+      flex: 1
+      gap: 24px
+  &:hover &__window,
+  &:focus-within &__window
+    border-color: rgba($accent, 0.5)
 
   &__media
     aspect-ratio: 16 / 9
     background: $surface-2
+    border-radius: 8px
+    overflow: hidden
+    border: 1px solid $border
 
   &__image
     width: 100%
     height: 100%
     object-fit: cover
+    object-position: top left
     display: block
 
-  &__placeholder
-    width: 100%
-    height: 100%
-    display: flex
-    align-items: center
-    justify-content: center
+  &__info
+    display: grid
+    gap: 16px 40px
+    @media (min-width: $bp-lg)
+      // Fixed actions column so every card's description starts on the same line
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) 10rem
+      align-items: start
 
-  &__placeholder-icon
-    font-family: $font-mono
-    font-size: 1.6rem
-    color: $gray-700
-
-  &__body
-    padding: 28px
+  &__head
     display: flex
     flex-direction: column
-    flex: 1
+    gap: 10px
 
   &__title
-    font-family: $font-lora
-    font-size: 1.25rem
+    margin: 0
+    font-family: $font-display
+    font-size: clamp(1.75rem, 3.2vw, 2.75rem)
+    font-weight: 700
+    line-height: 1.05
+    letter-spacing: -0.015em
+    text-wrap: balance
+
+  // The title link stretches over the window body (the positioned ancestor), so
+  // the card stays one big target; its focus ring is drawn on the whole window
+  // because the window's overflow: hidden would clip an outline on the link
+  &__link
     color: $white
-    margin: 0 0 10px
-    font-weight: 600
+    text-decoration: none
     transition: color $transition-fast
+    &::after
+      content: ''
+      position: absolute
+      inset: 0
+    &:focus-visible
+      outline: none
+  &:has(.project-card__link:focus-visible) .project-card__window
+    outline: 2px solid $accent
+    outline-offset: 3px
+  &:hover &__link,
+  &__link:focus-visible
+    color: $accent
 
   &__description
-    font-size: 0.9rem
+    margin: 0
+    font-size: 1rem
     color: $text-muted
-    line-height: 1.6
-    margin: 0 0 20px
+    line-height: 1.7
+    max-width: 60ch
 
   &__tags
+    list-style: none
     display: flex
     flex-wrap: wrap
-    gap: 8px
-    margin-bottom: 20px
+    gap: 4px 14px
+    margin: 0
+    padding: 0
 
   &__tag
     font-family: $font-mono
-    font-size: 0.72rem
-    color: $accent
-    background: $accent-dim
-    border: 1px solid rgba(100,255,218,0.2)
-    padding: 3px 10px
-    border-radius: 4px
+    font-size: 0.78rem
+    color: $text-muted
+    white-space: nowrap
+    span
+      color: $accent
 
-  &__link
+  &__actions
     display: flex
     align-items: center
+    flex-wrap: wrap
+    gap: 0 24px
+    @media (min-width: $bp-lg)
+      flex-direction: column
+      align-items: flex-start
+
+  &__cta
+    display: inline-flex
+    align-items: center
     gap: 8px
+    min-height: 44px
     font-family: $font-mono
-    font-size: 0.82rem
+    font-size: 0.9rem
     color: $accent
-    margin-top: auto
+    white-space: nowrap
+
+  // Sits above the title's stretched link, so the card opens the demo and this opens the repo
+  &__code
+    position: relative
+    z-index: 1
+    display: inline-flex
+    align-items: center
+    gap: 8px
+    min-height: 44px
+    font-family: $font-mono
+    font-size: 0.9rem
+    color: $text-muted
+    white-space: nowrap
+    text-decoration: underline
+    text-decoration-color: rgba($text-muted, 0.35)
+    text-underline-offset: 3px
+    transition: color $transition-fast, text-decoration-color $transition-fast
+    &:hover,
+    &:focus-visible
+      color: $accent
+      text-decoration-color: $accent
 
   &__arrow
-    font-size: 1rem
+    display: inline-flex
     transition: transform $transition-base
+  &:hover &__arrow
+    transform: translate(3px, -3px)
+
+  // This site: no screenshot, a quieter window that reads as the last entry of
+  // the listing rather than a third showcase
+  &--compact &__title
+    font-size: clamp(1.5rem, 2.4vw, 2rem)
 </style>

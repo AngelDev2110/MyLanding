@@ -2,59 +2,30 @@
   <section id="about" class="about">
     <div class="about__inner">
       <div
-        class="about__content animate__animated"
-        v-intersect="{
-          enterClass: 'animate__fadeInLeft',
-          threshold: 0.2,
-        }"
+        class="about__terminal-wrap animate__animated"
+        v-intersect="{ enterClass: 'animate__fadeInUp', threshold: 0.1 }"
       >
-        <p class="section-label">{{ $t("about.label") }}</p>
-        <h2 class="section-heading">{{ $t("about.heading") }}</h2>
+        <TerminalWindow title="angel@dev: ~">
+          <p class="terminal__line">
+            <span class="terminal__prompt">$</span>
+            <span class="terminal__cmd">cat about.md</span>
+          </p>
 
-        <div class="about__bio">
-          <p>{{ $t("about.bio1") }}</p>
-          <p>{{ $t("about.bio2") }}</p>
-          <p>{{ $t("about.bio3") }}</p>
-        </div>
-
-        <ul class="about__traits">
-          <li v-for="trait in TRAITS" :key="trait" class="about__trait">
-            <span class="about__trait-icon">▹</span>
-            {{ $t(`about.traits.${trait}`) }}
-          </li>
-        </ul>
-
-        <div class="about__open-badge">
-          <span class="about__open-dot" />
-          {{ $t("openToWork") }}
-        </div>
+          <AboutMeAboutContent />
+        </TerminalWindow>
       </div>
 
       <div
         class="about__photo-wrap animate__animated"
-        v-intersect="{
-          enterClass: 'animate__fadeInRight',
-          threshold: 0.2,
-        }"
+        v-intersect="{ enterClass: 'animate__fadeIn', threshold: 0.2 }"
       >
-        <div class="about__photo-container">
-          <img
-            src="/img/meFormal.jpeg"
-            alt="Angel De La Torre"
-            class="about__photo"
-          />
-          <div class="about__photo-overlay" />
-        </div>
-        <div class="about__photo-border" />
-
-        <div class="about__chip about__chip--top">
-          <span class="about__chip-dot" />
-          Frontend Dev
-        </div>
-        <div class="about__chip about__chip--bottom">
-          <span class="about__chip-dot" />
-          México 🇲🇽
-        </div>
+        <img
+          src="/img/meFormal.jpeg"
+          alt="Angel De La Torre"
+          loading="lazy"
+          decoding="async"
+          class="about__photo"
+        />
       </div>
     </div>
   </section>
@@ -62,7 +33,6 @@
 
 <script lang="ts" setup>
 // Imports
-import { TRAITS } from "./constants";
 
 // Component Options
 
@@ -82,178 +52,62 @@ import { TRAITS } from "./constants";
 </script>
 
 <style lang="sass" scoped>
+// Must match $scene in Hero.vue
+$scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
+
 .about
   background: $surface
   position: relative
-  overflow: hidden
-
-  &::before
-    content: ''
+  // In the desktop scene the hero terminal prints about.md, so this section is
+  // only the #about anchor: an invisible, zero-height marker inside the hero's
+  // scroll range. An anchor jump to top 180vh lands at 1.8vh, when the About
+  // layout is complete; the nav's 40% line crosses it at 1.4vh, a third of the
+  // way into the switch
+  @media #{$scene}
     position: absolute
-    top: -200px
-    right: -200px
-    width: 500px
-    height: 500px
-    background: radial-gradient(circle, $accent-dim 0%, transparent 70%)
-    pointer-events: none
+    top: 180vh
+    left: 0
+    right: 0
+    height: 0
+    padding: 0
+    overflow: hidden
+    visibility: hidden
 
   &__inner
     display: flex
     flex-direction: column
-    gap: 60px
+    gap: 48px
     align-items: center
+    max-width: 1140px
+    margin: 0 auto
     @media (min-width: $bp-lg)
       flex-direction: row
-      gap: 80px
-      align-items: center
+      align-items: flex-start
+      gap: 64px
 
-  &__content
+  &__terminal-wrap
     flex: 1
-    max-width: 560px
+    min-width: 0
+    width: 100%
+    max-width: 720px
     animation-fill-mode: both
-
-  &__bio
-    margin: 28px 0
-    display: flex
-    flex-direction: column
-    gap: 16px
-    p
-      color: $text-muted
-      line-height: 1.8
-      font-size: 1rem
-      margin: 0
-
-  &__traits
-    list-style: none
-    padding: 0
-    margin: 0 0 32px
-    display: grid
-    grid-template-columns: 1fr 1fr
-    gap: 12px
-    @media (min-width: $bp-sm)
-      grid-template-columns: 1fr 1fr
-
-  &__trait
-    display: flex
-    align-items: flex-start
-    gap: 10px
-    font-family: $font-mono
-    font-size: 0.82rem
-    color: $text-muted
-    line-height: 1.4
-
-  &__trait-icon
-    color: $accent
-    flex-shrink: 0
-    margin-top: 1px
-
-  &__open-badge
-    display: inline-flex
-    align-items: center
-    gap: 10px
-    background: $accent-dim
-    border: 1px solid $accent-glow
-    color: $accent
-    font-family: $font-mono
-    font-size: 0.8rem
-    padding: 8px 18px
-    border-radius: 100px
-    letter-spacing: 0.04em
-
-  &__open-dot
-    width: 8px
-    height: 8px
-    background: $accent
-    border-radius: 50%
-    animation: pulse 2s ease infinite
 
   &__photo-wrap
-    position: relative
     flex-shrink: 0
+    width: min(300px, 100%)
     animation-fill-mode: both
-    overflow: visible
     @media (min-width: $bp-lg)
-      margin-left: auto
-
-  &__photo-container
-    width: 300px
-    height: 360px
-    border-radius: 20px
-    overflow: hidden
-    position: relative
-    @media (min-width: $bp-md)
-      width: 340px
-      height: 400px
+      width: 320px
+      margin-top: 48px
 
   &__photo
+    display: block
     width: 100%
-    height: 100%
+    aspect-ratio: 5 / 6
     object-fit: cover
     object-position: top center
-    transition: transform $transition-slow
-    &:hover
-      transform: scale(1.04)
-
-  &__photo-overlay
-    position: absolute
-    inset: 0
-    background: linear-gradient(to top, rgba($surface, 0.4) 0%, transparent 60%)
-    pointer-events: none
-
-  &__photo-border
-    position: absolute
-    inset: 0
-    width: 300px
-    height: 360px
-    border-radius: 20px
-    border: 2px solid $accent
-    top: 14px
-    left: 14px
-    z-index: -1
-    // Hidden on small screens to avoid horizontal overflow
-    display: none
-    @media (min-width: $bp-md)
-      display: block
-      width: 340px
-      height: 400px
-
-  &__chip
-    position: absolute
-    display: flex
-    align-items: center
-    gap: 8px
-    background: rgba($dark-navy, 0.9)
-    backdrop-filter: blur(12px)
-    border: 1px solid $border
-    color: $white
-    font-family: $font-mono
-    font-size: 0.78rem
-    padding: 8px 16px
-    border-radius: 100px
-    white-space: nowrap
-    &--top
-      top: -16px
-      right: -20px
-      @media (max-width: $bp-md)
-        right: 0
-    &--bottom
-      bottom: 20px
-      left: -30px
-      @media (max-width: $bp-md)
-        left: 0
-
-  &__chip-dot
-    width: 7px
-    height: 7px
-    background: $accent
-    border-radius: 50%
-    animation: pulse 2.5s ease infinite
-
-@keyframes pulse
-  0%, 100%
-    opacity: 1
-    box-shadow: 0 0 0 0 $accent-glow
-  50%
-    opacity: 0.7
-    box-shadow: 0 0 0 6px transparent
+    border-radius: 14px
+    border: 1px solid rgba($accent, 0.22)
+    // Same edge and depth as the terminal windows, so the photo reads as part of the set
+    box-shadow: 0 24px 60px rgba($black, 0.5)
 </style>

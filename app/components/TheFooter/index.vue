@@ -1,35 +1,36 @@
 <template>
   <footer class="footer">
-    <div class="footer__inner">
-      <div class="footer__left">
-        <span class="footer__logo">
-          <span class="footer__logo-bracket">&lt;</span>
-          ADT
-          <span class="footer__logo-bracket">/&gt;</span>
-        </span>
-        <p class="footer__built">{{ $t("footer.built") }}</p>
-      </div>
-
-      <p class="footer__copy">
-        © {{ year }} Angel De La Torre. {{ $t("footer.rights") }}.
-      </p>
-    </div>
+    <p class="footer__line">
+      <span>{{ $t("footer.built") }}</span>
+      <span class="footer__sep" aria-hidden="true">·</span>
+      <span>
+        {{ $t("footer.stats") }}
+        <a
+          :href="WAKATIME_URL"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer__link"
+        >
+          WakaTime
+          <AppIcon name="arrow-up-right" :size="12" />
+          <span class="sr-only">({{ $t("contact.newTab") }})</span>
+        </a>
+      </span>
+    </p>
   </footer>
 </template>
 
 <script lang="ts" setup>
 // Imports
+import { WAKATIME_URL } from "./constants";
 
 // Component Options
 
 // Props and Emits
 
 // Composition API Helpers
-const { locale, availableLocales, setLocale } = useI18n();
-const currentLocale = computed(() => locale.value);
 
 // Reactive Variables
-const year = new Date().getFullYear();
 
 // Computed Properties
 
@@ -41,58 +42,48 @@ const year = new Date().getFullYear();
 </script>
 
 <style lang="sass" scoped>
+// A footnote to the Contact terminal: same surface, no rule, so the page still ends on the prompt
 .footer
-  background: $dark-navy
-  border-top: 1px solid $border
-  padding: 32px 20px
+  background: $surface
+  padding: 0 20px 32px
+
+.footer__line
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 4px 12px
+  margin: 0
+  font-family: $font-mono
+  font-size: 0.72rem
+  color: $gray-600
+  text-align: center
+  letter-spacing: 0.04em
   @media (min-width: $bp-md)
-    padding: 32px 60px
-  @media (min-width: $bp-lg)
-    padding: 32px 100px
+    flex-direction: row
+    justify-content: center
 
-  &__inner
-    display: flex
-    flex-direction: column
-    align-items: center
-    gap: 20px
-    @media (min-width: $bp-md)
-      flex-direction: row
-      justify-content: space-between
-      align-items: center
+.footer__sep
+  display: none
+  @media (min-width: $bp-md)
+    display: inline
 
-  &__left
-    display: flex
-    flex-direction: column
-    align-items: center
-    gap: 6px
-    @media (min-width: $bp-md)
-      align-items: flex-start
-
-  &__logo
-    font-family: $font-mono
-    font-size: 1rem
-    font-weight: 700
-    color: $white
-    letter-spacing: 0.03em
-
-  &__logo-bracket
+.footer__link
+  position: relative
+  display: inline-flex
+  align-items: center
+  gap: 3px
+  // The 0.72rem footnote stays small; an invisible pad brings the target to 44px
+  &::after
+    content: ''
+    position: absolute
+    inset: -16px -6px
+  color: $text-muted
+  text-decoration: underline
+  text-decoration-color: rgba($accent, 0.35)
+  text-underline-offset: 3px
+  white-space: nowrap
+  transition: color $transition-fast, text-decoration-color $transition-fast
+  &:hover
     color: $accent
-
-  &__built
-    font-family: $font-mono
-    font-size: 0.72rem
-    color: $gray-600
-    margin: 0
-    letter-spacing: 0.04em
-
-  &__copy
-    font-family: $font-mono
-    font-size: 0.75rem
-    color: $text-muted
-    margin: 0
-    text-align: center
-
-  &__lang
-    display: flex
-    gap: 6px
+    text-decoration-color: $accent
 </style>
