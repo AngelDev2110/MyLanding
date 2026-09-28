@@ -12,8 +12,8 @@ Todo el texto visible vive en `i18n/locales/en.json` (default) y `i18n/locales/e
 | Tech stack | `stack.heading`, `stack.sub`, `stack.categories.{frameworks,styling,languages,backend,workflow}` (se muestran como keys del JSON, en minúsculas), `stack.scroll` (pista en la barra de estado del modo fijado) | `TECH_LIST` y `CATEGORIES` en `TechStack/constants.ts` (nombre, icono, categoría) |
 | Experience | `experience.entries[]` → `role`, `period`, `type`, `highlights[]`, `tags[]` | — (todo en i18n) |
 | Projects | `projects.entries[]` → `title`, `description`, `tags[]` | `PROJECT_LINKS` en `Projects/constants.ts` (`link`, `image`) |
-| Contact | `contact.*`, `contact.socials.<key>.{label,description}` | `SOCIAL_LINKS` en `Contact/constants.ts`, constante `EMAIL` en `Contact/index.vue` |
-| Footer | `footer.built`, `footer.rights` | — |
+| Contact | `contact.*`, `contact.socials.<key>.description` | `SOCIAL_LINKS` en `Contact/constants.ts`, constante `EMAIL` en `Contact/index.vue` |
+| Footer | `footer.built`, `footer.stats` | `WAKATIME_URL` en `TheFooter/constants.ts` |
 | SEO / meta | `seo.title`, `seo.description`, `seo.socialDescription` | `useSeoMeta` en `app.vue`; meta estáticas en `app.head` de `nuxt.config.ts` |
 
 ## Cómo agregar contenido
@@ -21,7 +21,7 @@ Todo el texto visible vive en `i18n/locales/en.json` (default) y `i18n/locales/e
 - **Tecnología**: añadir entrada a `TECH_LIST` y el SVG en `public/img/`. Nombre no se traduce. Mantener cada categoría en 4 elementos o menos; si una crece, partirla en una categoría nueva (tipo en `TechCategory`, orden en `CATEGORIES` y `stack.categories.<key>` en ambos locales).
 - **Experiencia**: añadir objeto a `experience.entries` en ambos locales. Se lee con `tm()` + `rt()`; el `role` se usa como `key` del `v-for`, así que debe ser único.
 - **Proyecto**: añadir objeto a `projects.entries` en ambos locales **y** una entrada en `PROJECT_LINKS` en la **misma posición** — se emparejan por índice. `image: null` muestra un placeholder `</>`. Si el proyecto se sirve bajo `angeldlt.dev/<ruta>`, añadir también la `routeRule` de proxy (ver [deployment.md](./deployment.md)).
-- **Red social**: añadir a `SocialKey`, a `SOCIAL_LINKS` (icono en `public/img/`; `featured: true` la muestra como tarjeta, `false` como link de texto bajo las tarjetas usando su `description`) y `contact.socials.<key>` en ambos locales.
+- **Red social**: añadir a `SocialKey`, a `SOCIAL_LINKS` y `contact.socials.<key>.description` en ambos locales. Se imprime en la terminal de Contact como `open <key>` (la key es el comando visible, en minúsculas) con la descripción como comentario `//`. Máximo 4 acciones en esa terminal (hoy: copiar, enviar, LinkedIn, GitHub); lo demás va al footer como nota, como WakaTime.
 - **Trait**: añadir key a `TRAITS` y `about.traits.<key>` en ambos locales.
 
 ## Gotchas de vue-i18n

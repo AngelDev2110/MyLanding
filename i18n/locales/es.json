@@ -113,25 +113,18 @@
     "emailCopied": "¡Copiado!",
     "copyFailed": "No se pudo copiar. Selecciona el correo y cópialo a mano.",
     "newTab": "se abre en una pestaña nueva",
-    "findMe": "Encuéntrame en",
     "socials": {
       "linkedin": {
-        "label": "LinkedIn",
         "description": "Conectemos como se debe"
       },
       "github": {
-        "label": "GitHub",
         "description": "Donde vive el código de verdad"
-      },
-      "wakatime": {
-        "label": "WakaTime",
-        "description": "Mis stats de código, para los curiosos"
       }
     }
   },
   "footer": {
     "built": "Construido con Nuxt, Vue y demasiado café",
-    "rights": "Todos los derechos reservados"
+    "stats": "Mis stats de código, para los curiosos:"
   },
   "hero": {
     "ctaProjects": "Ver mis proyectos",

@@ -1,15 +1,28 @@
 <template>
   <footer class="footer">
     <p class="footer__line">
-      <span>© {{ year }} Angel De La Torre. {{ $t("footer.rights") }}.</span>
-      <span class="footer__sep" aria-hidden="true">·</span>
       <span>{{ $t("footer.built") }}</span>
+      <span class="footer__sep" aria-hidden="true">·</span>
+      <span>
+        {{ $t("footer.stats") }}
+        <a
+          :href="WAKATIME_URL"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer__link"
+        >
+          WakaTime
+          <AppIcon name="arrow-up-right" :size="12" />
+          <span class="sr-only">({{ $t("contact.newTab") }})</span>
+        </a>
+      </span>
     </p>
   </footer>
 </template>
 
 <script lang="ts" setup>
 // Imports
+import { WAKATIME_URL } from "./constants";
 
 // Component Options
 
@@ -18,7 +31,6 @@
 // Composition API Helpers
 
 // Reactive Variables
-const year = new Date().getFullYear();
 
 // Computed Properties
 
@@ -30,10 +42,10 @@ const year = new Date().getFullYear();
 </script>
 
 <style lang="sass" scoped>
+// A footnote to the Contact terminal: same surface, no rule, so the page still ends on the prompt
 .footer
   background: $surface
-  border-top: 1px solid $border
-  padding: 24px 20px
+  padding: 0 20px 32px
 
 .footer__line
   display: flex
@@ -54,4 +66,18 @@ const year = new Date().getFullYear();
   display: none
   @media (min-width: $bp-md)
     display: inline
+
+.footer__link
+  display: inline-flex
+  align-items: center
+  gap: 3px
+  color: $text-muted
+  text-decoration: underline
+  text-decoration-color: rgba($accent, 0.35)
+  text-underline-offset: 3px
+  white-space: nowrap
+  transition: color $transition-fast, text-decoration-color $transition-fast
+  &:hover
+    color: $accent
+    text-decoration-color: $accent
 </style>

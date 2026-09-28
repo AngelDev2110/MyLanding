@@ -38,42 +38,35 @@
             </template>
             <template v-else-if="copyFailed">{{ $t("contact.copyFailed") }}</template>
           </p>
+          <ul class="contact__links">
+            <li v-for="social in SOCIAL_LINKS" :key="social.key">
+              <a
+                :href="social.href"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="contact__link"
+              >
+                <span class="terminal__prompt" aria-hidden="true">$</span>
+                <span class="contact__link-body">
+                  <span class="contact__link-cmd">open {{ social.key }}</span>
+                  <span class="contact__link-note">
+                    <span aria-hidden="true">// </span>
+                    {{ $t(`contact.socials.${social.key}.description`) }}
+                  </span>
+                </span>
+                <span class="contact__link-arrow">
+                  <AppIcon name="arrow-up-right" :size="16" />
+                </span>
+                <span class="sr-only">({{ $t("contact.newTab") }})</span>
+              </a>
+            </li>
+          </ul>
           <p class="terminal__line" aria-hidden="true">
             <span class="terminal__prompt">$</span>
             <span class="contact__cursor">▮</span>
           </p>
         </TerminalWindow>
       </div>
-
-      <div class="contact__divider">
-        <span class="contact__divider-line" />
-        <span class="contact__divider-text">{{ $t("contact.findMe") }}</span>
-        <span class="contact__divider-line" />
-      </div>
-
-      <div class="contact__socials">
-        <ContactSocialCard
-          v-for="social in featuredSocials"
-          :key="social.href"
-          v-bind="social"
-        />
-      </div>
-
-      <p v-for="social in extraSocials" :key="social.href" class="contact__extra">
-        {{ social.description }}:
-        <a
-          :href="social.href"
-          :target="social.external ? '_blank' : undefined"
-          :rel="social.external ? 'noopener noreferrer' : undefined"
-          class="contact__extra-link"
-        >
-          {{ social.label }}
-          <AppIcon name="arrow-up-right" :size="14" />
-          <span v-if="social.external" class="sr-only">
-            ({{ $t("contact.newTab") }})
-          </span>
-        </a>
-      </p>
     </div>
   </section>
 </template>
@@ -82,7 +75,6 @@
 // Imports
 import { useClipboard } from "@vueuse/core";
 import { SOCIAL_LINKS } from "./constants";
-import type { Props as SocialCardProps } from "./SocialCard/SocialCard.d.ts";
 
 // Component Options
 
@@ -90,7 +82,6 @@ import type { Props as SocialCardProps } from "./SocialCard/SocialCard.d.ts";
 
 // Composition API Helpers
 const { copy, copied } = useClipboard({ copiedDuring: 2500, legacy: true });
-const { t } = useI18n();
 
 // Reactive Variables
 const EMAIL = "angeldev2110@gmail.com";
@@ -99,25 +90,6 @@ const copyFailed = ref(false);
 let copyFailedTimer: ReturnType<typeof setTimeout> | undefined;
 
 // Computed Properties
-const SOCIALS = computed<(SocialCardProps & { featured: boolean })[]>(() =>
-  SOCIAL_LINKS.map((link) => ({
-    href: link.href,
-    icon: link.icon,
-    username: link.username,
-    external: link.external,
-    featured: link.featured,
-    label: t(`contact.socials.${link.key}.label`),
-    description: t(`contact.socials.${link.key}.description`),
-  })),
-);
-const featuredSocials = computed<SocialCardProps[]>(() =>
-  SOCIALS.value
-    .filter((social) => social.featured)
-    .map(({ featured: _featured, ...social }) => social),
-);
-const extraSocials = computed(() =>
-  SOCIALS.value.filter((social) => !social.featured),
-);
 
 // Watchers
 
@@ -162,7 +134,6 @@ async function handleCopy() {
 
   &__terminal-wrap
     width: 100%
-    margin-bottom: 56px
     animation-fill-mode: both
 
   &__email
@@ -213,47 +184,71 @@ async function handleCopy() {
       color: $text-muted
       text-shadow: none
 
-  &__cursor
-    color: $accent
-
-  &__divider
-    display: flex
-    align-items: center
-    gap: 16px
-    width: 100%
-    margin-bottom: 32px
-
-  &__divider-line
-    flex: 1
-    height: 1px
-    background: $border
-
-  &__divider-text
-    font-family: $font-mono
-    font-size: 0.75rem
-    color: $text-muted
-    white-space: nowrap
-    letter-spacing: 0.08em
-
-  &__socials
+  // Secondary to the email actions: plain terminal lines that light up like a selected row
+  &__links
+    list-style: none
+    margin: -8px 0 0
+    padding: 0
     display: flex
     flex-direction: column
-    gap: 16px
-    width: 100%
+    gap: 4px
 
-  &__extra
-    margin: 24px 0 0
-    font-size: 0.9rem
+  // 24px lines + 12px padding: one line fills the 48px target, and a wrapped note keeps $ on the first line
+  &__link
+    display: flex
+    align-items: flex-start
+    gap: 10px
+    min-height: 48px
+    // Negative margin keeps the $ aligned with the other prompts while the hover row bleeds past it
+    margin: 0 -12px
+    padding: 12px
+    line-height: 24px
+    border-radius: 6px
+    font-family: $font-mono
+    font-size: 0.95rem
+    text-decoration: none
+    transition: background-color $transition-fast
+    &:hover,
+    &:focus-visible
+      background: rgba($accent, 0.08)
+      .contact__link-cmd
+        color: $accent
+      .contact__link-arrow
+        transform: translate(2px, -2px)
+
+  &__link-body
+    display: flex
+    flex-wrap: wrap
+    align-items: baseline
+    gap: 2px 14px
+    flex: 1
+    min-width: 0
+
+  &__link-cmd
+    color: $white
+    transition: color $transition-fast
+
+  &__link-note
+    font-size: 0.82rem
+    line-height: 20px
     color: $text-muted
 
-  &__extra-link
+  &__link-arrow
+    display: inline-flex
+    align-items: center
+    height: 24px
     color: $accent
-    text-decoration: underline
-    text-decoration-color: rgba($accent, 0.35)
-    text-underline-offset: 3px
-    transition: text-decoration-color $transition-fast
-    white-space: nowrap
-    &:hover
-      text-decoration-color: $accent
+    flex-shrink: 0
+    transition: transform $transition-fast
 
+  // The page ends on a live prompt; the global reduced-motion block stops the blink
+  &__cursor
+    color: $accent
+    animation: blink 1.1s step-end infinite
+
+@keyframes blink
+  0%, 100%
+    opacity: 1
+  50%
+    opacity: 0
 </style>

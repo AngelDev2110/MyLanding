@@ -113,25 +113,18 @@
     "emailCopied": "Copied!",
     "copyFailed": "Couldn't copy it. Select the address and copy it manually.",
     "newTab": "opens in a new tab",
-    "findMe": "Find me on",
     "socials": {
       "linkedin": {
-        "label": "LinkedIn",
         "description": "Let's connect properly"
       },
       "github": {
-        "label": "GitHub",
         "description": "Where the actual code lives"
-      },
-      "wakatime": {
-        "label": "WakaTime",
-        "description": "My coding stats, for the curious"
       }
     }
   },
   "footer": {
     "built": "Built with Nuxt, Vue, and way too much coffee",
-    "rights": "All rights reserved"
+    "stats": "Coding stats, for the curious:"
   },
   "hero": {
     "ctaProjects": "See my projects",

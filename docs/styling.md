@@ -35,7 +35,7 @@ Usar en los encabezados de cada sección para mantener consistencia:
   - Títulos grandes dentro de la terminal (About, proyectos, puestos) van en Fraunces: el choque serif/mono es deliberado. La sintaxis (markdown, JSON, `#tags`, `-`) va en mono ámbar; la prosa en Nunito `$text-muted`.
   - Barra de título de `TerminalWindow` monocroma: tres aros ámbar (el primero relleno) sobre `rgba($accent, 0.05)`, sin los colores de macOS. La ventana es opaca (`$dark-navy`, sin `backdrop-filter`) y su única sombra es de profundidad (`0 24px 60px rgba($black, 0.5)`), sin halo de color; la foto del About usa la misma.
   - Sin brillos radiales, vidrio decorativo ni cuadrícula de fondo. La profundidad la dan el borde ámbar y la sombra de las ventanas.
-- Movimiento en bucle: el único pulso vivo es el punto de disponibilidad del hero. Aparte, solo parpadea el cursor `▮` de la terminal del hero (se pausa fuera de vista). La línea del indicador de scroll es estática.
+- Movimiento en bucle: el único pulso vivo es el punto de disponibilidad del hero. Aparte, solo parpadean los cursores `▮` de las terminales del hero (se pausa fuera de vista) y de Contact (el final de la página). La línea del indicador de scroll es estática.
 - Hover: cambian color, borde o fondo tenue, nunca se levanta la tarjeta (`translateY`) ni hay tilt 3D. Solo la flecha `arrow-up-right` se desplaza unos px.
 - Transiciones con propiedades explícitas (`transition: color …, border-color …`); no usar `transition: all`. El menú móvil entra con `opacity` + `transform` + `clip-path`, no animando `max-height`.
 - Logo del navbar: el prompt `angel@dev:~$` en mono (usuario en blanco, host en `$text-muted`, `$` ámbar con resplandor), con `aria-label` = `myName`.
