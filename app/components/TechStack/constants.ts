@@ -9,13 +9,15 @@ export interface Tech {
   title: string;
   src: string;
   category: TechCategory;
+  // Logo drawn on a black disc: gets a light ring so it reads on the dark page
+  onDark?: boolean;
 }
 
 export const TECH_LIST: Tech[] = [
   { title: "Vue.js", src: "vue.svg", category: "frameworks" },
   { title: "Nuxt.js", src: "nuxtjs.svg", category: "frameworks" },
   { title: "React", src: "react.svg", category: "frameworks" },
-  { title: "Next.js", src: "nextjs.svg", category: "frameworks" },
+  { title: "Next.js", src: "nextjs.svg", category: "frameworks", onDark: true },
   { title: "Tailwind CSS", src: "tailwindcss.svg", category: "styling" },
   { title: "Sass", src: "sass.svg", category: "styling" },
   { title: "TypeScript", src: "typescript.svg", category: "languages" },

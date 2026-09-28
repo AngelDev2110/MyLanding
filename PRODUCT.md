@@ -46,7 +46,7 @@ The site itself is the proof. Four differentiators, all confirmed as equally imp
 ## Evidence on Hand
 
 - Real work history: Frontend Developer (2023–present), Junior Frontend Developer (2023), self-taught (2020–2022). Employer names are not published.
-- Two live projects with screenshots: `public/img/angel-front-themes.png`, `public/img/noob-draw.png`.
+- Two live projects with screenshots: `public/img/angel-front-themes.jpg`, `public/img/noob-draw.jpg`.
 - Tech icons for the stack in `public/img/*.svg`.
 - Absent, and must not be fabricated: testimonials, employer logos or names, metrics/impact numbers, certifications, a CV download.
 

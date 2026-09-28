@@ -17,11 +17,18 @@
           </p>
           <p class="contact__email">{{ emailUser }}@<wbr />{{ emailDomain }}</p>
           <div class="contact__actions">
-            <button type="button" class="contact__action" @click="handleCopy">
+            <button
+              type="button"
+              class="contact__action contact__action--copy"
+              @click="handleCopy"
+            >
               <AppIcon :name="copied ? 'check' : 'copy'" />
               {{ $t("contact.copyEmail") }}
             </button>
-            <a :href="`mailto:${EMAIL}`" class="contact__action">
+            <a
+              :href="`mailto:${EMAIL}`"
+              class="contact__action contact__action--send"
+            >
               <AppIcon name="mail" />
               {{ $t("contact.sendEmail") }}
             </a>
@@ -111,6 +118,15 @@ async function handleCopy() {
 </script>
 
 <style lang="sass" scoped>
+=contact-primary
+  color: $dark-navy
+  background: $accent
+  border-color: $accent
+  &:hover,
+  &:focus-visible
+    background: rgba($accent, 0.85)
+    border-color: $accent
+
 .contact
   background: $surface
   position: relative
@@ -174,6 +190,15 @@ async function handleCopy() {
     &:focus-visible
       background: rgba($accent, 0.2)
       border-color: $accent
+
+  // One primary action: on phones mailto opens the mail app, so Send leads; on
+  // desktop there is often no mail client set up, so Copy leads
+  &__action--send
+    @media (max-width: $bp-md - 1)
+      +contact-primary
+  &__action--copy
+    @media (min-width: $bp-md)
+      +contact-primary
 
   &__status
     display: flex

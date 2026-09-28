@@ -1,6 +1,7 @@
 <template>
+  <a href="#main" class="skip-link">{{ $t("skipLink") }}</a>
   <TheNavbar />
-  <main>
+  <main id="main" tabindex="-1">
     <Hero />
     <AboutMe />
     <Projects />

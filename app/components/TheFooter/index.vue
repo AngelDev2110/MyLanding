@@ -68,9 +68,15 @@ import { WAKATIME_URL } from "./constants";
     display: inline
 
 .footer__link
+  position: relative
   display: inline-flex
   align-items: center
   gap: 3px
+  // The 0.72rem footnote stays small; an invisible pad brings the target to 44px
+  &::after
+    content: ''
+    position: absolute
+    inset: -16px -6px
   color: $text-muted
   text-decoration: underline
   text-decoration-color: rgba($accent, 0.35)

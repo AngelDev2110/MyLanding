@@ -79,10 +79,8 @@ const PROJECTS = computed<ProjectCardProps[]>(() =>
     margin-right: 6px
     text-shadow: 0 0 8px rgba($accent, 0.45)
 
+  // One showcase per row: the screenshots get the full width to be legible
   &__grid
     display: grid
-    grid-template-columns: 1fr
-    gap: 28px
-    @media (min-width: $bp-md)
-      grid-template-columns: repeat(2, 1fr)
+    gap: 40px
 </style>

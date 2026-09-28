@@ -1,59 +1,65 @@
 <template>
   <article
     class="project-card animate__animated"
+    :class="{ 'project-card--compact': !props.image }"
     v-intersect="{ enterClass: 'animate__fadeInUp', threshold: 0.2 }"
   >
     <TerminalWindow :title="`~/projects/${folder}`" class="project-card__window">
-      <div class="project-card__media">
+      <div v-if="props.image" class="project-card__media">
         <img
-          v-if="props.image"
           :src="`/img/${props.image}`"
           :alt="$t('projects.screenshotAlt', { title: props.title })"
+          loading="lazy"
+          decoding="async"
           class="project-card__image"
         />
-        <div v-else class="project-card__placeholder" aria-hidden="true">
-          &lt;/&gt;
-        </div>
       </div>
 
-      <h3 class="project-card__title">
-        <a
-          :href="props.link"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="project-card__link"
-        >
-          {{ props.title }}
-          <span class="sr-only">({{ $t("contact.newTab") }})</span>
-        </a>
-      </h3>
-      <p class="project-card__description">{{ props.description }}</p>
+      <div class="project-card__info">
+        <div class="project-card__head">
+          <h3 class="project-card__title">
+            <a
+              :href="primaryHref"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="project-card__link"
+            >
+              {{ props.title }}
+              <span v-if="!props.image" class="sr-only"
+                >: {{ $t("projects.viewCode") }}</span
+              >
+              <span class="sr-only">({{ $t("contact.newTab") }})</span>
+            </a>
+          </h3>
+          <ul class="project-card__tags">
+            <li v-for="tag in props.tags" :key="tag" class="project-card__tag">
+              <span aria-hidden="true">#</span>{{ tag }}
+            </li>
+          </ul>
+        </div>
 
-      <ul class="project-card__tags">
-        <li v-for="tag in props.tags" :key="tag" class="project-card__tag">
-          <span aria-hidden="true">#</span>{{ tag }}
-        </li>
-      </ul>
+        <p class="project-card__description">{{ props.description }}</p>
 
-      <div class="project-card__actions">
-        <span class="project-card__cta" aria-hidden="true">
-          {{ $t("projects.viewProject") }}
-          <span class="project-card__arrow">
-            <AppIcon name="arrow-up-right" :size="16" />
+        <div class="project-card__actions">
+          <span class="project-card__cta" aria-hidden="true">
+            {{ props.image ? $t("projects.viewProject") : $t("projects.viewCode") }}
+            <span class="project-card__arrow">
+              <AppIcon name="arrow-up-right" :size="16" />
+            </span>
           </span>
-        </span>
-        <a
-          v-if="props.repo"
-          :href="props.repo"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="project-card__code"
-        >
-          {{ $t("projects.viewCode") }}
-          <span class="sr-only">: {{ props.title }}</span>
-          <AppIcon name="arrow-up-right" :size="16" />
-          <span class="sr-only">({{ $t("contact.newTab") }})</span>
-        </a>
+          <a
+            v-if="props.image && props.repo"
+            :href="props.repo"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="project-card__code"
+          >
+            {{ $t("projects.viewCode") }}
+            <span class="sr-only">: {{ props.title }}</span>
+            <AppIcon name="arrow-up-right" :size="16" />
+            <span class="sr-only">({{ $t("contact.newTab") }})</span>
+          </a>
+        </div>
       </div>
     </TerminalWindow>
   </article>
@@ -73,14 +79,24 @@ const props = defineProps<Props>();
 // Reactive Variables
 
 // Computed Properties
-// The window title mirrors the deployed path, e.g. /angel-front-themes
+// The window title mirrors the deployed path (/angel-front-themes), or the host
+// for a site served at the root, like this one
 const folder = computed(() => {
   try {
-    return new URL(props.link).pathname.replace(/^\/|\/$/g, "") || "app";
+    const url = new URL(props.link);
+    return (
+      url.pathname.replace(/^\/|\/$/g, "") || url.hostname.replace(/^www\./, "")
+    );
   } catch {
     return "app";
   }
 });
+
+// Without a screenshot there is no demo to show (it is this very page), so the
+// card's one link is its code
+const primaryHref = computed(() =>
+  props.image ? props.link : (props.repo ?? props.link),
+);
 
 // Watchers
 
@@ -90,6 +106,8 @@ const folder = computed(() => {
 </script>
 
 <style lang="sass" scoped>
+// Showcase: the screenshot spans the whole window so the app is legible, and
+// the facts sit in one row under it (title + tags, description, actions)
 .project-card
   position: relative
   display: flex
@@ -102,6 +120,7 @@ const folder = computed(() => {
     transition: border-color $transition-fast
     :deep(.terminal__body)
       flex: 1
+      gap: 24px
   &:hover &__window,
   &:focus-within &__window
     border-color: rgba($accent, 0.5)
@@ -117,25 +136,30 @@ const folder = computed(() => {
     width: 100%
     height: 100%
     object-fit: cover
+    object-position: top left
     display: block
 
-  &__placeholder
-    width: 100%
-    height: 100%
+  &__info
+    display: grid
+    gap: 16px 40px
+    @media (min-width: $bp-lg)
+      // Fixed actions column so every card's description starts on the same line
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) 10rem
+      align-items: start
+
+  &__head
     display: flex
-    align-items: center
-    justify-content: center
-    font-family: $font-mono
-    font-size: 1.6rem
-    color: $gray-700
+    flex-direction: column
+    gap: 10px
 
   &__title
-    margin: 6px 0 0
+    margin: 0
     font-family: $font-display
-    font-size: clamp(1.35rem, 2.4vw, 1.75rem)
+    font-size: clamp(1.75rem, 3.2vw, 2.75rem)
     font-weight: 700
-    line-height: 1.2
-    letter-spacing: -0.01em
+    line-height: 1.05
+    letter-spacing: -0.015em
+    text-wrap: balance
 
   // The title link stretches over the window body (the positioned ancestor), so
   // the card stays one big target; its focus ring is drawn on the whole window
@@ -159,9 +183,10 @@ const folder = computed(() => {
 
   &__description
     margin: 0
-    font-size: 0.95rem
+    font-size: 1rem
     color: $text-muted
-    line-height: 1.65
+    line-height: 1.7
+    max-width: 60ch
 
   &__tags
     list-style: none
@@ -184,15 +209,19 @@ const folder = computed(() => {
     align-items: center
     flex-wrap: wrap
     gap: 0 24px
-    margin-top: auto
+    @media (min-width: $bp-lg)
+      flex-direction: column
+      align-items: flex-start
 
   &__cta
     display: inline-flex
     align-items: center
     gap: 8px
+    min-height: 44px
     font-family: $font-mono
-    font-size: 0.85rem
+    font-size: 0.9rem
     color: $accent
+    white-space: nowrap
 
   // Sits above the title's stretched link, so the card opens the demo and this opens the repo
   &__code
@@ -203,8 +232,9 @@ const folder = computed(() => {
     gap: 8px
     min-height: 44px
     font-family: $font-mono
-    font-size: 0.85rem
+    font-size: 0.9rem
     color: $text-muted
+    white-space: nowrap
     text-decoration: underline
     text-decoration-color: rgba($text-muted, 0.35)
     text-underline-offset: 3px
@@ -219,4 +249,9 @@ const folder = computed(() => {
     transition: transform $transition-base
   &:hover &__arrow
     transform: translate(3px, -3px)
+
+  // This site: no screenshot, a quieter window that reads as the last entry of
+  // the listing rather than a third showcase
+  &--compact &__title
+    font-size: clamp(1.5rem, 2.4vw, 2rem)
 </style>

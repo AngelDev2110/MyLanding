@@ -53,6 +53,7 @@
                         width="18"
                         height="18"
                         class="stack__logo"
+                        :class="{ 'stack__logo--on-dark': tech.onDark }"
                       />
                       <span
                         >{{ tech.title
@@ -273,6 +274,10 @@ $scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
   height: 18px
   object-fit: contain
   flex-shrink: 0
+
+.stack__logo--on-dark
+  border-radius: 50%
+  box-shadow: 0 0 0 1.5px rgba($white, 0.55)
 
 .stack__pager,
 .stack__bracket-key

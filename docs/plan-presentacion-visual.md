@@ -12,8 +12,8 @@ La ronda anterior (nombre de exhibición, imagen og, escena del hero, textura CR
 | 4 | Quitar los recursos de plantilla ✅ | P2 | `/impeccable quieter` |
 | 5 | Cerrar en la terminal, sin diluir ✅ | P2 | `/impeccable distill` |
 | 6 | Copy sin repeticiones y con pruebas ✅ | P2 | `/impeccable clarify` |
-| 7 | Accesibilidad e i18n | P3 | `/impeccable harden` |
-| 8 | Pasada final | — | `/impeccable polish` |
+| 7 | Accesibilidad e i18n ✅ | P3 | `/impeccable harden` |
+| 8 | Pasada final (polish ✅, falta critique) | — | `/impeccable polish` |
 
 ## Restricciones que aplican a todo
 
@@ -59,7 +59,7 @@ La ronda anterior (nombre de exhibición, imagen og, escena del hero, textura CR
 **Archivos:** `TechStack/index.vue`, `TechStack/constants.ts`, `TechCard/`, locales, `docs/architecture.md`, `docs/technologies.md`.
 
 **Criterios de aceptación**
-- ~~Sin pin ni scroll horizontal en ningún tamaño.~~ **Cambio de decisión (2026-09-28):** se conserva el scroll horizontal fijado en desktop, ya con el estilo de terminal (`less package.json`), solo con `(min-width: 1024px) and (prefers-reduced-motion: no-preference)`; en el resto es estático. Se refresca el pin al cambiar de idioma.
+- ~~Sin pin ni scroll horizontal en ningún tamaño.~~ **Cambio de decisión (2026-09-28):** se conserva el scroll horizontal fijado en desktop, ya con el estilo de terminal (`less package.json`), solo con `(min-width: 1024px) and (prefers-reduced-motion: no-preference)`; en el resto es estático. Se refresca el pin al cambiar de idioma. Tras el critique final se probó quitar el pin (2026-09-28) y se descartó: **el scroll horizontal fijado se queda siempre** (ver `docs/architecture.md`).
 - Mismo landmark (`section#stack`) en todos los breakpoints.
 - Los logos siguen teniendo nombre accesible.
 
@@ -145,7 +145,7 @@ La ronda anterior (nombre de exhibición, imagen og, escena del hero, textura CR
 - Botones de idioma: que el texto visible "EN/ES" coincida con el nombre accesible (WCAG 2.5.3).
 - Menú móvil: mover el foco al abrir, devolverlo al cerrar con Esc y cerrarlo al pasar de 768px.
 - Targets de 44px mínimo (burger ~30×24, botones de idioma ~26px).
-- Resolver el solape en exactamente 768px (reglas `max-width` y `min-width` en `$bp-md` aplican a la vez en ExperienceEntry y los chips del About).
+- Resolver el solape en exactamente 768px (reglas `max-width` y `min-width` en `$bp-md` aplican a la vez en ExperienceEntry y los chips del About). (Ya resuelto en el paso 3: esas reglas desaparecieron con la reescritura; no queda ningún `max-width: $bp-md`.)
 - Rol del hero fuera de `h2` si rompe el esquema de títulos; periodos de experiencia en `<time>`.
 - `AppearingText.d.ts`: exportar `Props` según la convención.
 
@@ -164,3 +164,4 @@ La ronda anterior (nombre de exhibición, imagen og, escena del hero, textura CR
 - **Re-tematizar el sitio en vivo con el motor OKLCH:** propuesta de mayor impacto, pero no entra en esta ronda.
 - **Proyectos animados con clips o trazos SVG:** requieren que grabes los clips de las apps.
 - **Reordenar para poner Proyectos antes que About:** se evalúa después del paso 3.
+- **Rutas por idioma (`/es`):** sin `pages/`, `@nuxtjs/i18n` no genera rutas por locale; `/es` sirve la versión en inglés y el SSR siempre pinta `lang="en-US"`. El español solo se activa con el botón. Afecta SEO y enlaces compartidos en español; decidir si se agrega `pages/index.vue` con estrategia `prefix_except_default` (detectado en el paso 7).

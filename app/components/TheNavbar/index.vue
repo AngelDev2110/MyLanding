@@ -1,14 +1,11 @@
 <template>
   <nav class="navbar" :class="{ 'navbar--scrolled': isScrolled || menuOpen }">
     <div class="navbar__inner">
-      <a
-        href="#hero"
-        class="navbar__logo"
-        :aria-label="$t('myName')"
-        @click.prevent="scrollTo('#hero')"
-      >
-        angel<span class="navbar__logo-host">@dev:~</span
-        ><span class="navbar__logo-prompt">$</span>
+      <a href="#hero" class="navbar__logo" @click.prevent="scrollTo('#hero')">
+        angel<span aria-hidden="true"
+          ><span class="navbar__logo-host">@dev:~</span
+          ><span class="navbar__logo-prompt">$</span></span
+        ><span class="sr-only">, {{ $t("myName") }}</span>
       </a>
 
       <ul class="navbar__links">
@@ -24,7 +21,7 @@
         </li>
       </ul>
 
-      <div class="navbar__lang">
+      <div class="navbar__lang" role="group" :aria-label="$t('nav.language')">
         <button
           v-for="option in localeOptions"
           :key="option.code"
@@ -32,21 +29,23 @@
           class="navbar__lang-btn"
           :class="{ 'navbar__lang-btn--active': currentLocale === option.code }"
           :lang="option.code"
-          :aria-label="option.name"
           :aria-pressed="currentLocale === option.code"
           @click="setLocale(option.code)"
         >
-          {{ option.code.toUpperCase() }}
+          {{ option.code.toUpperCase()
+          }}<span class="sr-only"> {{ option.name }}</span>
         </button>
       </div>
 
       <button
+        ref="burgerRef"
+        type="button"
         class="navbar__burger"
         :class="{ 'navbar__burger--open': menuOpen }"
-        @click="menuOpen = !menuOpen"
-        aria-label="Toggle menu"
+        :aria-label="$t('nav.menu')"
         aria-controls="navbar-mobile-menu"
         :aria-expanded="menuOpen"
+        @click="menuOpen = !menuOpen"
       >
         <span />
         <span />
@@ -55,7 +54,12 @@
     </div>
 
     <Transition name="mobile-menu">
-      <div v-if="menuOpen" id="navbar-mobile-menu" class="navbar__mobile">
+      <div
+        v-if="menuOpen"
+        id="navbar-mobile-menu"
+        ref="mobileMenuRef"
+        class="navbar__mobile"
+      >
         <a
           v-for="link in navLinks"
           :key="link.key"
@@ -65,7 +69,11 @@
         >
           {{ $t(`nav.${link.key}`) }}
         </a>
-        <div class="navbar__mobile-lang">
+        <div
+          class="navbar__mobile-lang"
+          role="group"
+          :aria-label="$t('nav.language')"
+        >
           <button
             v-for="option in localeOptions"
             :key="option.code"
@@ -75,11 +83,11 @@
               'navbar__lang-btn--active': currentLocale === option.code,
             }"
             :lang="option.code"
-            :aria-label="option.name"
             :aria-pressed="currentLocale === option.code"
             @click="setLocale(option.code)"
           >
-            {{ option.code.toUpperCase() }}
+            {{ option.code.toUpperCase()
+            }}<span class="sr-only"> {{ option.name }}</span>
           </button>
         </div>
       </div>
@@ -108,6 +116,8 @@ const { scrollY } = useInjectWindowScroll();
 
 // Reactive Variables
 const menuOpen = ref(false);
+const burgerRef = ref<HTMLButtonElement | null>(null);
+const mobileMenuRef = ref<HTMLElement | null>(null);
 const activeSection = ref("hero");
 
 const navLinks = [
@@ -118,42 +128,67 @@ const navLinks = [
   { key: "contact" },
 ];
 
+// Must match $bp-md, where the inline links replace the burger
+const DESKTOP_NAV_QUERY = "(min-width: 768px)";
+
 const isScrolled = computed(() => (scrollY?.value ?? 0) > 60);
 
 // Computed Properties
 
 // Watchers
+watch(menuOpen, async (open) => {
+  if (!open) return;
+  await nextTick();
+  mobileMenuRef.value?.querySelector("a")?.focus();
+});
+
+watch(() => scrollY?.value, updateActiveSection);
 
 // Lifecycle Hooks
-onMounted(() => {
-  const sections = ["hero", ...navLinks.map((l) => l.key)];
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) activeSection.value = entry.target.id;
-      });
-    },
-    { threshold: 0.15 },
-  );
-  sections.forEach((id) => {
-    const el = document.getElementById(id);
-    if (el) observer.observe(el);
-  });
+let desktopQuery: MediaQueryList | null = null;
 
+onMounted(() => {
+  updateActiveSection();
   window.addEventListener("keydown", handleKeydown);
+  desktopQuery = window.matchMedia(DESKTOP_NAV_QUERY);
+  desktopQuery.addEventListener("change", closeOnDesktop);
 });
 
 onUnmounted(() => {
   window.removeEventListener("keydown", handleKeydown);
+  desktopQuery?.removeEventListener("change", closeOnDesktop);
 });
 
 // Methods
+// The active section is the last one whose top has crossed 40% of the viewport.
+// Intersection ratios misfire here: the hero scene and the pinned stack keep a
+// section's box on screen for several screens while the next one peeks in
+function updateActiveSection() {
+  const line = window.innerHeight * 0.4;
+  const atBottom =
+    window.innerHeight + window.scrollY >=
+    document.documentElement.scrollHeight - 2;
+  let current = "hero";
+  for (const id of ["hero", ...navLinks.map((l) => l.key)]) {
+    const top = document.getElementById(id)?.getBoundingClientRect().top;
+    if (top !== undefined && (top <= line || atBottom)) current = id;
+  }
+  activeSection.value = current;
+}
+
 function scrollTo(selector: string) {
   scrollToSelector(selector);
 }
 
 function handleKeydown(event: KeyboardEvent) {
-  if (event.key === "Escape" && menuOpen.value) menuOpen.value = false;
+  if (event.key !== "Escape" || !menuOpen.value) return;
+  menuOpen.value = false;
+  burgerRef.value?.focus();
+}
+
+// Past $bp-md the burger disappears, so an open menu would be left stranded
+function closeOnDesktop(event: MediaQueryListEvent) {
+  if (event.matches) menuOpen.value = false;
 }
 
 function mobileNavigate(key: string) {
@@ -187,6 +222,9 @@ function mobileNavigate(key: string) {
 
   // Same prompt as the terminal windows, so the page's mark belongs to its world
   &__logo
+    display: inline-flex
+    align-items: center
+    min-height: 44px
     font-family: $font-mono
     font-size: 1rem
     font-weight: 700
@@ -257,9 +295,15 @@ function mobileNavigate(key: string) {
     background: none
     border: 1px solid $border
     color: $text-muted
-    padding: 4px 10px
+    padding: 4px 12px
     border-radius: 4px
     cursor: pointer
+    position: relative
+    // Invisible hit area: the 26px pill stays compact but the target reaches 44px
+    &::after
+      content: ''
+      position: absolute
+      inset: -10px -2px
     transition: color $transition-fast, border-color $transition-fast, background-color $transition-fast
     &:hover
       border-color: $accent
@@ -272,12 +316,16 @@ function mobileNavigate(key: string) {
   &__burger
     display: flex
     flex-direction: column
+    align-items: center
+    justify-content: center
     gap: 5px
+    width: 44px
+    height: 44px
     background: none
     border: none
     cursor: pointer
-    padding: 4px
-    margin-left: auto
+    padding: 0
+    margin: 0 -11px 0 auto
     @media (min-width: $bp-md)
       display: none
     span
@@ -306,11 +354,14 @@ function mobileNavigate(key: string) {
       display: none
 
   &__mobile-link
+    display: flex
+    align-items: center
+    min-height: 44px
     font-family: $font-mono
     font-size: 0.95rem
     color: $text-muted
     text-decoration: none
-    padding: 10px 4px
+    padding: 0 4px
     transition: color $transition-fast
     border-bottom: 1px solid $border
     &:hover

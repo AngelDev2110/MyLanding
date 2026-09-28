@@ -4,7 +4,15 @@
 
     <div class="exp-entry__body">
       <p class="exp-entry__meta">
-        <span class="exp-entry__period">{{ props.entry.period }}</span>
+        <span class="exp-entry__period">
+          <template v-for="(part, index) in periodParts" :key="index">
+            <template v-if="index > 0">{{
+              YEAR.test(part) ? "–" : " – "
+            }}</template>
+            <time v-if="YEAR.test(part)" :datetime="part">{{ part }}</time>
+            <template v-else>{{ part }}</template>
+          </template>
+        </span>
         <span class="exp-entry__sep" aria-hidden="true">·</span>
         <span>{{ props.entry.type }}</span>
       </p>
@@ -41,8 +49,14 @@ const props = defineProps<Props>();
 // Composition API Helpers
 
 // Reactive Variables
+const YEAR = /^\d{4}$/;
 
 // Computed Properties
+// "2023 – Present" → ["2023", "Present"]: years become <time>, the rest stays
+// translated text. Ranges use an en dash, closed up between two years
+const periodParts = computed(() =>
+  props.entry.period.split("–").map((part) => part.trim()),
+);
 
 // Watchers
 
@@ -122,6 +136,7 @@ const props = defineProps<Props>();
     list-style: none
     padding: 0
     margin: 0 0 14px
+    max-width: 68ch
     display: flex
     flex-direction: column
     gap: 8px

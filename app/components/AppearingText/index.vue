@@ -12,12 +12,26 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue";
-import type { props } from "./AppearingText.d.ts";
+// Imports
+import type { Props } from "./AppearingText.d.ts";
 
-const props = defineProps<props>();
+// Component Options
 
+// Props and Emits
+const props = defineProps<Props>();
+
+// Composition API Helpers
+
+// Reactive Variables
+
+// Computed Properties
 const words = computed(() => props.text.split(" "));
+
+// Watchers
+
+// Lifecycle Hooks
+
+// Methods
 </script>
 
 <style lang="sass" scoped>

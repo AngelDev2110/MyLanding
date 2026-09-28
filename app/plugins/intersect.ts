@@ -16,7 +16,12 @@ export default defineNuxtPlugin((nuxtApp) => {
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (entry.isIntersecting) {
+            // A block taller than the viewport can never reach a ratio like 0.3;
+            // half a screen of it on view counts as entered too
+            const entered =
+              entry.intersectionRatio >= threshold ||
+              entry.intersectionRect.height >= window.innerHeight / 2;
+            if (entry.isIntersecting && entered) {
               el.style.opacity = "";
               if (enterClass) el.classList.add(enterClass);
               if (once) observer.unobserve(el);
@@ -28,7 +33,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             }
           });
         },
-        { threshold },
+        { threshold: [0, threshold, 0.1, 0.25, 0.5] },
       );
 
       observer.observe(el);

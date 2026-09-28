@@ -1,8 +1,9 @@
 {
   "myName": "Angel De La Torre",
+  "skipLink": "Skip to content",
   "myRole": "Frontend Developer",
   "funnyQuote": "I debug with console.log and I regret nothing.",
-  "tagline": "I build web stuff that works, loads fast, and doesn't make people rage-quit.",
+  "tagline": "I build web stuff that works, loads fast, and doesn't make people rage-quit. Frontend first, but happy to go full stack or backend.",
   "yearsExp": "3 yrs experience",
   "terminalCmd": "npm run start-day -- --coffee=true",
   "nav": {
@@ -10,7 +11,9 @@
     "stack": "Stack",
     "experience": "Experience",
     "projects": "Projects",
-    "contact": "Contact"
+    "contact": "Contact",
+    "menu": "Menu",
+    "language": "Language"
   },
   "about": {
     "heading": "Pixel-perfect UI on code that stays clean.",
@@ -24,15 +27,14 @@
       },
       "clean": {
         "claim": "Clean, tested code",
-        "proof": "angel-vue-themes"
+        "proof": "Angel Front Themes"
       },
       "backend": {
         "claim": "Comfortable past the browser",
-        "proof": "noob-draw"
+        "proof": "Noob Draw"
       },
       "collab": {
-        "claim": "Easy to work with, seriously",
-        "proof": "designer handoffs & code reviews"
+        "claim": "Easy to work with, seriously"
       }
     }
   },
@@ -50,18 +52,16 @@
   },
   "experience": {
     "heading": "Where I've worked (so far)",
-    "sub": "Shipping real products, breaking things in staging (not prod, mostly...), and learning what code actually needs to last.",
+    "sub": "Real products, real deadlines, and a growing list of lessons about what makes code last.",
     "entries": [
       {
         "role": "Frontend Developer",
-        "period": "2023 — Present",
+        "period": "2023 – Present",
         "type": "Full-time",
         "highlights": [
-          "Built and maintained large-scale web apps with Vue.js and Nuxt.js",
           "Built component libraries that helped the team ship faster",
-          "Worked closely with designers, turning mockups into pixel-perfect UI",
           "Integrated REST APIs and handled state across some genuinely gnarly multi-step flows",
-          "Reviewed code and planned sprints"
+          "Turned designers' mockups into pixel-perfect UI in large Vue.js and Nuxt.js apps"
         ],
         "tags": ["Vue.js", "Nuxt.js", "TypeScript", "Sass", "REST APIs", "Git"]
       },
@@ -70,22 +70,18 @@
         "period": "2023",
         "type": "Entry level",
         "highlights": [
-          "Started my career building real UI features straight from design specs",
           "Built responsive layouts and reusable components in React and JavaScript",
-          "Picked up the real-world basics: version control, code quality, team workflows",
-          "Worked alongside senior devs and leveled up fast"
+          "Shipped UI features straight from design specs",
+          "Picked up team workflows (Git, code quality, Scrum) working alongside senior devs"
         ],
         "tags": ["React", "JavaScript", "CSS", "GitHub", "Scrum"]
       },
       {
         "role": "Self-Taught Developer",
-        "period": "2020 — 2022",
+        "period": "2020–2022",
         "type": "Learning phase",
         "highlights": [
-          "Taught myself HTML, CSS, JavaScript, and the fundamentals — no bootcamp, just docs and stubbornness",
-          "Built personal projects to actually practice, not just watch tutorials",
-          "Explored Vue.js, React, and the JS ecosystem through docs, courses, and a lot of trial and error",
-          "Built a real problem-solving mindset and an actual habit of writing clean, maintainable code"
+          "Taught myself HTML, CSS, JavaScript, then Vue.js and React, through docs, personal projects, and plain stubbornness. No bootcamp."
         ],
         "tags": ["HTML", "CSS", "JavaScript", "Vue.js", "Self-taught"]
       }
@@ -93,7 +89,7 @@
   },
   "projects": {
     "heading": "Things I've built",
-    "sub": "Two live apps, code included — more on the way.",
+    "sub": "Two live apps and the site you're on, each with its code.",
     "viewProject": "View project",
     "viewCode": "Code",
     "entries": [
@@ -104,13 +100,25 @@
       },
       {
         "title": "Noob Draw",
-        "description": "Multiplayer Pictionary where Postgres is the server — RLS-secured SQL functions run every turn, score, and hint, live-synced over WebSockets.",
+        "description": "Multiplayer Pictionary where Postgres is the server: RLS-secured SQL functions run every turn, score, and hint, live-synced over WebSockets.",
         "tags": [
           "React 19",
           "Supabase",
           "PostgreSQL",
           "Row-Level Security",
           "Realtime multiplayer"
+        ]
+      },
+      {
+        "title": "angeldlt.dev",
+        "description": "The page you're scrolling right now: Nuxt 4 and Vue 3 with TypeScript, bilingual from the ground up, and a terminal that types itself.",
+        "tags": [
+          "Nuxt 4",
+          "Vue 3",
+          "TypeScript",
+          "Sass",
+          "i18n",
+          "GSAP"
         ]
       }
     ],
@@ -141,18 +149,13 @@
   "hero": {
     "ctaProjects": "See my projects",
     "availability": "Open to full-time roles",
+    "location": "Based in Mexico",
     "scroll": "Scroll",
-    "photoAlt": "Angel De La Torre leaning on a stone arch above a bay in Mexico",
-    "now": {
-      "locationLabel": "location",
-      "location": "Mexico",
-      "rolesLabel": "roles",
-      "roles": "Frontend first · full stack or backend welcome"
-    }
+    "photoAlt": "Angel De La Torre leaning on a stone arch above a bay in Mexico"
   },
   "seo": {
     "title": "Angel De La Torre — Frontend Developer",
-    "description": "Angel De La Torre — Frontend Developer in Mexico building fast, clean web interfaces with Vue.js, Nuxt, React, and TypeScript.",
+    "description": "Angel De La Torre, Frontend Developer in Mexico building fast, clean web interfaces with Vue.js, Nuxt, React, and TypeScript.",
     "socialDescription": "Frontend Developer based in Mexico. I build web stuff that works, loads fast, and doesn't make people rage-quit."
   }
 }

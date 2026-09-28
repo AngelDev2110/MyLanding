@@ -11,50 +11,7 @@
             <span class="terminal__cmd">cat about.md</span>
           </p>
 
-          <div class="about__md">
-            <h2 class="about__heading">
-              <span class="about__md-mark" aria-hidden="true">#</span>
-              {{ $t("about.heading") }}
-            </h2>
-
-            <p>{{ $t("about.bio1") }}</p>
-            <p>{{ $t("about.bio2") }}</p>
-            <p>{{ $t("about.bio3") }}</p>
-
-            <ul class="about__traits">
-              <li v-for="trait in TRAITS" :key="trait.key" class="about__trait">
-                <span class="about__md-mark" aria-hidden="true">-</span>
-                <span class="about__trait-text">
-                  {{ $t(`about.traits.${trait.key}.claim`) }}
-                  <span class="about__trait-arrow" aria-hidden="true">
-                    <AppIcon name="arrow-right" :size="14" />
-                  </span>
-                  <a
-                    v-if="isExternal(trait.href)"
-                    :href="trait.href"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="about__proof"
-                  >
-                    {{ splitLastWord($t(`about.traits.${trait.key}.proof`)).head
-                    }}<span class="about__proof-tail"
-                      >{{ splitLastWord($t(`about.traits.${trait.key}.proof`)).tail
-                      }}<AppIcon name="arrow-up-right" :size="13"
-                    /></span>
-                    <span class="sr-only">({{ $t("contact.newTab") }})</span>
-                  </a>
-                  <a
-                    v-else
-                    :href="trait.href"
-                    class="about__proof"
-                    @click.prevent="scrollToSection(trait.href)"
-                  >
-                    {{ $t(`about.traits.${trait.key}.proof`) }}
-                  </a>
-                </span>
-              </li>
-            </ul>
-          </div>
+          <AboutMeAboutContent />
         </TerminalWindow>
       </div>
 
@@ -65,6 +22,8 @@
         <img
           src="/img/meFormal.jpeg"
           alt="Angel De La Torre"
+          loading="lazy"
+          decoding="async"
           class="about__photo"
         />
       </div>
@@ -74,7 +33,6 @@
 
 <script lang="ts" setup>
 // Imports
-import { TRAITS } from "./constants";
 
 // Component Options
 
@@ -91,25 +49,29 @@ import { TRAITS } from "./constants";
 // Lifecycle Hooks
 
 // Methods
-function scrollToSection(selector: string) {
-  scrollToSelector(selector);
-}
-
-// The last word travels with the ↗ icon so the icon never wraps onto a line alone
-function splitLastWord(text: string) {
-  const index = text.lastIndexOf(" ") + 1;
-  return { head: text.slice(0, index), tail: text.slice(index) };
-}
-
-function isExternal(href: string) {
-  return href.startsWith("http");
-}
 </script>
 
 <style lang="sass" scoped>
+// Must match $scene in Hero.vue
+$scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
+
 .about
   background: $surface
   position: relative
+  // In the desktop scene the hero terminal prints about.md, so this section is
+  // only the #about anchor: an invisible, zero-height marker inside the hero's
+  // scroll range. An anchor jump to top 180vh lands at 1.8vh, when the About
+  // layout is complete; the nav's 40% line crosses it at 1.4vh, a third of the
+  // way into the switch
+  @media #{$scene}
+    position: absolute
+    top: 180vh
+    left: 0
+    right: 0
+    height: 0
+    padding: 0
+    overflow: hidden
+    visibility: hidden
 
   &__inner
     display: flex
@@ -129,78 +91,6 @@ function isExternal(href: string) {
     width: 100%
     max-width: 720px
     animation-fill-mode: both
-
-  // Rendered markdown: prose stays in the body face, the markdown syntax in mono amber
-  &__md
-    display: flex
-    flex-direction: column
-    gap: 14px
-    padding-left: 22px
-    @media (max-width: $bp-sm - 1)
-      padding-left: 0
-    p
-      margin: 0
-      color: $text-muted
-      line-height: 1.75
-      font-size: 1rem
-
-  &__md-mark
-    font-family: $font-mono
-    font-weight: 400
-    color: $accent
-    text-shadow: 0 0 8px rgba($accent, 0.45)
-    user-select: none
-
-  &__heading
-    margin: 6px 0 4px
-    font-family: $font-display
-    font-size: clamp(1.6rem, 3.4vw, 2.4rem)
-    font-weight: 700
-    line-height: 1.15
-    letter-spacing: -0.015em
-    text-wrap: balance
-    color: $white
-    .about__md-mark
-      font-size: 0.6em
-      vertical-align: 0.25em
-      margin-right: 6px
-
-  &__traits
-    list-style: none
-    padding: 0
-    margin: 4px 0 0
-    display: grid
-    gap: 8px
-
-  &__trait
-    display: flex
-    gap: 10px
-    font-family: $font-mono
-    font-size: 0.85rem
-    line-height: 1.6
-    color: $white
-
-  &__trait-arrow
-    display: inline-flex
-    vertical-align: -2px
-    margin: 0 4px
-    color: $gray-600
-
-  // Markdown link: the proof reads as amber link text, underlined like the footer's
-  &__proof
-    color: $accent
-    text-decoration: underline
-    text-decoration-color: rgba($accent, 0.35)
-    text-underline-offset: 3px
-    transition: text-decoration-color $transition-fast
-    .app-icon
-      margin-left: 4px
-      vertical-align: -1px
-
-  &__proof-tail
-    white-space: nowrap
-    &:hover
-      text-decoration-color: $accent
 
   &__photo-wrap
     flex-shrink: 0

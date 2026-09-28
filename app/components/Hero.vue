@@ -22,7 +22,7 @@
                 />
               </h1>
               <AppearingText
-                component="h2"
+                component="p"
                 :text="$t('myRole')"
                 class="hero__role"
                 :delay="0.5"
@@ -66,7 +66,11 @@
                   {{ $t("hero.availability") }}
                 </span>
                 <span class="hero__badge-sep" aria-hidden="true">·</span>
-                <span>{{ $t("yearsExp") }}</span>
+                <span class="hero__badge-meta">
+                  <span class="hero__badge-piece">{{ $t("yearsExp") }}</span
+                  ><span aria-hidden="true"> · </span
+                  ><span class="hero__badge-piece">{{ $t("hero.location") }}</span>
+                </span>
               </p>
             </div>
           </div>
@@ -83,10 +87,20 @@
           </div>
         </div>
 
+        <img
+          v-if="scene"
+          src="/img/meFormal.jpeg"
+          alt="Angel De La Torre"
+          class="hero__about-photo"
+        />
+
         <TerminalWindow
           title="angel@dev: ~"
           class="hero__terminal"
-          :class="{ 'hero__terminal--inactive': terminalHidden }"
+          :class="{
+            'hero__terminal--inactive': terminalHidden,
+            'hero__terminal--scrolling': aboutState.cleared && aboutOverflow > 0,
+          }"
           :inert="terminalHidden || undefined"
         >
           <template #bar>
@@ -99,49 +113,78 @@
               />
             </span>
           </template>
-          <template v-for="(step, index) in typedSteps" :key="index">
-            <p
-              v-if="step.kind === 'cmd'"
-              class="terminal__line"
-              :class="{ 'hero__terminal-dim': step.dim }"
-            >
-              <span
-                class="terminal__prompt"
-                :class="{ 'hero__terminal-pending': !step.started }"
-                >$</span
-              >
-              <span class="hero__type terminal__cmd">
-                <span class="hero__type-ghost">{{ step.text }}</span>
-                <span class="hero__type-shown" aria-hidden="true"
-                  >{{ step.typed
-                  }}<span
-                    v-if="step.cursor"
-                    class="hero__terminal-cursor"
-                    :class="{ 'hero__terminal-cursor--paused': !heroInView }"
-                    >▮</span
-                  ></span
+          <div ref="scrollerRef" class="hero__scroller" :style="scrollerStyle">
+            <div v-show="!aboutState.cleared" class="hero__lines">
+              <template v-for="(step, index) in typedSteps" :key="index">
+                <p
+                  v-if="step.kind === 'cmd'"
+                  class="terminal__line"
+                  :class="{ 'hero__terminal-dim': step.dim }"
                 >
-              </span>
-            </p>
-            <dl
-              v-else-if="step.kind === 'now'"
-              class="hero__now"
-              :class="{ 'hero__terminal-pending': !step.visible }"
-            >
-              <template v-for="entry in nowEntries" :key="entry.label">
-                <dt class="hero__now-key">{{ entry.label }}:</dt>
-                <dd class="hero__now-value">{{ entry.value }}</dd>
+                  <span
+                    class="terminal__prompt"
+                    :class="{ 'hero__terminal-pending': !step.started }"
+                    >$</span
+                  >
+                  <span class="hero__type terminal__cmd">
+                    <span class="hero__type-ghost">{{ step.text }}</span>
+                    <span class="hero__type-shown" aria-hidden="true"
+                      >{{ step.typed
+                      }}<span
+                        v-if="step.cursor && !aboutState.started"
+                        class="hero__terminal-cursor"
+                        :class="{ 'hero__terminal-cursor--paused': !heroInView }"
+                        >▮</span
+                      ></span
+                    >
+                  </span>
+                </p>
+                <p
+                  v-else
+                  class="hero__terminal-comment"
+                  :class="{ 'hero__terminal-pending': !step.visible }"
+                >
+                  <span class="hero__terminal-hash">//</span>
+                  {{ $t("funnyQuote") }}
+                </p>
               </template>
-            </dl>
-            <p
-              v-else
-              class="hero__terminal-comment"
-              :class="{ 'hero__terminal-pending': !step.visible }"
+
+              <p v-if="aboutState.started" class="terminal__line">
+                <span class="terminal__prompt">$</span>
+                <span class="hero__type terminal__cmd">
+                  <span class="hero__type-ghost">clear</span>
+                  <span class="hero__type-shown" aria-hidden="true"
+                    >{{ aboutState.clearTyped
+                    }}<span v-if="!aboutState.cleared" class="hero__terminal-cursor"
+                      >▮</span
+                    ></span
+                  >
+                </span>
+              </p>
+            </div>
+
+            <!-- Desktop scene only: the same window goes on to print about.md -->
+            <div
+              v-if="scene"
+              v-show="aboutState.cleared"
+              class="hero__about"
+              :class="{ 'hero__about--revealed': aboutState.revealed }"
             >
-              <span class="hero__terminal-hash">//</span>
-              {{ $t("funnyQuote") }}
-            </p>
-          </template>
+              <p class="terminal__line">
+                <span class="terminal__prompt">$</span>
+                <span class="hero__type terminal__cmd">
+                  <span class="hero__type-ghost">cat about.md</span>
+                  <span class="hero__type-shown" aria-hidden="true"
+                    >{{ aboutState.catTyped
+                    }}<span v-if="!aboutState.revealed" class="hero__terminal-cursor"
+                      >▮</span
+                    ></span
+                  >
+                </span>
+              </p>
+              <AboutMeAboutContent />
+            </div>
+          </div>
         </TerminalWindow>
       </div>
     </div>
@@ -166,7 +209,7 @@
 
 // Composition API Helpers
 const { scrollY } = useInjectWindowScroll();
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 // Reactive Variables
 const heroRef = ref<HTMLElement | null>(null);
@@ -176,24 +219,54 @@ const viewportHeight = ref(800);
 const heroHeight = ref(Infinity);
 const scene = ref(false);
 const travel = ref({ dx: 0, dy: 0 });
+const typingProgress = ref(0);
+const scrollerRef = ref<HTMLElement | null>(null);
+// Milliseconds into the about sequence; -1 until it starts
+const aboutElapsed = ref(-1);
+const aboutOverflow = ref(0);
+const smoothY = ref(0);
+let typingFrame = 0;
+let aboutFrame = 0;
+let smoothFrame = 0;
 
 // Must match $scene in the <style> block: the scroll scene only runs where it
 // has room and the visitor accepts motion; everywhere else the hero is static
 const SCENE_QUERY =
   "(min-width: 1024px) and (prefers-reduced-motion: no-preference)";
-const SWITCH_AT = 0.22;
+const SWITCH_AT = 0.3;
 const AVATAR_SIZE = 22;
 const FRAME = { width: 280, height: 340, radius: 20 };
-// Scroll positions in viewport heights; the 180vh scene leaves 0.8vh of sticky
-// scroll, and typing ends at 0.7 so the finished terminal holds before leaving
+// Must match the rise in .hero__terminal: the window starts this many px lower
+const TERMINAL_RISE = 16;
+// Scroll positions in viewport heights; the 360vh scene leaves 2.6vh of sticky
+// scroll. Each change spans ~0.3–0.45vh (3–4 wheel notches, since one notch is
+// ~0.1vh) so it reads as motion, not a jump. The hero swap is done by 0.52;
+// from ABOUT_AT the same window prints
+// about.md, slides left into the About layout and, if about.md is taller than
+// the window, scrolls its output during the read range.
+// The intro is gone before the window opens, so the two never stack; the photo
+// shrinks first and travels after, so it lands as an avatar, not a card
 const RANGES = {
-  introOut: [0.08, SWITCH_AT],
-  photo: [0.06, 0.32],
-  terminalIn: [0.16, 0.3],
-  typing: [0.3, 0.7],
+  introOut: [0.02, SWITCH_AT],
+  photoShrink: [0, 0.34],
+  photoTravel: [0.08, 0.52],
+  terminalIn: [0.2, 0.52],
+  aboutIn: [1.2, 1.8],
+  read: [1.88, 2.48],
 } as const;
-// Pause, in typed-character units, before each command's output appears
-const OUTPUT_WEIGHT = { now: 8, quote: 10 };
+// Entering and leaving differ so a small scroll back does not replay the sequence
+const ABOUT_AT = 1.24;
+const ABOUT_LEAVE = 1.18;
+// Time constant of the scroll smoothing: the scene eases toward the real scroll
+// position instead of jumping a whole wheel notch per frame (like GSAP's scrub)
+const SMOOTHING_MS = 160;
+const ABOUT_COMMANDS = { clear: "clear", cat: "cat about.md" };
+// Per-character typing and the pauses after `clear` and before the markdown lands
+const ABOUT_TIMING = { clearChar: 55, clearHold: 350, catChar: 38, revealHold: 140 };
+// Typing runs on its own clock once the terminal is in, so no scroll is spent on
+// an empty window; the output pause is counted in typed-character units
+const MS_PER_UNIT = 14;
+const QUOTE_PAUSE = 8;
 
 // Computed Properties
 const nameLines = computed(() => {
@@ -201,13 +274,10 @@ const nameLines = computed(() => {
   return { first, rest: rest.join(" ") };
 });
 
-const nowEntries = computed(() => [
-  { label: t("hero.now.locationLabel"), value: t("hero.now.location") },
-  { label: t("hero.now.rolesLabel"), value: t("hero.now.roles") },
-]);
-
 const scrollInVh = computed(
-  () => (scrollY?.value ?? 0) / viewportHeight.value,
+  () =>
+    (scene.value ? smoothY.value : (scrollY?.value ?? 0)) /
+    viewportHeight.value,
 );
 
 const terminalActive = computed(
@@ -217,52 +287,74 @@ const terminalHidden = computed(() => scene.value && !terminalActive.value);
 const heroInView = computed(() => (scrollY?.value ?? 0) < heroHeight.value);
 
 const introProgress = computed(() =>
-  scene.value ? easeOutCubic(segment(RANGES.introOut)) : 0,
+  scene.value ? easeInOutCubic(segment(RANGES.introOut)) : 0,
 );
 
 const terminalProgress = computed(() =>
-  scene.value ? easeOutCubic(segment(RANGES.terminalIn)) : 1,
+  scene.value ? easeInOutCubic(segment(RANGES.terminalIn)) : 1,
 );
 
-const photoProgress = computed(() =>
-  scene.value ? easeInOutCubic(segment(RANGES.photo)) : 0,
+const photoShrink = computed(() =>
+  scene.value ? easeOutCubic(segment(RANGES.photoShrink)) : 0,
 );
 
-const showSlotAvatar = computed(
-  () => !scene.value || photoProgress.value >= 1,
+const photoTravel = computed(() =>
+  scene.value ? easeInOutCubic(segment(RANGES.photoTravel)) : 0,
+);
+
+const showSlotAvatar = computed(() => !scene.value || photoTravel.value >= 1);
+
+const aboutIn = computed(() =>
+  scene.value ? easeInOutCubic(segment(RANGES.aboutIn)) : 0,
+);
+
+const aboutState = computed(() => {
+  const elapsed = aboutElapsed.value;
+  const { clearChar, clearHold, catChar, revealHold } = ABOUT_TIMING;
+  const clearAt = ABOUT_COMMANDS.clear.length * clearChar + clearHold;
+  const catEnd = clearAt + ABOUT_COMMANDS.cat.length * catChar;
+  const typed = (text: string, since: number, perChar: number) =>
+    text.slice(0, Math.max(0, Math.floor((elapsed - since) / perChar)));
+  return {
+    started: elapsed >= 0,
+    clearTyped: typed(ABOUT_COMMANDS.clear, 0, clearChar),
+    cleared: elapsed >= clearAt,
+    catTyped: typed(ABOUT_COMMANDS.cat, clearAt, catChar),
+    revealed: elapsed >= catEnd + revealHold,
+  };
+});
+
+const scrollerStyle = computed(() =>
+  scene.value && aboutState.value.cleared
+    ? { transform: `translateY(${-aboutOverflow.value * segment(RANGES.read)}px)` }
+    : {},
 );
 
 const sceneVars = computed(() => ({
   "--intro-out": introProgress.value,
   "--terminal-in": terminalProgress.value,
+  "--about-in": aboutIn.value,
 }));
 
 const photoStyle = computed(() => {
   if (!scene.value) return {};
-  const p = photoProgress.value;
-  const scale = 1 + (AVATAR_SIZE / FRAME.width - 1) * p;
-  const inset = ((FRAME.height - FRAME.width) / 2) * p;
-  const radius = FRAME.radius + (FRAME.width / 2 - FRAME.radius) * p;
+  const s = photoShrink.value;
+  const m = photoTravel.value;
+  const scale = 1 + (AVATAR_SIZE / FRAME.width - 1) * s;
+  const inset = ((FRAME.height - FRAME.width) / 2) * s;
+  const radius = FRAME.radius + (FRAME.width / 2 - FRAME.radius) * s;
   return {
-    transform: `translate(${travel.value.dx * p}px, ${travel.value.dy * p}px) scale(${scale})`,
+    transform: `translate(${travel.value.dx * m}px, ${travel.value.dy * m}px) scale(${scale})`,
     clipPath: `inset(${inset}px 0 ${inset}px 0 round ${radius}px)`,
-    opacity: p >= 1 ? 0 : 1,
+    opacity: m >= 1 ? 0 : 1,
   };
 });
 
 const typedSteps = computed(() => {
-  const commands = ["cat now.md", "cat philosophy.md", t("terminalCmd")];
-  const units = [
-    commands[0]!.length,
-    OUTPUT_WEIGHT.now,
-    commands[1]!.length,
-    OUTPUT_WEIGHT.quote,
-    commands[2]!.length,
-  ];
+  const commands = ["cat philosophy.md", t("terminalCmd")];
+  const units = [commands[0]!.length, QUOTE_PAUSE, commands[1]!.length];
   const total = units.reduce((sum, unit) => sum + unit, 0);
-  let budget = scene.value
-    ? Math.round(segment(RANGES.typing) * total)
-    : total;
+  let budget = scene.value ? Math.round(typingProgress.value * total) : total;
 
   const spent = units.map((unit) => {
     const used = Math.min(unit, Math.max(budget, 0));
@@ -271,7 +363,7 @@ const typedSteps = computed(() => {
   });
   const current = spent.findIndex((used, i) => used < units[i]!);
   // While an output is "running" the cursor waits at the end of its command
-  const cursorAt = current === -1 ? 4 : current - (current % 2);
+  const cursorAt = current === -1 ? 2 : current - (current % 2);
 
   const command = (commandIndex: number, unitIndex: number) => ({
     kind: "cmd" as const,
@@ -279,18 +371,46 @@ const typedSteps = computed(() => {
     typed: commands[commandIndex]!.slice(0, spent[unitIndex]),
     cursor: cursorAt === unitIndex,
     started: spent[unitIndex]! > 0 || cursorAt === unitIndex,
-    dim: unitIndex === 4,
+    dim: unitIndex === 2,
   });
   return [
     command(0, 0),
-    { kind: "now" as const, visible: spent[1]! >= units[1]! },
+    { kind: "quote" as const, visible: spent[1]! >= units[1]! },
     command(1, 2),
-    { kind: "quote" as const, visible: spent[3]! >= units[3]! },
-    command(2, 4),
   ];
 });
 
 // Watchers
+// Starts once, when the terminal is mostly in; scrolling back does not rewind it.
+// Watching scene too covers a reload mid-scene, where the progress never changes
+watch([terminalProgress, scene], ([progress, isScene]) => {
+  if (isScene && progress >= 0.5 && typingProgress.value === 0) startTyping();
+});
+
+watch(
+  () => scrollY?.value ?? 0,
+  () => {
+    if (scene.value && !smoothFrame) smoothFrame = requestAnimationFrame(smoothStep);
+  },
+);
+
+watch(scrollInVh, (vh) => {
+  if (!scene.value) return;
+  if (vh >= ABOUT_AT && !aboutState.value.started) startAbout();
+  else if (vh < ABOUT_LEAVE && aboutState.value.started) resetAbout();
+});
+
+watch(
+  () => aboutState.value.cleared,
+  (cleared) => cleared && nextTick(measureOverflow),
+);
+
+watch(scene, (isScene) => {
+  if (!isScene) resetAbout();
+});
+
+// Translated about.md has a different height, so the scrolled output changes too
+watch(locale, () => nextTick(measureOverflow));
 
 // Lifecycle Hooks
 let sceneQuery: MediaQueryList | null = null;
@@ -306,6 +426,9 @@ onMounted(() => {
 onUnmounted(() => {
   sceneQuery?.removeEventListener("change", syncMedia);
   window.removeEventListener("resize", measure);
+  cancelAnimationFrame(typingFrame);
+  cancelAnimationFrame(aboutFrame);
+  cancelAnimationFrame(smoothFrame);
 });
 
 // Methods
@@ -315,6 +438,8 @@ function scrollToSection(selector: string) {
 
 function syncMedia() {
   scene.value = sceneQuery?.matches ?? false;
+  // Snap on load or mode change; only live scrolling is smoothed
+  smoothY.value = window.scrollY;
   // The layout switches with the media query; measure once Vue has re-rendered
   nextTick(measure);
 }
@@ -324,11 +449,79 @@ function measure() {
   heroHeight.value = heroRef.value?.offsetHeight ?? Infinity;
   const wrap = photoWrapRef.value?.getBoundingClientRect();
   const slot = avatarSlotRef.value?.getBoundingClientRect();
+  measureOverflow();
   if (!wrap || !slot || !wrap.width) return;
+  // Aim at where the slot ends up once the window has finished rising
+  const rise = scene.value ? TERMINAL_RISE * (1 - terminalProgress.value) : 0;
   travel.value = {
     dx: slot.left + slot.width / 2 - (wrap.left + wrap.width / 2),
-    dy: slot.top + slot.height / 2 - (wrap.top + wrap.height / 2),
+    dy: slot.top + slot.height / 2 - rise - (wrap.top + wrap.height / 2),
   };
+}
+
+function startTyping() {
+  const total =
+    "cat philosophy.md".length + QUOTE_PAUSE + t("terminalCmd").length;
+  const duration = total * MS_PER_UNIT;
+  const start = performance.now();
+  const tick = (now: number) => {
+    typingProgress.value = Math.min(1, (now - start) / duration);
+    if (typingProgress.value < 1) typingFrame = requestAnimationFrame(tick);
+  };
+  typingFrame = requestAnimationFrame(tick);
+}
+
+function startAbout() {
+  // Scrolling on before the joke finishes skips straight to its end
+  cancelAnimationFrame(typingFrame);
+  typingProgress.value = 1;
+  const { clearChar, clearHold, catChar, revealHold } = ABOUT_TIMING;
+  const total =
+    ABOUT_COMMANDS.clear.length * clearChar +
+    clearHold +
+    ABOUT_COMMANDS.cat.length * catChar +
+    revealHold;
+  const start = performance.now();
+  const tick = (now: number) => {
+    aboutElapsed.value = now - start;
+    if (aboutElapsed.value < total) aboutFrame = requestAnimationFrame(tick);
+  };
+  aboutElapsed.value = 0;
+  aboutFrame = requestAnimationFrame(tick);
+}
+
+function resetAbout() {
+  cancelAnimationFrame(aboutFrame);
+  aboutElapsed.value = -1;
+}
+
+// How much taller about.md is than the window body; that much output scrolls
+function measureOverflow() {
+  const scroller = scrollerRef.value;
+  const body = scroller?.parentElement;
+  if (!scroller || !body || !aboutState.value.cleared) return;
+  const style = getComputedStyle(body);
+  const room =
+    body.clientHeight -
+    parseFloat(style.paddingTop) -
+    parseFloat(style.paddingBottom);
+  aboutOverflow.value = Math.max(0, scroller.scrollHeight - room);
+}
+
+let lastSmoothTime = 0;
+
+function smoothStep(now: number) {
+  const target = scrollY?.value ?? 0;
+  const dt = lastSmoothTime ? Math.min(now - lastSmoothTime, 64) : 16;
+  lastSmoothTime = now;
+  smoothY.value += (target - smoothY.value) * (1 - Math.exp(-dt / SMOOTHING_MS));
+  if (Math.abs(target - smoothY.value) < 0.5) {
+    smoothY.value = target;
+    smoothFrame = 0;
+    lastSmoothTime = 0;
+    return;
+  }
+  smoothFrame = requestAnimationFrame(smoothStep);
 }
 
 function segment([from, to]: readonly [number, number]) {
@@ -347,6 +540,7 @@ function easeInOutCubic(x: number) {
 <style lang="sass" scoped>
 // Must match SCENE_QUERY in the script
 $scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
+$ease-out: cubic-bezier(0.16, 1, 0.3, 1)
 
 // Static by default: the intro, then the finished terminal in the flow.
 // Only $scene pins the panel and turns the hero into a scroll-driven scene.
@@ -355,7 +549,7 @@ $scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
   background: $dark-navy
   padding: 0
   @media #{$scene}
-    height: 180vh
+    height: 360vh
 
 .hero__panel
   position: relative
@@ -365,6 +559,14 @@ $scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
     top: 0
     height: 100vh
     height: 100svh
+    // The About section's surface tone fades in with the about layout
+    &::before
+      content: ''
+      position: absolute
+      inset: 0
+      background: $surface
+      opacity: var(--about-in, 0)
+      pointer-events: none
 
 .hero__panel-inner
   position: relative
@@ -376,6 +578,11 @@ $scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
   @media #{$scene}
     height: 100%
     padding-bottom: 0
+    z-index: 1
+    // About layout, matching the About section: window + gap + photo inside one group
+    --about-photo: clamp(240px, 22vw, 320px)
+    --about-group: min(1104px, 100% - 200px)
+    --about-term: calc(var(--about-group) - var(--about-photo) - 56px)
 
 .hero__stage
   display: flex
@@ -449,7 +656,8 @@ $scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
   font-family: $font-mono
   font-size: 0.9rem
   text-decoration: none
-  padding: 12px 24px
+  min-height: 44px
+  padding: 0 24px
   border-radius: 6px
   transition: background-color $transition-fast, border-color $transition-fast, color $transition-fast
   font-weight: 500
@@ -494,6 +702,9 @@ $scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
   @media (min-width: $bp-sm)
     flex-direction: row
     align-items: center
+  // Narrow screens wrap at the dot, never inside "Based in Mexico"
+  &-piece
+    white-space: nowrap
   &-status
     display: inline-flex
     align-items: center
@@ -517,22 +728,79 @@ $scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
   max-width: 640px
   @media #{$scene}
     position: absolute
-    top: 50%
-    left: 50%
-    width: min(640px, calc(100% - 40px))
-    translate: -50% -50%
+    // Centered for the hero; with --about-in it slides to the left column of the
+    // About layout, widens, and anchors to the top so about.md grows downward
+    top: calc(50% * (1 - var(--about-in, 0)) + (68px + 6vh) * var(--about-in, 0))
+    left: calc(50% - var(--about-group) / 2 * var(--about-in, 0))
+    width: calc(min(640px, 100% - 40px) * (1 - var(--about-in, 0)) + var(--about-term) * var(--about-in, 0))
+    max-width: none
+    max-height: calc(100vh - 68px - 12vh)
+    display: flex
+    flex-direction: column
+    // Rises 16px (TERMINAL_RISE) as it opens, like a window arriving rather than a curtain dropping
+    translate: calc(-50% * (1 - var(--about-in, 0))) calc(-50% * (1 - var(--about-in, 0)) + (1 - var(--terminal-in, 0)) * 16px)
     opacity: var(--terminal-in, 0)
+    :deep(.terminal__body)
+      flex: 1 1 auto
+      min-height: 0
+      overflow: hidden
+  // Scrolled output fades at the body edges instead of being sliced by the bar
+  &--scrolling :deep(.terminal__body)
+    mask-image: linear-gradient(to bottom, transparent, #000 28px, #000 calc(100% - 28px), transparent)
     clip-path: inset(0 0 calc((1 - var(--terminal-in, 0)) * 100%) 0 round 14px)
   &--inactive
     pointer-events: none
 
+.hero__scroller,
+.hero__lines,
+.hero__about
+  display: flex
+  flex-direction: column
+  gap: 14px
+
+.hero__scroller
+  will-change: transform
+
+// about.md lands block by block once `cat about.md` has been typed
+.hero__about :deep(.about-content__block)
+  opacity: 0
+  translate: 0 10px
+  transition: opacity 0.5s $ease-out, translate 0.5s $ease-out
+  transition-delay: calc(var(--i) * 90ms)
+
+.hero__about--revealed :deep(.about-content__block)
+  opacity: 1
+  translate: 0 0
+
+.hero__about-photo
+  display: none
+  @media #{$scene}
+    display: block
+    position: absolute
+    z-index: 2
+    top: calc(68px + 6vh + 40px)
+    left: calc(50% + var(--about-group) / 2 - var(--about-photo))
+    width: var(--about-photo)
+    aspect-ratio: 5 / 6
+    object-fit: cover
+    object-position: top center
+    border-radius: 14px
+    border: 1px solid rgba($accent, 0.22)
+    box-shadow: 0 24px 60px rgba($black, 0.5)
+    opacity: var(--about-in, 0)
+    translate: calc((1 - var(--about-in, 0)) * 48px) 0
+    pointer-events: none
+
+// Sits at the right end of the bar: the photo flies in from the right, so it
+// lands without crossing the window title
 .hero__terminal-avatar
+  order: 1
+  margin-left: auto
   display: inline-flex
   align-items: center
   justify-content: center
   width: 26px
   height: 26px
-  margin-left: 10px
   border-radius: 50%
   border: 1.5px solid rgba($accent, 0.5)
   flex-shrink: 0
@@ -543,24 +811,6 @@ $scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
   border-radius: 50%
   object-fit: cover
   object-position: 75% center
-
-.hero__now
-  display: grid
-  grid-template-columns: auto 1fr
-  gap: 4px 14px
-  margin: -6px 0 4px
-  padding-left: 22px
-  font-family: $font-mono
-  font-size: 0.9rem
-  line-height: 1.5
-
-.hero__now-key
-  color: $accent
-  text-shadow: 0 0 8px rgba($accent, 0.45)
-
-.hero__now-value
-  margin: 0
-  color: $white
 
 .hero__terminal-dim .terminal__cmd
   color: $gray-600
