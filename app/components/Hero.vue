@@ -14,7 +14,8 @@
                   component="span"
                   :text="nameLines.first"
                   class="hero__name-line"
-                />{{ " " }}<AppearingText
+                />{{ " "
+                }}<AppearingText
                   component="span"
                   :text="nameLines.rest"
                   class="hero__name-line"
@@ -69,7 +70,9 @@
                 <span class="hero__badge-meta">
                   <span class="hero__badge-piece">{{ $t("yearsExp") }}</span
                   ><span aria-hidden="true"> · </span
-                  ><span class="hero__badge-piece">{{ $t("hero.location") }}</span>
+                  ><span class="hero__badge-piece">{{
+                    $t("hero.location")
+                  }}</span>
                 </span>
               </p>
             </div>
@@ -99,7 +102,8 @@
           class="hero__terminal"
           :class="{
             'hero__terminal--inactive': terminalHidden,
-            'hero__terminal--scrolling': aboutState.cleared && aboutOverflow > 0,
+            'hero__terminal--scrolling':
+              aboutState.cleared && aboutOverflow > 0,
           }"
           :inert="terminalHidden || undefined"
         >
@@ -133,7 +137,9 @@
                       }}<span
                         v-if="step.cursor && !aboutState.started"
                         class="hero__terminal-cursor"
-                        :class="{ 'hero__terminal-cursor--paused': !heroInView }"
+                        :class="{
+                          'hero__terminal-cursor--paused': !heroInView,
+                        }"
                         >▮</span
                       ></span
                     >
@@ -155,7 +161,9 @@
                   <span class="hero__type-ghost">clear</span>
                   <span class="hero__type-shown" aria-hidden="true"
                     >{{ aboutState.clearTyped
-                    }}<span v-if="!aboutState.cleared" class="hero__terminal-cursor"
+                    }}<span
+                      v-if="!aboutState.cleared"
+                      class="hero__terminal-cursor"
                       >▮</span
                     ></span
                   >
@@ -176,7 +184,9 @@
                   <span class="hero__type-ghost">cat about.md</span>
                   <span class="hero__type-shown" aria-hidden="true"
                     >{{ aboutState.catTyped
-                    }}<span v-if="!aboutState.revealed" class="hero__terminal-cursor"
+                    }}<span
+                      v-if="!aboutState.revealed"
+                      class="hero__terminal-cursor"
                       >▮</span
                     ></span
                   >
@@ -262,7 +272,12 @@ const ABOUT_LEAVE = 1.18;
 const SMOOTHING_MS = 160;
 const ABOUT_COMMANDS = { clear: "clear", cat: "cat about.md" };
 // Per-character typing and the pauses after `clear` and before the markdown lands
-const ABOUT_TIMING = { clearChar: 55, clearHold: 350, catChar: 38, revealHold: 140 };
+const ABOUT_TIMING = {
+  clearChar: 55,
+  clearHold: 350,
+  catChar: 38,
+  revealHold: 140,
+};
 // Typing runs on its own clock once the terminal is in, so no scroll is spent on
 // an empty window; the output pause is counted in typed-character units
 const MS_PER_UNIT = 14;
@@ -326,15 +341,21 @@ const aboutState = computed(() => {
 
 const scrollerStyle = computed(() =>
   scene.value && aboutState.value.cleared
-    ? { transform: `translateY(${-aboutOverflow.value * segment(RANGES.read)}px)` }
+    ? {
+        transform: `translateY(${-aboutOverflow.value * segment(RANGES.read)}px)`,
+      }
     : {},
 );
 
-const sceneVars = computed(() => ({
-  "--intro-out": introProgress.value,
-  "--terminal-in": terminalProgress.value,
-  "--about-in": aboutIn.value,
-}));
+const sceneVars = computed(() =>
+  scene.value
+    ? {
+        "--intro-out": introProgress.value,
+        "--terminal-in": terminalProgress.value,
+        "--about-in": aboutIn.value,
+      }
+    : {},
+);
 
 const photoStyle = computed(() => {
   if (!scene.value) return {};
@@ -390,7 +411,8 @@ watch([terminalProgress, scene], ([progress, isScene]) => {
 watch(
   () => scrollY?.value ?? 0,
   () => {
-    if (scene.value && !smoothFrame) smoothFrame = requestAnimationFrame(smoothStep);
+    if (scene.value && !smoothFrame)
+      smoothFrame = requestAnimationFrame(smoothStep);
   },
 );
 
@@ -514,7 +536,8 @@ function smoothStep(now: number) {
   const target = scrollY?.value ?? 0;
   const dt = lastSmoothTime ? Math.min(now - lastSmoothTime, 64) : 16;
   lastSmoothTime = now;
-  smoothY.value += (target - smoothY.value) * (1 - Math.exp(-dt / SMOOTHING_MS));
+  smoothY.value +=
+    (target - smoothY.value) * (1 - Math.exp(-dt / SMOOTHING_MS));
   if (Math.abs(target - smoothY.value) < 0.5) {
     smoothY.value = target;
     smoothFrame = 0;
