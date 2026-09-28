@@ -84,16 +84,6 @@ import { TRAITS } from "./constants";
   position: relative
   overflow: hidden
 
-  &::before
-    content: ''
-    position: absolute
-    top: -200px
-    right: -200px
-    width: 500px
-    height: 500px
-    background: radial-gradient(circle, $accent-dim 0%, transparent 70%)
-    pointer-events: none
-
   &__inner
     display: flex
     flex-direction: column

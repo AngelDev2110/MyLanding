@@ -1,6 +1,5 @@
 <template>
   <section id="hero" class="hero">
-    <div class="hero__bg-grid" aria-hidden="true" />
     <div class="hero__bg-glow" aria-hidden="true" />
 
     <div class="hero__panel" :style="sceneVars">
@@ -352,14 +351,6 @@ function easeInOutCubic(x: number) {
   background: $dark-navy
   padding: 0
 
-.hero__bg-grid
-  position: absolute
-  inset: 0
-  background-image: linear-gradient(rgba($accent, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba($accent, 0.04) 1px, transparent 1px)
-  background-size: 60px 60px
-  pointer-events: none
-  z-index: 0
-
 .hero__bg-glow
   position: absolute
   top: 0
@@ -578,10 +569,17 @@ function easeInOutCubic(x: number) {
   letter-spacing: 0.04em
 
 .hero__terminal-body
+  position: relative
   padding: 24px 28px 28px
   display: flex
   flex-direction: column
   gap: 14px
+  &::after
+    content: ''
+    position: absolute
+    inset: 0
+    pointer-events: none
+    background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 3px)
 
 .hero__terminal-line
   font-family: $font-mono
@@ -593,6 +591,11 @@ function easeInOutCubic(x: number) {
     margin-top: 6px
     .hero__terminal-cmd
       color: $gray-600
+
+.hero__terminal-output,
+.hero__terminal-prompt,
+.hero__terminal-hash
+  text-shadow: 0 0 8px rgba($accent, 0.45)
 
 .hero__terminal-output
   font-family: $font-mono

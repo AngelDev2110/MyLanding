@@ -1,6 +1,6 @@
 # Plan: presentación visual más impactante
 
-Estado: **en curso** (3 ✅, 7 ✅, 2 ✅) · Creado: 2026-09-27
+Estado: **en curso** (3 ✅, 7 ✅, 2 ✅, 5 ✅) · Creado: 2026-09-27
 
 Quiero incorporar estos cinco cambios para que la landing tenga momentos memorables y deje de verse como plantilla. Van en el orden de ejecución recomendado; cada uno se puede entregar y revisar por separado.
 
@@ -9,7 +9,7 @@ Quiero incorporar estos cinco cambios para que la landing tenga momentos memorab
 | 3 | Nombre como tipografía de exhibición ✅ | Alto | Bajo | `/impeccable typeset` |
 | 7 | Imagen og propia para LinkedIn/Slack ✅ | Alto | Bajo | trabajo directo |
 | 2 | Transición del hero como escena ✅ | Alto | Medio | `/impeccable animate hero` |
-| 5 | Textura propia: fósforo ámbar CRT | Medio | Bajo | `/impeccable bolder` |
+| 5 | Textura propia: fósforo ámbar CRT ✅ | Medio | Bajo | `/impeccable bolder` |
 | 6 | Final memorable en Contacto | Medio | Medio | `/impeccable delight contact` |
 
 ## Restricciones que aplican a todo
@@ -111,6 +111,8 @@ Quiero incorporar estos cinco cambios para que la landing tenga momentos memorab
 - La textura no baja el contraste de ningún texto por debajo de AA.
 - Se ve como un detalle, no como un disfraz: a distancia normal apenas se percibe.
 - Sin costo notable de rendimiento (nada de filtros animados a pantalla completa).
+
+**Hecho (2026-09-27):** cuadrícula del hero retirada; grano estático global (SVG `feTurbulence` con contraste subido, 5.5%; la primera versión al 5% con ruido gris plano no se notaba); scanlines y resplandor ámbar solo dentro de la terminal (el resplandor en texto blanco lo ensuciaba y se limitó al texto ámbar); brillo de esquina del About retirado, quedan el del hero y el de Contact. Verificado con capturas en 1440 y 375px y con un zoom 3× de la terminal: nada se anima y a distancia normal apenas se percibe.
 
 ---
 

@@ -29,4 +29,8 @@ Usar en los encabezados de cada sección para mantener consistencia:
 - Solo tema oscuro; `theme-color` en meta es `#0d1116`.
 - No usar colores literales: transparencias como `rgba($accent, 0.2)` / `rgba($dark-navy, 0.85)`. Para estilos inline generados por JS usar la custom property `--accent` (definida en `:root` en `main.sass`), p. ej. `color-mix(in oklch, var(--accent) 15%, transparent)`.
 - Todas las combinaciones de texto pasan WCAG AA (acento 10.3:1, `$text-muted` 9.2:1, `$gray-600` 6.8:1 sobre el fondo). `$gray-700` (2.9:1) solo para separadores/decoración.
+- Textura "fósforo ámbar CRT":
+  - Grano: `body::after` en `main.sass`, capa fija a pantalla completa con ruido SVG `feTurbulence` en mosaico (160px, contraste subido con `feComponentTransfer` para que haya puntos claros y oscuros reales) al 5.5% de opacidad, `z-index: 50` (debajo del navbar) y `pointer-events: none`. Es estático, nunca se anima.
+  - Terminal del hero: scanlines con `repeating-linear-gradient` (blanco al 4.5%, cada 3px) en `.hero__terminal-body::after` y resplandor `text-shadow` ámbar **solo** en el texto que ya es ámbar (prompt `$`, respuesta de `whoami`, `//`). No aplicarlo a texto blanco, lo ensucia.
+  - Brillos radiales: solo quedan el del hero (arriba a la izquierda) y el de Contact (centro), como resplandor de inicio y cierre. No hay cuadrícula de fondo.
 - Viñetas de lista: cuadrito de acento de 6px con `::before`, no glifos (`▹`).
