@@ -14,7 +14,6 @@
     "contact": "Contact"
   },
   "about": {
-    "label": "About me",
     "heading": "Always delighted to learn something new.",
     "bio1": "I'm a Frontend Developer based in Mexico with 3 years of hands-on experience building web interfaces that are fast, clean, and actually pleasant to use.",
     "bio2": "Vue.js and Nuxt are my home turf, but I move comfortably across the JS ecosystem too — React, Next.js, TypeScript, you name it. And I don't stop at the browser: in Noob Draw, the whole game logic runs in Postgres SQL functions locked down with Row-Level Security. I obsess over clean code and components that actually make sense to whoever touches them next.",
@@ -29,7 +28,6 @@
     }
   },
   "stack": {
-    "label": "Tech stack",
     "heading": "Tools I work with",
     "sub": "The stuff I actually reach for when building things that need to work, scale, and not look like a template.",
     "categories": {
@@ -40,7 +38,6 @@
     "scroll": "Scroll to explore"
   },
   "experience": {
-    "label": "Experience",
     "heading": "Where I've worked (so far)",
     "sub": "Three years of shipping real products, breaking things in staging (not prod, mostly...), and learning what code actually needs to last.",
     "entries": [
@@ -84,7 +81,6 @@
     ]
   },
   "projects": {
-    "label": "Projects",
     "heading": "Things I've built",
     "sub": "A couple of things I've been building lately — more coming soon.",
     "viewProject": "View project",
@@ -109,7 +105,6 @@
     "screenshotAlt": "Screenshot of {title}"
   },
   "contact": {
-    "label": "Contact",
     "heading": "Need a developer? Let's talk.",
     "sub": "Frontend is my home turf, but I'm just as happy going full stack or backend. I'm open to full-time roles. Got one, a project, or just want to chat about something tech? Email is the fastest way to reach me.",
     "email": "angeldev2110{'@'}gmail.com",

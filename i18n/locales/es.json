@@ -14,7 +14,6 @@
     "contact": "Contacto"
   },
   "about": {
-    "label": "Sobre mí",
     "heading": "Siempre encantado de aprender algo nuevo.",
     "bio1": "Soy Desarrollador Frontend en México con 3 años de experiencia construyendo interfaces web rápidas, limpias y que se sienten bien de usar.",
     "bio2": "Vue.js y Nuxt son mi zona de confort, pero también me muevo bien en todo el ecosistema JS — React, Next.js, TypeScript, lo que se necesite. Y no me quedo en el navegador: en Noob Draw toda la lógica del juego vive en funciones SQL de Postgres protegidas con Row-Level Security. Me obsesiono con el código limpio y con componentes que le hagan sentido a quien los toque después.",
@@ -29,7 +28,6 @@
     }
   },
   "stack": {
-    "label": "Stack tecnológico",
     "heading": "Herramientas con las que trabajo",
     "sub": "Las herramientas a las que realmente recurro para construir cosas que funcionan, escalan y no se ven como una plantilla.",
     "categories": {
@@ -40,7 +38,6 @@
     "scroll": "Desplázate para explorar"
   },
   "experience": {
-    "label": "Experiencia",
     "heading": "Dónde he trabajado (hasta ahora)",
     "sub": "Tres años enviando productos reales, rompiendo cosas en staging (no en producción, casi nunca...) y aprendiendo qué necesita realmente el código para durar.",
     "entries": [
@@ -84,7 +81,6 @@
     ]
   },
   "projects": {
-    "label": "Proyectos",
     "heading": "Cosas que he construido",
     "sub": "Un par de cosas que he estado construyendo últimamente — vienen más.",
     "viewProject": "Ver proyecto",
@@ -109,7 +105,6 @@
     "screenshotAlt": "Captura de {title}"
   },
   "contact": {
-    "label": "Contacto",
     "heading": "¿Buscas un dev? Hablemos.",
     "sub": "El frontend es mi terreno, pero también trabajo con gusto en full stack o backend. Estoy disponible para puestos de tiempo completo. ¿Tienes una vacante, un proyecto o solo quieres hablar de algo tecnológico? El correo es la forma más rápida de encontrarme.",
     "email": "angeldev2110{'@'}gmail.com",

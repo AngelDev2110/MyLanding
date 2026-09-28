@@ -4,7 +4,6 @@
 
     <div class="contact__inner">
       <div class="contact__header">
-        <p class="section-label">{{ $t("contact.label") }}</p>
         <h2 class="section-heading">{{ $t("contact.heading") }}</h2>
         <p class="section-subheading">{{ $t("contact.sub") }}</p>
       </div>
@@ -184,15 +183,10 @@ async function handleCopy() {
 
   &__header
     margin-bottom: 48px
-    .section-label,
     .section-heading,
     .section-subheading
       margin-left: auto
       margin-right: auto
-    .section-label
-      justify-content: center
-      &::after
-        display: none
 
   &__email-wrap
     position: relative

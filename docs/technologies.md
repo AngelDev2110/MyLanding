@@ -17,7 +17,7 @@ Stack del proyecto, dónde se configura cada pieza y cómo se usa en el código.
 | Módulo | Versión | Uso |
 |---|---|---|
 | `@nuxtjs/i18n` | 10.2.3 (fija) | Locales `en` (default) y `es`, archivos en `i18n/locales/*.json`. Sin prefijo de ruta configurado explícitamente. Cambio de idioma con `setLocale()` en `TheNavbar`. Ver [content.md](./content.md). |
-| `@nuxt/fonts` | 0.14.0 (fija) | Carga Lora (400/600/700), Nunito (400–700) y JetBrains Mono (400/500/700). Variables en `app/assets/sass/variables.sass`. |
+| `@nuxt/fonts` | 0.14.0 (fija) | Carga Fraunces (600/700/800, solo normal, con eje variable `opsz` vía `providerOptions.google.experimental.variableAxis`), Nunito (400–700) y JetBrains Mono (400/500/700). Variables en `app/assets/sass/variables.sass`. |
 
 ## Librerías
 

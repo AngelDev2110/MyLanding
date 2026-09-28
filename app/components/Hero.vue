@@ -8,11 +8,18 @@
         <div class="hero__left">
           <Transition name="hero-switch" mode="out-in">
             <div v-if="showIntro" key="intro" class="hero__intro">
-              <AppearingText
-                component="h1"
-                :text="$t('myName')"
-                class="hero__name"
-              />
+              <h1 class="hero__name">
+                <AppearingText
+                  component="span"
+                  :text="nameLines.first"
+                  class="hero__name-line"
+                />{{ " " }}<AppearingText
+                  component="span"
+                  :text="nameLines.rest"
+                  class="hero__name-line"
+                  :delay="0.1"
+                />
+              </h1>
               <AppearingText
                 component="h2"
                 :text="$t('myRole')"
@@ -126,8 +133,14 @@
 
 // Composition API Helpers
 const { scrollY } = useInjectWindowScroll();
+const { t } = useI18n();
 
 // Computed
+const nameLines = computed(() => {
+  const [first = "", ...rest] = t("myName").split(" ");
+  return { first, rest: rest.join(" ") };
+});
+
 const showIntro = computed(
   () =>
     (scrollY?.value ?? 0) <
@@ -195,24 +208,36 @@ function scrollToSection(selector: string) {
 
 .hero__intro
   .hero__name
-    font-family: $font-lora
-    font-size: clamp(2.5rem, 6vw, 4rem)
-    margin: 0 0 8px
-    font-weight: 700
+    font-family: $font-display
+    font-size: clamp(2.75rem, 13.5vw, 6rem)
+    font-weight: 800
+    // Without word-spacing the tight tracking fuses "De La Torre"; line-height 1 clears the "g" descender
+    line-height: 1
+    letter-spacing: -0.025em
+    word-spacing: 0.06em
+    margin: 0 0 20px
     color: $white
+    @media (min-width: $bp-lg)
+      font-size: clamp(5rem, 7vw, 7.5rem)
+      margin-bottom: 24px
+
+  .hero__name-line
+    display: block
 
   .hero__role
-    font-family: $font-lora
-    font-size: clamp(1.1rem, 3vw, 1.5rem)
+    font-family: $font-display
+    font-size: clamp(1.25rem, 2.4vw, 1.75rem)
+    font-weight: 600
+    letter-spacing: -0.01em
     margin: 0
     color: $accent
 
 .hero__tagline
   font-family: $font-nunito
-  font-size: clamp(0.9rem, 2vw, 1.05rem)
+  font-size: clamp(1rem, 1.3vw, 1.125rem)
   color: $text-muted
-  margin: 16px 0 0
-  max-width: 420px
+  margin: 14px 0 0
+  max-width: 44ch
   line-height: 1.6
   animation-fill-mode: both
 
@@ -362,7 +387,7 @@ function scrollToSection(selector: string) {
   color: $white
 
 .hero__terminal-comment
-  font-family: $font-lora
+  font-family: $font-display
   font-size: clamp(1.2rem, 2.5vw, 1.55rem)
   color: $white
   line-height: 1.55
@@ -416,11 +441,13 @@ function scrollToSection(selector: string) {
   pointer-events: none
 
 .hero__scroll-indicator
+  display: none
+  @media (min-width: $bp-md)
+    display: flex
   position: fixed
   bottom: 40px
   left: 50%
   transform: translateX(-50%)
-  display: flex
   flex-direction: column
   align-items: center
   gap: 8px

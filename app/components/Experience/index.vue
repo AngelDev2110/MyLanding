@@ -1,7 +1,6 @@
 <template>
   <section id="experience" class="experience">
     <div class="experience__intro">
-      <p class="section-label">{{ $t("experience.label") }}</p>
       <h2 class="section-heading">{{ $t("experience.heading") }}</h2>
       <p class="section-subheading">{{ $t("experience.sub") }}</p>
     </div>

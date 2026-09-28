@@ -34,7 +34,15 @@ export default defineNuxtConfig({
 
   fonts: {
     families: [
-      { name: "Lora", weights: [400, 600, 700] },
+      {
+        name: "Fraunces",
+        weights: [600, 700, 800],
+        styles: ["normal"],
+        // opsz axis isn't requested by default; without it large sizes lose Fraunces' display cut
+        providerOptions: {
+          google: { experimental: { variableAxis: { opsz: [["9", "144"]] } } },
+        },
+      },
       { name: "Nunito", weights: [400, 500, 600, 700] },
       { name: "JetBrains Mono", weights: [400, 500, 700] },
     ],

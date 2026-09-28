@@ -111,7 +111,7 @@ const props = defineProps<Props>();
     flex: 1
 
   &__title
-    font-family: $font-lora
+    font-family: $font-display
     font-size: 1.25rem
     color: $white
     margin: 0 0 10px

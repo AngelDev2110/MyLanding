@@ -138,7 +138,7 @@ const side = computed(() => (props.index % 2 === 0 ? "left" : "right"));
     margin-bottom: 6px
 
   &__role
-    font-family: $font-lora
+    font-family: $font-display
     font-size: 1.25rem
     color: $white
     margin: 0

@@ -115,7 +115,7 @@ const props = defineProps<Props>();
     transition: color $transition-fast
 
   &__username
-    font-family: $font-lora
+    font-family: $font-display
     font-size: 1.1rem
     color: $white
     font-weight: 600

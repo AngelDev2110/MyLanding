@@ -8,7 +8,6 @@
           threshold: 0.2,
         }"
       >
-        <p class="section-label">{{ $t("about.label") }}</p>
         <h2 class="section-heading">{{ $t("about.heading") }}</h2>
 
         <div class="about__bio">

@@ -14,7 +14,6 @@
 
       <div class="tech-stack-pin">
         <div class="tech-stack__header">
-          <p class="section-label">{{ $t("stack.label") }}</p>
           <h2 class="section-heading">{{ $t("stack.heading") }}</h2>
           <p class="section-subheading">{{ $t("stack.sub") }}</p>
           <p class="tech-stack__scroll-hint">
@@ -57,7 +56,6 @@
     </div>
 
     <section class="tech-stack-mobile">
-      <p class="section-label">{{ $t("stack.label") }}</p>
       <h2 class="section-heading">{{ $t("stack.heading") }}</h2>
       <p class="section-subheading">{{ $t("stack.sub") }}</p>
       <div
@@ -226,7 +224,7 @@ onUnmounted(() => {
   padding-right: 100px
 
 .tech-stack__slide-title
-  font-family: $font-lora
+  font-family: $font-display
   font-size: clamp(1.4rem, 2.5vw, 2rem)
   color: $white
   margin: 0 0 32px
@@ -276,7 +274,7 @@ onUnmounted(() => {
     margin-top: 48px
 
   &__group-title
-    font-family: $font-lora
+    font-family: $font-display
     font-size: 1.4rem
     color: $white
     margin: 0 0 24px

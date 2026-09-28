@@ -8,7 +8,7 @@ Todo el texto visible vive en `i18n/locales/en.json` (default) y `i18n/locales/e
 |---|---|---|
 | Globales / Hero | `myName`, `myRole`, `tagline`, `funnyQuote`, `terminalCmd`, `yearsExp`, `openToWork`, `hero.{ctaProjects,availability,scroll,photoAlt}` | Foto `public/img/me.jpeg` (también es la `og:image`) |
 | Navbar | `nav.*` (una key por sección) | `navLinks` en `TheNavbar/index.vue` |
-| About | `about.label/heading/bio1-3`, `about.chipRole`, `about.chipLocation`, `about.traits.*` | `TRAITS` en `AboutMe/constants.ts` (lista de keys), foto `meFormal.jpeg` |
+| About | `about.heading/bio1-3`, `about.chipRole`, `about.chipLocation`, `about.traits.*` | `TRAITS` en `AboutMe/constants.ts` (lista de keys), foto `meFormal.jpeg` |
 | Tech stack | `stack.*`, `stack.categories.{frameworks,languages,tools}` | `TECH_LIST` y `CATEGORIES` en `TechStack/constants.ts` (nombre, icono, categoría) |
 | Experience | `experience.entries[]` → `role`, `period`, `type`, `highlights[]`, `tags[]` | — (todo en i18n) |
 | Projects | `projects.entries[]` → `title`, `description`, `tags[]` | `PROJECT_LINKS` en `Projects/constants.ts` (`link`, `image`) |
