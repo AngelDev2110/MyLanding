@@ -1,5 +1,9 @@
 @use 'animate.css'
 
+:root
+  // Exposed for JS-driven inline styles (e.g. TechCard glow)
+  --accent: #{$accent}
+
 *
   box-sizing: border-box
 
@@ -66,3 +70,32 @@ section
 
 .accent
   color: $accent
+
+.sr-only
+  position: absolute
+  width: 1px
+  height: 1px
+  padding: 0
+  margin: -1px
+  overflow: hidden
+  clip: rect(0, 0, 0, 0)
+  white-space: nowrap
+  border: 0
+// Keyboard focus: one consistent ring in the accent color
+:focus-visible
+  outline: 2px solid $accent
+  outline-offset: 3px
+
+// Respect the OS "reduce motion" setting: entrance animations resolve
+// instantly, looping pulses stop, and anchor scrolling jumps.
+@media (prefers-reduced-motion: reduce)
+  html
+    scroll-behavior: auto
+
+  *,
+  *::before,
+  *::after
+    animation-duration: 0.01ms !important
+    animation-delay: 0s !important
+    animation-iteration-count: 1 !important
+    transition-duration: 0.01ms !important

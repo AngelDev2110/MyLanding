@@ -3,6 +3,13 @@ export default defineNuxtPlugin((nuxtApp) => {
     mounted(el, binding) {
       const { enterClass, threshold = 0.5, once = true } = binding.value || {};
 
+      // Never hide content that may never be revealed: skip the entrance when
+      // the browser lacks IntersectionObserver or the user reduces motion.
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      if (!("IntersectionObserver" in window) || reduceMotion) return;
+
       if (enterClass) {
         el.style.opacity = "0";
       }
