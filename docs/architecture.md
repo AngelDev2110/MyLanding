@@ -12,7 +12,7 @@ Cada sección es un elemento con `id` (`hero`, `about`, `stack`, `experience`, `
 
 - `useScrollProvider()` se llama una sola vez en `app.vue`: escucha `window.scroll` y hace `provide("scrollY", readonly(ref))`.
 - Los componentes lo consumen con `useInjectWindowScroll()` (devuelve `{ scrollY }`, posiblemente `undefined` → usar `scrollY?.value ?? 0`).
-- Usuarios: `Hero` (alterna intro ↔ terminal cuando `scrollY > innerHeight * 0.4`) y `TheNavbar` (fondo con blur cuando `scrollY > 60`).
+- Usuarios: `Hero` (escena intro → terminal ligada al scroll, ver abajo) y `TheNavbar` (fondo con blur cuando `scrollY > 60`).
 - No usar `useScroll`/`useWindowScroll` de VueUse para esto; se reemplazó a propósito por este patrón (commit `1626f82`).
 
 ## Animaciones de entrada: directiva `v-intersect`
@@ -29,7 +29,14 @@ Definida en `app/plugins/intersect.ts` (plugin global). Uso:
 
 ## Secciones con comportamiento no obvio
 
-- **Hero**: el `<section>` mide `220vh` y el panel interno es `position: sticky` de `100vh`; el scroll dentro de esa altura dispara el cambio a la vista “terminal” (con `<Transition mode="out-in">`). La foto y el indicador de scroll se ocultan en ese estado.
+- **Hero** (escena ligada al scroll): el `<section>` mide `300vh` (`HERO_HEIGHT_VH`, debe coincidir con el CSS) y el panel interno es `position: sticky` de `100vh`, lo que deja 2vh de scroll para la escena. Intro y terminal están **siempre en el DOM**; el scroll (en unidades de `innerHeight`, rangos en `RANGES` dentro de `Hero.vue`) calcula progresos 0→1 que se aplican con las variables CSS `--intro-out` y `--terminal-in` y con estilos inline:
+  - 0.25–0.4: la intro se desvanece y sube. En 0.4 (`SWITCH_AT`) el estado activo cambia: el oculto queda `inert` y sin `pointer-events`.
+  - 0.22–0.55 (solo desktop con movimiento): la foto viaja y se encoge (FLIP con `transform` + `clip-path` de rectángulo a círculo) hasta el avatar de la barra de la terminal; al llegar, la reemplaza el `<img>` del avatar.
+  - 0.35–0.5: la ventana de la terminal se abre con `clip-path`.
+  - 0.55–1.8: los comandos se tipean según el scroll (1.8–2.0 es una pausa con la terminal completa antes de salir); cada salida aparece completa tras una pausa (`OUTPUT_WEIGHT`) y el cursor espera al final del comando.
+  - Cada comando lleva el texto completo transparente (`.hero__type-ghost`, lo leen lectores de pantalla y se puede seleccionar) y encima la parte tipeada (`aria-hidden`), así la terminal no cambia de tamaño mientras se escribe.
+  - Con `prefers-reduced-motion`: sin viaje de foto ni tipeo; en 0.4 se pasa directo a la terminal completa. En móvil (< 1024px) no hay foto: el avatar aparece fijo y solo hay tipeo.
+  - Las posiciones de foto y avatar se miden en `onMounted`, en `resize` y tras cargar las fuentes.
 - **TechStack**: dos marcados distintos en el mismo componente. Desktop (≥1024px, `gsap.matchMedia()` en `onMounted`, que construye/revierte el pin al cruzar el breakpoint; distancias como funciones con `invalidateOnRefresh` para soportar resize) usa GSAP ScrollTrigger con `pin` + `scrub` para desplazar horizontalmente un slide por categoría, con barra de progreso y dots. Mobile usa `.tech-stack-mobile` como grid vertical. El breakpoint está hardcodeado en JS (`1024px`) y debe coincidir con `$bp-lg`. El wrapper es `<div id="stack">`, no `<section>`.
 - **Experience**: timeline alternando izquierda/derecha según `index % 2`; la línea se “llena” con `useIntersectionObserver`.
 - **Contact**: el email se renderiza desde i18n (`contact.email`) pero se copia/enlaza desde la constante `EMAIL` en `Contact/index.vue` — mantener ambos sincronizados.

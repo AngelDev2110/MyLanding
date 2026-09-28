@@ -1,6 +1,6 @@
 # Plan: presentación visual más impactante
 
-Estado: **en curso** (3 ✅, 7 ✅) · Creado: 2026-09-27
+Estado: **en curso** (3 ✅, 7 ✅, 2 ✅) · Creado: 2026-09-27
 
 Quiero incorporar estos cinco cambios para que la landing tenga momentos memorables y deje de verse como plantilla. Van en el orden de ejecución recomendado; cada uno se puede entregar y revisar por separado.
 
@@ -8,7 +8,7 @@ Quiero incorporar estos cinco cambios para que la landing tenga momentos memorab
 |---|---|---|---|---|
 | 3 | Nombre como tipografía de exhibición ✅ | Alto | Bajo | `/impeccable typeset` |
 | 7 | Imagen og propia para LinkedIn/Slack ✅ | Alto | Bajo | trabajo directo |
-| 2 | Transición del hero como escena | Alto | Medio | `/impeccable animate hero` |
+| 2 | Transición del hero como escena ✅ | Alto | Medio | `/impeccable animate hero` |
 | 5 | Textura propia: fósforo ámbar CRT | Medio | Bajo | `/impeccable bolder` |
 | 6 | Final memorable en Contacto | Medio | Medio | `/impeccable delight contact` |
 
@@ -89,6 +89,8 @@ Quiero incorporar estos cinco cambios para que la landing tenga momentos memorab
 - Sin saltos al recargar a mitad de scroll.
 - El texto de la terminal sigue siendo seleccionable y legible para lectores de pantalla (el contenido completo está en el DOM; el tipeo es solo visual).
 - 60 fps en desktop, sin cambios de layout.
+
+**Hecho (2026-09-27):** intro y terminal siempre en el DOM, movidos por progreso de scroll (sin `<Transition>`). La foto viaja por FLIP (`transform` + `clip-path`) hasta el avatar de la barra; la ventana se abre con `clip-path`; los comandos se tipean con el scroll y las salidas aparecen tras una pausa, con el cursor esperando. Terminal centrada. Ajuste posterior: el hero pasó de 220vh a 300vh para que el tipeo dure más (0.55–1.8vh de scroll) y la terminal completa se quede un momento antes de salir. Verificado: la altura de la terminal no cambia durante el tipeo (sin cambios de layout), el estado se restaura correcto al recargar a mitad de scroll, movimiento reducido muestra la terminal completa al instante, y hay capturas en 1440 y 375px. No medí los fps con profiler: solo se anima `transform`, `opacity` y `clip-path`.
 
 ---
 
