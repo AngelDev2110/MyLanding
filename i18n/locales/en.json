@@ -31,11 +31,12 @@
     "heading": "Tools I work with",
     "sub": "The stuff I actually reach for when building things that need to work, scale, and not look like a template.",
     "categories": {
-      "frameworks": "Frameworks & Libraries",
-      "languages": "Languages",
-      "tools": "Tools & Workflow"
-    },
-    "scroll": "Scroll to explore"
+      "frameworks": "frameworks",
+      "styling": "styling",
+      "languages": "languages",
+      "backend": "backend",
+      "workflow": "workflow"
+    }
   },
   "experience": {
     "heading": "Where I've worked (so far)",

@@ -1,90 +1,77 @@
 <template>
-  <div id="stack">
-    <div ref="wrapperRef" class="tech-stack-wrapper">
-      <div
-        v-show="isPinned"
-        class="tech-stack-progress"
-        aria-hidden="true"
-      >
-        <div
-          class="tech-stack-progress__bar"
-          :style="{ width: `${progress * 100}%` }"
-        />
-      </div>
-
-      <div class="tech-stack-pin">
-        <div class="tech-stack__header">
-          <h2 class="section-heading">{{ $t("stack.heading") }}</h2>
-          <p class="section-subheading">{{ $t("stack.sub") }}</p>
-          <p class="tech-stack__scroll-hint">
-            <span class="tech-stack__scroll-hint-arrow">
-              <AppIcon name="arrow-down" :size="14" />
-            </span>
-            {{ $t("stack.scroll") }}
-          </p>
-        </div>
-
-        <div ref="trackRef" class="tech-stack__track">
-          <div
-            v-for="category in CATEGORIES"
-            :key="category"
-            class="tech-stack__slide"
-          >
-            <h3 class="tech-stack__slide-title">
-              {{ $t(`stack.categories.${category}`) }}
-            </h3>
-            <div class="tech-stack__cards">
-              <TechCard
-                v-for="tech in techByCategory[category]"
-                :key="tech.title"
-                :title="tech.title"
-                :src="tech.src"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div class="tech-stack__dots" aria-hidden="true">
-          <div
-            v-for="(cat, i) in CATEGORIES"
-            :key="cat"
-            class="tech-stack__dot"
-            :class="{ 'tech-stack__dot--active': activeSlide === i }"
-          />
-        </div>
-      </div>
-    </div>
-
-    <section class="tech-stack-mobile">
+  <section id="stack" class="stack">
+    <div class="stack__intro">
       <h2 class="section-heading">{{ $t("stack.heading") }}</h2>
       <p class="section-subheading">{{ $t("stack.sub") }}</p>
-      <div
-        v-for="category in CATEGORIES"
-        :key="category"
-        class="tech-stack-mobile__group"
-      >
-        <h3 class="tech-stack-mobile__group-title">
-          {{ $t(`stack.categories.${category}`) }}
-        </h3>
-        <div class="tech-stack-mobile__cards">
-          <TechCard
-            v-for="tech in techByCategory[category]"
-            :key="tech.title"
-            :title="tech.title"
-            :src="tech.src"
-          />
+    </div>
+
+    <div
+      class="stack__terminal-wrap animate__animated"
+      v-intersect="{ enterClass: 'animate__fadeInUp', threshold: 0.1 }"
+    >
+      <TerminalWindow title="angel@dev: ~/stack">
+        <p class="terminal__line">
+          <span class="terminal__prompt">$</span>
+          <span class="terminal__cmd">cat package.json</span>
+        </p>
+        <div class="stack__json">
+          <span class="stack__punct" aria-hidden="true">{</span>
+          <dl class="stack__groups">
+            <div
+              v-for="(category, index) in CATEGORIES"
+              :key="category"
+              class="stack__group"
+            >
+              <dt class="stack__key">
+                <span aria-hidden="true">"</span
+                >{{ $t(`stack.categories.${category}`)
+                }}<span aria-hidden="true">":</span>
+              </dt>
+              <dd class="stack__value">
+                <span class="stack__punct stack__bracket" aria-hidden="true"
+                  >[</span
+                >
+                <ul class="stack__list">
+                  <li
+                    v-for="(tech, i) in techByCategory[category]"
+                    :key="tech.title"
+                    class="stack__item"
+                  >
+                    <img
+                      :src="`/img/${tech.src}`"
+                      alt=""
+                      width="18"
+                      height="18"
+                      class="stack__logo"
+                    />
+                    <span
+                      >{{ tech.title
+                      }}<span
+                        v-if="i < techByCategory[category].length - 1"
+                        class="stack__punct"
+                        aria-hidden="true"
+                        >,</span
+                      ></span
+                    >
+                  </li>
+                </ul>
+                <span class="stack__punct stack__bracket" aria-hidden="true"
+                  >]{{ index < CATEGORIES.length - 1 ? "," : "" }}</span
+                >
+              </dd>
+            </div>
+          </dl>
+          <span class="stack__punct" aria-hidden="true">}</span>
         </div>
-      </div>
-    </section>
-  </div>
+      </TerminalWindow>
+    </div>
+  </section>
 </template>
 
 <script lang="ts" setup>
 // Imports
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
 import { TECH_LIST, CATEGORIES } from "./constants";
-import type { TechCategory } from "./constants";
+import type { Tech, TechCategory } from "./constants";
 
 // Component Options
 
@@ -93,12 +80,6 @@ import type { TechCategory } from "./constants";
 // Composition API Helpers
 
 // Reactive Variables
-const wrapperRef = ref<HTMLElement | null>(null);
-const trackRef = ref<HTMLElement | null>(null);
-const progress = ref(0);
-const activeSlide = ref(0);
-const isPinned = ref(false);
-let mm: gsap.MatchMedia | null = null;
 
 // Computed Properties
 const techByCategory = computed(() =>
@@ -107,189 +88,97 @@ const techByCategory = computed(() =>
       acc[cat] = TECH_LIST.filter((t) => t.category === cat);
       return acc;
     },
-    {} as Record<TechCategory, typeof TECH_LIST>,
+    {} as Record<TechCategory, Tech[]>,
   ),
 );
 
 // Watchers
 
 // Lifecycle Hooks
-onMounted(() => {
-  const track = trackRef.value;
-  const wrapper = wrapperRef.value;
-  if (!track || !wrapper) return;
 
-  gsap.registerPlugin(ScrollTrigger);
-
-  mm = gsap.matchMedia();
-  mm.add("(min-width: 1024px)", () => {
-    const totalSlides = CATEGORIES.length;
-    const scrollDistance = () => window.innerWidth * (totalSlides - 1);
-
-    gsap.to(track, {
-      x: () => -scrollDistance(),
-      ease: "none",
-      scrollTrigger: {
-        trigger: wrapper,
-        start: "top top",
-        end: () => `+=${scrollDistance()}`,
-        scrub: 1,
-        pin: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onToggle: (self) => {
-          isPinned.value = self.isActive;
-        },
-        onUpdate: (self) => {
-          progress.value = self.progress;
-          activeSlide.value = Math.round(self.progress * (totalSlides - 1));
-        },
-      },
-    });
-
-    return () => {
-      isPinned.value = false;
-    };
-  });
-});
-
-onUnmounted(() => {
-  mm?.revert();
-});
+// Methods
 </script>
 
 <style lang="sass" scoped>
-.tech-stack-wrapper
-  position: relative
+.stack
   background: $dark-navy
-  display: none
-  @media (min-width: $bp-lg)
-    display: block
 
-.tech-stack-progress
-  position: fixed
-  top: 68px
-  left: 0
-  right: 0
-  height: 2px
-  background: $border
-  z-index: $z-navbar - 1
-  &__bar
-    height: 100%
-    background: $accent
-
-.tech-stack-pin
-  width: 100vw
-  height: 100vh
-  overflow: hidden
-  position: relative
-  display: flex
-  flex-direction: column
-  padding: 80px 100px 40px
-
-.tech-stack__header
-  flex-shrink: 0
-  margin-bottom: 48px
+.stack__intro
+  max-width: 880px
+  margin: 0 auto 40px
   .section-heading
     margin-bottom: 10px
   .section-subheading
     margin-bottom: 0
 
-.tech-stack__scroll-hint
-  display: flex
-  align-items: center
-  gap: 8px
-  margin-top: 16px
+.stack__terminal-wrap
+  max-width: 880px
+  margin: 0 auto
+  animation-fill-mode: both
+
+.stack__json
   font-family: $font-mono
-  font-size: 0.75rem
-  color: $text-muted
-  letter-spacing: 0.08em
-
-  &-arrow
-    display: inline-flex
-    animation: arrowDown 1.5s ease infinite
-
-.tech-stack__track
-  display: flex
-  align-items: flex-start
-  flex: 1
-
-.tech-stack__slide
-  width: 100vw
-  flex-shrink: 0
-  padding-right: 100px
-
-.tech-stack__slide-title
-  font-family: $font-display
-  font-size: clamp(1.4rem, 2.5vw, 2rem)
+  font-size: 0.9rem
+  line-height: 1.6
   color: $white
-  margin: 0 0 32px
-  position: relative
-  &::after
-    content: ''
-    display: block
-    width: 40px
-    height: 2px
-    background: $accent
-    margin-top: 10px
 
-.tech-stack__cards
+.stack__punct
+  color: $gray-600
+
+// On narrow screens the arrays wrap; lone "[" / "]" lines would only add noise
+.stack__bracket
+  display: none
+  @media (min-width: $bp-md)
+    display: inline
+
+.stack__groups
+  margin: 4px 0
+  padding-left: 2ch
+  display: grid
+  gap: 14px
+  @media (min-width: $bp-md)
+    grid-template-columns: max-content 1fr
+    gap: 10px 2ch
+
+// Each row is key + value; on md+ the rows share the grid columns so the arrays align
+.stack__group
+  @media (min-width: $bp-md)
+    display: contents
+
+.stack__key
+  color: $accent
+  text-shadow: 0 0 8px rgba($accent, 0.45)
+  white-space: nowrap
+
+.stack__value
+  margin: 2px 0 0
+  padding-left: 2ch
   display: flex
   flex-wrap: wrap
-  gap: 16px
+  align-items: baseline
+  gap: 6px 10px
+  @media (min-width: $bp-md)
+    margin: 0
+    padding-left: 0
 
-.tech-stack__dots
+.stack__list
   display: flex
-  justify-content: center
-  gap: 10px
-  padding-top: 20px
-  flex-shrink: 0
-
-.tech-stack__dot
-  width: 8px
-  height: 8px
-  border-radius: 50%
-  background: $border
-  border: none
-  transition: all $transition-fast
+  flex-wrap: wrap
+  align-items: baseline
+  gap: 6px 10px
+  margin: 0
   padding: 0
-  &--active
-    background: $accent
-    transform: scale(1.3)
+  list-style: none
 
-.tech-stack-mobile
-  background: $dark-navy
-  display: block
-  @media (min-width: $bp-lg)
-    display: none
+.stack__item
+  display: inline-flex
+  align-items: center
+  gap: 8px
+  white-space: nowrap
 
-  .section-heading
-    margin-bottom: 10px
-
-  &__group
-    margin-top: 48px
-
-  &__group-title
-    font-family: $font-display
-    font-size: 1.4rem
-    color: $white
-    margin: 0 0 24px
-    &::after
-      content: ''
-      display: block
-      width: 32px
-      height: 2px
-      background: $accent
-      margin-top: 8px
-
-  &__cards
-    display: flex
-    flex-wrap: wrap
-    gap: 14px
-
-@keyframes arrowDown
-  0%, 100%
-    transform: translateY(0)
-  50%
-    transform: translateY(4px)
+.stack__logo
+  width: 18px
+  height: 18px
+  object-fit: contain
+  flex-shrink: 0
 </style>

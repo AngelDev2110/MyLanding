@@ -27,7 +27,7 @@ Usar en los encabezados de cada sección para mantener consistencia:
 - Tipografía: Fraunces (variable, eje óptico `opsz`) para títulos y display, Nunito para cuerpo, JetBrains Mono para labels/UI “de código”.
 - Nombre del hero: dos líneas deliberadas (nombre / apellidos, calculadas en `Hero.vue` desde `myName`), Fraunces 800, `clamp(2.75rem, 13.5vw, 6rem)` y en desktop `clamp(5rem, 7vw, 7.5rem)`; `letter-spacing: -0.025em` + `word-spacing: 0.06em` (sin eso "De La Torre" se funde) y `line-height: 1` (libra el descendente de la "g").
 - Solo tema oscuro; `theme-color` en meta es `#0d1116`.
-- No usar colores literales: transparencias como `rgba($accent, 0.2)` / `rgba($dark-navy, 0.85)`. Para estilos inline generados por JS usar la custom property `--accent` (definida en `:root` en `main.sass`), p. ej. `color-mix(in oklch, var(--accent) 15%, transparent)`.
+- No usar colores literales: transparencias como `rgba($accent, 0.2)` / `rgba($dark-navy, 0.85)`. Si algún día un estilo inline generado por JS necesita el acento, exponerlo como custom property en `:root` de `main.sass` (hoy no hay ninguno).
 - Todas las combinaciones de texto pasan WCAG AA (acento 10.3:1, `$text-muted` 9.2:1, `$gray-600` 6.8:1 sobre el fondo). `$gray-700` (2.9:1) solo para separadores/decoración.
 - Textura "fósforo ámbar CRT":
   - Grano: `body::after` en `main.sass`, capa fija a pantalla completa con ruido SVG `feTurbulence` en mosaico (160px, contraste subido con `feComponentTransfer` para que haya puntos claros y oscuros reales) al 5.5% de opacidad, `z-index: 50` (debajo del navbar) y `pointer-events: none`. Es estático, nunca se anima.

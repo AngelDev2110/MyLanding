@@ -31,11 +31,12 @@
     "heading": "Herramientas con las que trabajo",
     "sub": "Las herramientas a las que realmente recurro para construir cosas que funcionan, escalan y no se ven como una plantilla.",
     "categories": {
-      "frameworks": "Frameworks y Librerías",
-      "languages": "Lenguajes",
-      "tools": "Herramientas y Flujo de trabajo"
-    },
-    "scroll": "Desplázate para explorar"
+      "frameworks": "frameworks",
+      "styling": "estilos",
+      "languages": "lenguajes",
+      "backend": "backend",
+      "workflow": "flujo"
+    }
   },
   "experience": {
     "heading": "Dónde he trabajado (hasta ahora)",
