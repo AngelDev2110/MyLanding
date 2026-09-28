@@ -40,6 +40,7 @@ Mantén estos archivos actualizados cuando cambies algo que documentan.
 - Proyectos: `projects.entries` (i18n) y `PROJECT_LINKS` (constants) se emparejan **por índice**.
 - `colors.sass` y `variables.sass` se inyectan automáticamente; no importarlos en componentes.
 - Scroll compartido vía `useInjectWindowScroll()` (provisto en `app.vue`), no con VueUse.
+- **TechStack conserva siempre el scroll horizontal fijado con GSAP en desktop** (`less package.json`). Decisión del dueño: no quitarlo ni volverlo estático, aunque un critique lo marque como scroll secuestrado. Ver `docs/architecture.md`.
 - Props tipadas en un `<Componente>.d.ts` hermano; datos estáticos en `constants.ts` de la carpeta del componente.
 - Respetar la plantilla de comentarios del `<script setup>` (`// Imports`, `// Component Options`, …, `// Methods`).
 - Fuera de esa plantilla, **no comentar el código** salvo que explique algo no deducible de leerlo (un porqué, workaround o número mágico).
