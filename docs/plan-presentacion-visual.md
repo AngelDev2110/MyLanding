@@ -1,145 +1,166 @@
-# Plan: presentación visual más impactante
+# Plan: la terminal de punta a punta
 
-Estado: **completado** (3 ✅, 7 ✅, 2 ✅, 5 ✅, 6 ✅) · Creado: 2026-09-27
+Estado: **pendiente** · Creado: 2026-09-27 · Origen: critique del 2026-09-28 (22/32; snapshot en `.impeccable/critique/2026-09-28T05-09-10Z__app-app-vue.md`)
 
-Quiero incorporar estos cinco cambios para que la landing tenga momentos memorables y deje de verse como plantilla. Van en el orden de ejecución recomendado; cada uno se puede entregar y revisar por separado.
+La ronda anterior (nombre de exhibición, imagen og, escena del hero, textura CRT, cierre en Contacto) dejó los extremos de la página con identidad propia. El centro todavía parece plantilla, y es donde más se gasta el scroll. Esta ronda lleva la terminal ámbar por toda la página, deja de secuestrar el scroll y limpia el copy. Los pasos van en el orden de ejecución; 1–3 rehacen el centro de la página y conviene hacerlos juntos para que quede coherente.
 
-| # | Cambio | Impacto | Costo | Comando sugerido |
-|---|---|---|---|---|
-| 3 | Nombre como tipografía de exhibición ✅ | Alto | Bajo | `/impeccable typeset` |
-| 7 | Imagen og propia para LinkedIn/Slack ✅ | Alto | Bajo | trabajo directo |
-| 2 | Transición del hero como escena ✅ | Alto | Medio | `/impeccable animate hero` |
-| 5 | Textura propia: fósforo ámbar CRT ✅ | Medio | Bajo | `/impeccable bolder` |
-| 6 | Final memorable en Contacto ✅ | Medio | Medio | `/impeccable delight contact` |
+| # | Cambio | Prioridad | Comando sugerido |
+|---|---|---|---|
+| 1 | Escena del hero más corta y solo en desktop ✅ | P1 | `/impeccable distill` + `adapt` |
+| 2 | TechStack estático como `package.json` | P1 | `/impeccable distill` + `harden` |
+| 3 | La terminal atraviesa el centro | P2 | `/impeccable bolder` |
+| 4 | Quitar los recursos de plantilla | P2 | `/impeccable quieter` |
+| 5 | Cerrar en la terminal, sin diluir | P2 | `/impeccable distill` |
+| 6 | Copy sin repeticiones y con pruebas | P2 | `/impeccable clarify` |
+| 7 | Accesibilidad e i18n | P3 | `/impeccable harden` |
+| 8 | Pasada final | — | `/impeccable polish` |
 
 ## Restricciones que aplican a todo
 
-- **El recruiter primero.** Ninguna animación puede retrasar el acceso a nombre, rol, disponibilidad y contacto (principio 2 de `PRODUCT.md`).
-- **Conservar** el cambio intro → terminal del hero y el scroll horizontal fijado del TechStack.
-- **Movimiento reducido:** todo lo nuevo se resuelve al instante con `prefers-reduced-motion: reduce` (bloque global en `main.sass` + comprobación en JS cuando aplique).
+- **El recruiter primero.** Nombre, rol, disponibilidad y contacto no pueden quedar detrás de una animación (principio 2 de `PRODUCT.md`).
+- **Nada de scroll secuestrado fuera de desktop.** Lo que se fije o se ligue al scroll corre solo con `(min-width: 1024px) and (prefers-reduced-motion: no-preference)`; en otro caso se muestra estático.
+- **Movimiento reducido:** el bloque global de `main.sass` no alcanza a GSAP ni a los estilos inline; cada efecto en JS comprueba la media query.
 - **i18n:** todo texto nuevo va en `en.json` y `es.json` con las mismas keys.
-- **Paleta:** usar solo los tokens de `colors.sass` (acento cempasúchil `#fab048`); nada de colores literales. Contraste AA en todo texto.
-- **Voz:** casual, con humor de developer; ya es un compromiso de marca.
-- **Docs:** actualizar `docs/` en cada cambio (en especial `architecture.md` y `styling.md`).
-- **Verificación:** build de producción + capturas headless en 1440px, 375px y 320px, en inglés y en español, antes de dar cada cambio por terminado.
+- **Paleta:** solo tokens de `colors.sass`; nada de colores literales. Contraste AA en todo texto.
+- **No inventar:** sin nombres de empleadores, métricas ni testimonios (`PRODUCT.md`, *Evidence on Hand*).
+- **Voz:** casual, con humor de developer, pero que un recruiter no-dev entienda cada comando por su salida.
+- **Docs:** actualizar `docs/` en cada cambio (en especial `architecture.md`, `styling.md` y `content.md`).
+- **Verificación:** build de producción + capturas headless en 1440, 1024, 768, 375 y 320px, en inglés y en español, antes de dar cada cambio por terminado.
 
 ---
 
-## 3. Nombre como tipografía de exhibición
+## 1. Escena del hero más corta y solo en desktop
 
-**Problema:** en desktop "Angel De La Torre" va a unos 4rem, con mucho espacio muerto a la derecha y abajo. El hero se siente como formulario, no como portada.
+**Problema:** `.hero` mide `300vh` sin media query (`Hero.vue:345`). En móvil y con movimiento reducido eso son 2 pantallas de scroll muerto; en móvil tampoco hay foto y la barra de URL de iOS hace saltar la escena. Además la terminal imprime nombre y rol, lo mismo que el h1.
 
 **Qué hacer**
-- Subir el nombre a ~7–8rem en desktop (`clamp()` fluido), con interletrado más cerrado (no menos de `-0.04em`) y un peso más fuerte.
-- Decidir el tipo de letra: un corte más pesado de Lora (ya cargada) o una fuente de exhibición propia servida por `@nuxt/fonts`.
-- Rehacer la escala tipográfica del hero: nombre → rol → tagline, con saltos claros de tamaño y peso.
-- Quitar las etiquetas de sección ("PROYECTOS ——", "CONTACTO", etc.) en todas las secciones para que los títulos respiren. Implica retirar `.section-label` de los componentes y de `main.sass`, y revisar si las keys `*.label` quedan sin uso.
+- Escena solo con `≥1024px` y sin movimiento reducido, recortada a unos 180vh.
+- En móvil y con movimiento reducido, la terminal va en línea bajo el intro (o se quita), y el hero mide una pantalla.
+- Cambiar los comandos para que aporten algo nuevo, p. ej. `cat now.md` → disponibilidad, ubicación y "abierto a full stack/backend", en vez de repetir el h1.
 
-**Archivos:** `Hero.vue`, `main.sass`, `variables.sass` (si se agrega una fuente), `nuxt.config.ts` (fuentes), todos los componentes de sección, `docs/styling.md`.
+**Archivos:** `Hero.vue`, locales, `docs/architecture.md`.
 
 **Criterios de aceptación**
-- A 375px el nombre cabe sin desbordar, y el hero completo (nombre, rol, tagline, CTAs y badge) sigue dentro de la primera pantalla de 667px de alto.
-- En español ningún título se parte de forma extraña.
-
-**Hecho (2026-09-27):** se eligió **Fraunces** (Lora ya estaba en su peso máximo). Reemplaza a Lora en todos los títulos; nombre del hero en dos líneas a escala de exhibición; etiquetas de sección y keys `*.label` retiradas; indicador de scroll oculto < 768px (chocaba con el badge). Verificado con capturas en 1440/1024/375/320 en inglés y español.
+- En 375px y con movimiento reducido no hay tramo de scroll sin contenido nuevo.
+- A 320×568 en español el intro cabe en `100svh` sin meterse bajo el navbar.
+- Sin saltos al recargar a mitad de scroll ni al colapsar la barra de URL.
 
 ---
 
-## 7. Imagen og propia para LinkedIn/Slack
+## 2. TechStack estático como `package.json`
 
-**Problema:** la vista previa al compartir el link es la foto de viaje recortada. Es lo primero que ve un recruiter en LinkedIn o Slack.
+**Problema:** el carrusel horizontal se fija durante `innerWidth × 2` de scroll (`TechStack/index.vue:124-148`) para 15 logos, el contenido menos distintivo. El `matchMedia` solo mira `min-width: 1024px`, así que ignora movimiento reducido; y nada llama a `ScrollTrigger.refresh()` al cambiar de idioma, por lo que el pin queda desfasado en español.
 
 **Qué hacer**
-- Diseñar una tarjeta de 1200×630 con nombre, rol, disponibilidad ("Open to full-time roles") y el acento ámbar sobre el fondo tinta, coherente con el sitio.
-- Hacer una versión en inglés y otra en español.
-- Generarla como PNG estático en `public/img/og-en.png` y `public/img/og-es.png`: maquetarla en HTML/CSS y capturarla con Chrome headless, sin agregar dependencias. Alternativa: el módulo `nuxt-og-image`.
-- Apuntar `og:image` y `twitter:image` a la imagen según el locale, desde `useSeoMeta` en `app.vue`, con ancho, alto y `og:image:alt` correctos.
+- Reemplazar el pin por un bloque estático y agrupado con forma de terminal, p. ej. `cat package.json` con `"dependencies"` por grupo.
+- Grupos de 4 elementos o menos, o con jerarquía clara dentro del grupo.
+- Si GSAP deja de usarse en el sitio, retirar la dependencia y actualizar `docs/technologies.md`.
 
-**Archivos:** `public/img/`, `app.vue`, `nuxt.config.ts`, `docs/deployment.md`.
+**Archivos:** `TechStack/index.vue`, `TechStack/constants.ts`, `TechCard/`, locales, `docs/architecture.md`, `docs/technologies.md`.
 
 **Criterios de aceptación**
-- Validar con el Post Inspector de LinkedIn y el depurador de Open Graph una vez en producción.
-- El texto de la imagen se lee bien en miniatura (unos 400px de ancho).
-
-**Nota:** los crawlers ven inglés, porque no hay rutas `/es` (ver `docs/deployment.md`). La versión en español solo aplica con la cookie, salvo que después se agregue `app/pages/`.
-
-**Hecho (2026-09-27):** tarjetas `og-en.png`/`og-es.png` (Fraunces + foto a la derecha, `$ open angeldlt.dev` abajo) generadas con `pnpm og` desde `scripts/og/`. `og:image`/`twitter:image` ahora son URLs absolutas por locale (antes `/img/me.jpeg`, relativa). Legible a 400px. Pendiente: validar con el Post Inspector de LinkedIn tras desplegar.
+- Sin pin ni scroll horizontal en ningún tamaño.
+- Mismo landmark (`section#stack`) en todos los breakpoints.
+- Los logos siguen teniendo nombre accesible.
 
 ---
 
-## 2. Transición del hero como escena
+## 3. La terminal atraviesa el centro
 
-**Problema:** hoy el cambio intro → terminal es un fade genérico, y en el estado terminal la foto desaparece y deja media pantalla vacía.
+**Problema:** la terminal solo aparece en los extremos; About, Proyectos y Experiencia son tarjetas de vidrio genéricas. La textura CRT se queda en el grano de fondo y el interior de la terminal.
 
 **Qué hacer**
-- Al hacer scroll, la foto se encoge y viaja hasta volverse el avatar de la barra de título de la terminal, en lugar de desvanecerse.
-- Los comandos de la terminal se escriben con el avance ligado al scroll, no a un temporizador: `whoami` → `Angel De La Torre — Frontend Developer` → `cat philosophy.md` → la cita → `npm run start-day`. El visitante controla el ritmo.
-- Aprovechar el espacio del estado terminal, por ejemplo centrando la ventana o equilibrando la composición en desktop.
-- Mantener el umbral actual del cambio (40% de la pantalla) o ajustarlo si la escena lo pide.
+- About como salida de `cat about.md`, Proyectos como `ls projects/` y Experiencia como `git log`, todo en el mismo mundo ámbar y con `TerminalWindow` o su lenguaje visual.
+- Llevar scanlines o el resplandor de fósforo a títulos de sección o divisores, con moderación.
+- Mantener Fraunces para los títulos grandes dentro de la terminal (el choque deliberado ya funciona en el hero).
 
-**Implementación**
-- Animar solo `transform` y `opacity`, más `clip-path` si hace falta. Nada de propiedades de layout.
-- Avance derivado de `useInjectWindowScroll()` o de un ScrollTrigger propio (sin matar triggers globales).
-- En móvil, una versión simplificada o solo el tipeo, sin el viaje de la foto (en móvil el hero no tiene foto).
-
-**Archivos:** `Hero.vue`, posiblemente un composable nuevo en `app/composables/`, `docs/architecture.md`.
+**Archivos:** `AboutMe/`, `Projects/`, `Experience/`, `TerminalWindow/`, `main.sass`, `docs/styling.md`.
 
 **Criterios de aceptación**
-- Con movimiento reducido, la terminal aparece completa al instante.
-- Sin saltos al recargar a mitad de scroll.
-- El texto de la terminal sigue siendo seleccionable y legible para lectores de pantalla (el contenido completo está en el DOM; el tipeo es solo visual).
-- 60 fps en desktop, sin cambios de layout.
-
-**Hecho (2026-09-27):** intro y terminal siempre en el DOM, movidos por progreso de scroll (sin `<Transition>`). La foto viaja por FLIP (`transform` + `clip-path`) hasta el avatar de la barra; la ventana se abre con `clip-path`; los comandos se tipean con el scroll y las salidas aparecen tras una pausa, con el cursor esperando. Terminal centrada. Ajuste posterior: el hero pasó de 220vh a 300vh para que el tipeo dure más (0.55–1.8vh de scroll) y la terminal completa se quede un momento antes de salir. Verificado: la altura de la terminal no cambia durante el tipeo (sin cambios de layout), el estado se restaura correcto al recargar a mitad de scroll, movimiento reducido muestra la terminal completa al instante, y hay capturas en 1440 y 375px. No medí los fps con profiler: solo se anima `transform`, `opacity` y `clip-path`.
+- Un recruiter no-dev entiende cada sección por su contenido, sin necesitar leer el comando.
+- Nada parpadea ni se anima en bucle; la textura no baja ningún texto de AA.
+- Las líneas del timeline de 769–1023px ya no se aprietan a ~285px.
 
 ---
 
-## 5. Textura propia: fósforo ámbar CRT
+## 4. Quitar los recursos de plantilla
 
-**Problema:** la cuadrícula con brillo radial del hero es un recurso de plantilla.
+**Problema:** botones de ventana macOS fuera de paleta (`TerminalWindow:60-65`), 7 puntos pulsando sin fin, tarjetas con tilt 3D, vidrio que se levanta en hover, brillos radiales y el logo `<ADT />`.
 
 **Qué hacer**
-- Reemplazar la cuadrícula con un concepto que cierre la paleta cempasúchil: el fósforo ámbar de los monitores CRT.
-- Scanlines muy sutiles y un leve resplandor ámbar solo dentro de la terminal.
-- Un grano fino y estático en el fondo, hecho con SVG `feTurbulence` o PNG en mosaico, con opacidad muy baja.
-- Revisar los brillos radiales de otras secciones (About, Contact) para que usen el mismo lenguaje o desaparezcan.
+- Barra de título de la terminal monocroma ámbar.
+- Un solo pulso vivo: el de disponibilidad.
+- Quitar el tilt de `TechCard` y el vidrio con hover-lift; reemplazar por tratamientos tipográficos o CRT.
+- Retirar los brillos radiales que queden, o pasarlos al lenguaje del fósforo.
+- Borrar `public/img/worn-dots.png` (no se usa).
+- Cambiar los 6 `transition: all` por propiedades explícitas (`SocialCard:62`, `Hero:444`, `TechStack:254`, `TheNavbar:249/275/314`) y dejar de animar `max-height` en el menú móvil.
 
-**Archivos:** `Hero.vue`, `main.sass`, `AboutMe/index.vue`, `Contact/index.vue`, `docs/styling.md`.
-
-**Criterios de aceptación**
-- Nada parpadea ni se anima en bucle.
-- La textura no baja el contraste de ningún texto por debajo de AA.
-- Se ve como un detalle, no como un disfraz: a distancia normal apenas se percibe.
-- Sin costo notable de rendimiento (nada de filtros animados a pantalla completa).
-
-**Hecho (2026-09-27):** cuadrícula del hero retirada; grano estático global (SVG `feTurbulence` con contraste subido, 5.5%; la primera versión al 5% con ruido gris plano no se notaba); scanlines y resplandor ámbar solo dentro de la terminal (el resplandor en texto blanco lo ensuciaba y se limitó al texto ámbar); brillo de esquina del About retirado, quedan el del hero y el de Contact. Verificado con capturas en 1440 y 375px y con un zoom 3× de la terminal: nada se anima y a distancia normal apenas se percibe.
+**Archivos:** `TerminalWindow/`, `TechCard/`, `AboutMe/`, `Experience/`, `Contact/`, `TheNavbar/`, `Hero.vue`, `docs/styling.md`.
 
 ---
 
-## 6. Final memorable en Contacto
+## 5. Cerrar en la terminal, sin diluir
 
-**Problema:** la regla pico-final dice que el cierre pesa tanto como el pico, y hoy el final es una lista de tarjetas y el copyright.
+**Problema:** después del pico (la terminal de Contacto) vienen un divisor, dos tarjetas sociales, la línea de WakaTime y "All rights reserved": 5 opciones de contacto a la vez y un cierre genérico.
 
 **Qué hacer**
-- Cerrar la página en la terminal para que empiece y termine en el mismo mundo. Por ejemplo `$ mail angel`, que muestra tu correo grande, en tipografía de exhibición, con las acciones de copiar y enviar.
-- Conservar lo que ya funciona: el estado "Copied!" o de error anunciado a lectores de pantalla, LinkedIn y GitHub como tarjetas, WakaTime como link de texto.
-- Revisar el footer para que acompañe ese cierre y no lo diluya.
+- LinkedIn y GitHub como comandos dentro de la terminal (p. ej. `open linkedin`), con máximo 4 acciones visibles.
+- WakaTime como nota al pie.
+- La página termina en el cursor parpadeando.
+- Footer con una línea en tu voz en lugar del copyright genérico.
 
-**Archivos:** `Contact/index.vue`, `Contact/SocialCard/index.vue`, `TheFooter/index.vue`, locales, `docs/architecture.md`.
+**Archivos:** `Contact/index.vue`, `Contact/SocialCard/`, `TheFooter/`, locales, `docs/content.md`.
 
 **Criterios de aceptación**
-- A 320px el correo se sigue viendo completo y los botones miden al menos 44–48px.
-- Funciona igual con teclado y con lector de pantalla.
-- Con movimiento reducido no hay animación.
-- El copy sigue en tu voz y en los dos idiomas.
+- Botones de 44–48px mínimo; funciona igual con teclado y lector de pantalla.
+- El estado de copiado sigue anunciándose (`role="status"`).
 
-**Hecho (2026-09-27):** Contacto cierra con una terminal (`TerminalWindow`, compartida con el hero): `$ mail angel` → tu correo en Fraunces grande → botones "Copiar/Enviar correo" con texto visible (48px) → la confirmación o el error se imprime como línea de la terminal (`role="status"`) → prompt final con cursor. El correo sale solo de `EMAIL` (se quitó `contact.email` de i18n) y se corta solo tras la `@`. Footer reducido a una línea discreta del mismo fondo. Verificado a 1440, 375 y 320px, en inglés y en español, incluido el estado de copiado.
+---
+
+## 6. Copy sin repeticiones y con pruebas
+
+**Problema:** el rol aparece 4–5 veces, la disponibilidad 3 y la frase "full stack o backend" 3. El título del About ("Always delighted to learn something new.") es genérico, los rasgos son afirmaciones sobre ti y los proyectos solo enlazan al demo, no al código (principio 3 de `PRODUCT.md`).
+
+**Qué hacer**
+- Disponibilidad una vez en el hero y una en Contacto, con la misma redacción.
+- Título del About ligado a un diferenciador concreto.
+- Rasgos convertidos en evidencia que apunta a los proyectos.
+- Link "Code" por proyecto, en los dos idiomas. Agregar un campo `repo` a `ProjectLink` en `PROJECT_LINKS`, respetando el orden actual:
+
+  | Índice | Proyecto | Repo |
+  |---|---|---|
+  | 0 | Angel Front Themes | https://github.com/AngelDev2110/angel-vue-themes |
+  | 1 | Noob Draw | https://github.com/AngelDev2110/noob-draw |
+
+  El repo de Angel Front Themes se llama `angel-vue-themes`; es la URL correcta aunque el nombre no coincida. Al implementarlo, documentar el campo `repo` en `docs/content.md`.
+
+**Archivos:** `en.json`, `es.json`, `Projects/constants.ts` (`PROJECT_LINKS`, emparejado por índice), `AboutMe/`, `docs/content.md`.
+
+---
+
+## 7. Accesibilidad e i18n
+
+**Qué hacer**
+- `aria-label="Toggle menu"` a i18n (`TheNavbar:43`).
+- Botones de idioma: que el texto visible "EN/ES" coincida con el nombre accesible (WCAG 2.5.3).
+- Menú móvil: mover el foco al abrir, devolverlo al cerrar con Esc y cerrarlo al pasar de 768px.
+- Targets de 44px mínimo (burger ~30×24, botones de idioma ~26px).
+- Resolver el solape en exactamente 768px (reglas `max-width` y `min-width` en `$bp-md` aplican a la vez en ExperienceEntry y los chips del About).
+- Rol del hero fuera de `h2` si rompe el esquema de títulos; periodos de experiencia en `<time>`.
+- `AppearingText.d.ts`: exportar `Props` según la convención.
+
+**Archivos:** `TheNavbar/`, `Hero.vue`, `Experience/`, `AboutMe/`, `AppearingText/`, locales.
+
+---
+
+## 8. Pasada final
+
+`/impeccable polish` sobre todo lo anterior, y volver a correr `/impeccable critique` para comparar con 22/32.
 
 ---
 
 ## Fuera de este plan (por ahora)
 
-- **Re-tematizar el sitio en vivo con el motor OKLCH:** es la propuesta de mayor impacto, pero no entra en esta ronda.
+- **Re-tematizar el sitio en vivo con el motor OKLCH:** propuesta de mayor impacto, pero no entra en esta ronda.
 - **Proyectos animados con clips o trazos SVG:** requieren que grabes los clips de las apps.
-- **Stack como mapa de pruebas.**
-- **Links "Source" a GitHub:** pendientes de las URLs de los repos.
+- **Reordenar para poner Proyectos antes que About:** se evalúa después del paso 3.
