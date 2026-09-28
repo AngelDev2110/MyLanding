@@ -14,6 +14,12 @@ export default defineNuxtConfig({
         { name: "twitter:card", content: "summary_large_image" },
         { name: "theme-color", content: "#0d1116" },
       ],
+      // ~A mark (terminal home + initial): SVG for modern browsers, .ico (16/32/48) as fallback
+      link: [
+        { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+        { rel: "icon", href: "/favicon.ico", sizes: "48x48" },
+        { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      ],
     },
   },
 

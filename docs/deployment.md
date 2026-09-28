@@ -30,4 +30,4 @@ Los proyectos destino deben estar compilados con ese mismo base path. Las tarjet
 - Validar tras desplegar con el [Post Inspector de LinkedIn](https://www.linkedin.com/post-inspector/) (también refresca su caché).
 - `i18n.baseUrl` = `https://www.angeldlt.dev`.
 - `public/robots.txt` permite todo.
-- `public/favicon.ico`.
+- Favicon: `public/favicon.svg` (fuente; `~A` en JetBrains Mono Bold convertida a trazos con opentype.js, porque un favicon no puede cargar fuentes web), `public/favicon.ico` (16/32/48 como PNG embebidos) y `public/apple-touch-icon.png` (180, fondo `$dark-navy` sólido). Es la marca `~A`: el home de la terminal (`~`, en ámbar como el prompt) + la inicial (`A`, en blanco como "angel" en el logo del navbar), dentro de una ventana navy con borde ámbar. Se descartó un `$` en cuadrado redondeado por parecerse al logo de Cash App. Declarados en `app.head.link` de `nuxt.config.ts`. Si se cambia el SVG, regenerar el `.ico` y el PNG a partir de él.
