@@ -38,6 +38,7 @@ Definida en `app/plugins/intersect.ts` (plugin global). Uso:
 
 - **Carpeta por componente** con `index.vue`; subcomponentes anidados (`Projects/ProjectCard/index.vue`). Por el auto-import de Nuxt el nombre en template es la ruta concatenada: `<ProjectsProjectCard>`, `<ContactSocialCard>`, `<ExperienceExperienceEntry>`.
 - **Tipos de props** en un archivo hermano `<Nombre>.d.ts` que exporta `interface Props` (en `AppearingText` es `props` en minúscula), importado con `import type { Props } from "./X.d.ts"` y usado como `defineProps<Props>()`.
+- **Comentarios:** el código no se comenta salvo que explique algo que no se deduce de leerlo: un porqué no obvio, un workaround, un número mágico o una restricción externa. Nada de comentarios que repitan lo que el código ya dice ni encabezados decorativos. La única excepción es la plantilla de secciones del `<script setup>` (abajo), que es convención del proyecto.
 - **Datos estáticos** en `constants.ts` dentro de la carpeta del componente (`TECH_LIST`, `SOCIAL_LINKS`, `PROJECT_LINKS`, `TRAITS`). Todo texto traducible va en i18n, no en constants. Ver [content.md](./content.md).
 - **Bloque `<script setup>`** sigue plantilla de comentarios en este orden (se dejan aunque estén vacíos): `// Imports`, `// Component Options`, `// Props and Emits`, `// Composition API Helpers`, `// Reactive Variables`, `// Computed Properties`, `// Watchers`, `// Lifecycle Hooks`, `// Methods`.
 - Los composables (`app/composables/`) y plugins se auto-importan; no importarlos manualmente.

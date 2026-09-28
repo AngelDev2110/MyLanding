@@ -1,7 +1,7 @@
 @use 'animate.css'
 
 :root
-  // Exposed for JS-driven inline styles (e.g. TechCard glow)
+  // For JS-generated inline styles (TechCard glow), which can't read Sass variables
   --accent: #{$accent}
 
 *
@@ -68,13 +68,10 @@ section
   clip: rect(0, 0, 0, 0)
   white-space: nowrap
   border: 0
-// Keyboard focus: one consistent ring in the accent color
 :focus-visible
   outline: 2px solid $accent
   outline-offset: 3px
 
-// Respect the OS "reduce motion" setting: entrance animations resolve
-// instantly, looping pulses stop, and anchor scrolling jumps.
 @media (prefers-reduced-motion: reduce)
   html
     scroll-behavior: auto

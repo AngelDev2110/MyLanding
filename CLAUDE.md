@@ -42,3 +42,4 @@ Mantén estos archivos actualizados cuando cambies algo que documentan.
 - Scroll compartido vía `useInjectWindowScroll()` (provisto en `app.vue`), no con VueUse.
 - Props tipadas en un `<Componente>.d.ts` hermano; datos estáticos en `constants.ts` de la carpeta del componente.
 - Respetar la plantilla de comentarios del `<script setup>` (`// Imports`, `// Component Options`, …, `// Methods`).
+- Fuera de esa plantilla, **no comentar el código** salvo que explique algo no deducible de leerlo (un porqué, workaround o número mágico).

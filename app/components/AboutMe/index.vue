@@ -137,7 +137,6 @@ import { TRAITS } from "./constants";
     font-size: 0.82rem
     color: $text-muted
     line-height: 1.4
-    // Small accent square marker (replaces the ▹ glyph)
     &::before
       content: ''
       position: absolute

@@ -19,13 +19,11 @@ import "~/assets/sass/main.sass";
 // Component Options
 useScrollProvider();
 
-// Keep <html lang> in sync with the active locale (screen readers, hyphenation, SEO)
 const i18nHead = useLocaleHead({ seo: false });
 useHead({
   htmlAttrs: { lang: () => i18nHead.value.htmlAttrs?.lang },
 });
 
-// Localized title + description/social meta (static image/card meta lives in nuxt.config)
 const { t, locale } = useI18n();
 useSeoMeta({
   title: () => t("seo.title"),

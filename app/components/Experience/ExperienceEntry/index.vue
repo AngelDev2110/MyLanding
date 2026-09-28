@@ -166,7 +166,6 @@ const side = computed(() => (props.index % 2 === 0 ? "left" : "right"));
     font-size: 0.9rem
     color: $text-muted
     line-height: 1.6
-    // Small accent square marker (replaces the ▹ glyph)
     &::before
       content: ''
       position: absolute

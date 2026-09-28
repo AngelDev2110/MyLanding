@@ -235,7 +235,6 @@ async function handleCopy() {
 
   &__email-btns
     display: flex
-    // Stacked under the address on narrow screens: two equal, full-width targets
     border-top: 1px solid $border
     @media (min-width: $bp-sm)
       border-top: none

@@ -121,12 +121,9 @@ onMounted(() => {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // matchMedia builds the pinned scroll only on desktop ($bp-lg) and reverts it
-  // automatically when the viewport crosses the breakpoint.
   mm = gsap.matchMedia();
   mm.add("(min-width: 1024px)", () => {
     const totalSlides = CATEGORIES.length;
-    // Functions + invalidateOnRefresh: distances are recomputed on every resize
     const scrollDistance = () => window.innerWidth * (totalSlides - 1);
 
     gsap.to(track, {
@@ -157,7 +154,6 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  // Reverts only this component's tween and ScrollTrigger
   mm?.revert();
 });
 </script>

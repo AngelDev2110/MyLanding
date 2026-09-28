@@ -8,6 +8,5 @@ export type IconName =
 
 export interface Props {
   name: IconName;
-  /** Rendered size in px (width and height). */
   size?: number;
 }

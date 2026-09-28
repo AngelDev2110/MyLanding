@@ -21,7 +21,7 @@ const words = computed(() => props.text.split(" "));
 </script>
 
 <style lang="sass" scoped>
-// Real spaces between words (not flex gap) so the text copies and reads correctly
+// Real spaces, not flex gap: otherwise copy/paste loses the spaces between words
 .appearing-text
   span
     opacity: 0

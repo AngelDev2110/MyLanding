@@ -6,7 +6,6 @@ export interface SocialLink {
   icon: string;
   username: string;
   external: boolean;
-  /** Rendered as a full card; otherwise shown as a text link below the cards. */
   featured: boolean;
 }
 

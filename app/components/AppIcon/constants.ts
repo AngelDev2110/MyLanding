@@ -1,6 +1,5 @@
 import type { IconName } from "./AppIcon.d.ts";
 
-// One family: 24px grid, 1.75 stroke, round caps (Lucide-style geometry)
 export const ICON_PATHS: Record<IconName, string[]> = {
   "arrow-right": ["M5 12h14", "M13 6l6 6-6 6"],
   "arrow-up-right": ["M7 17L17 7", "M8 7h9v9"],

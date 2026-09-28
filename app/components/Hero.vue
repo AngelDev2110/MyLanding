@@ -307,7 +307,6 @@ function scrollToSection(selector: string) {
     color: $white
   &-sep
     color: $gray-700
-    // On narrow screens the two facts stack instead of leaving a dangling "·"
     display: none
     @media (min-width: $bp-sm)
       display: inline
@@ -367,7 +366,6 @@ function scrollToSection(selector: string) {
   gap: 10px
   &--dim
     margin-top: 6px
-    // Secondary, but still AA (6.8:1) — no opacity fade
     .hero__terminal-cmd
       color: $gray-600
 
@@ -431,7 +429,7 @@ function scrollToSection(selector: string) {
   width: 100%
   height: 100%
   object-fit: cover
-  // Landscape photo in a portrait frame: keep Angel (right third) in view, not the bay
+  // Landscape photo in a portrait frame: 75% keeps the person in view instead of the bay
   object-position: 75% center
 
 .hero__photo-glow

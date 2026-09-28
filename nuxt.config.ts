@@ -1,11 +1,10 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
 
   app: {
     head: {
-      // Title, description and og/twitter text are localized in app.vue (useSeoMeta)
+      // title, description and og/twitter texts are set per locale in app.vue
       meta: [
         { name: "author", content: "Angel De La Torre" },
         { property: "og:type", content: "website" },
