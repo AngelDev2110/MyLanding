@@ -19,7 +19,15 @@ Los proyectos destino deben estar compilados con ese mismo base path. Las tarjet
 ## SEO / meta
 
 - Textos localizados (`title`, `description`, `og:title/description/image:alt/locale`, `twitter:title/description`) en `app.vue` con `useSeoMeta()`, desde las keys `seo.*` de i18n. No hay `pages/`, así que no existen rutas `/es`: el idioma lo decide la cookie `i18n_redirected` (SSR incluido). Los crawlers sin cookie ven inglés.
-- Meta estáticas en `app.head` de `nuxt.config.ts`: `author`, `og:type`, `og:image` (`/img/me.jpeg`, 1280×960), `og:site_name`, Twitter card `summary_large_image`, `theme-color`.
+- Meta estáticas en `app.head` de `nuxt.config.ts`: `author`, `og:type`, `og:site_name`, Twitter card `summary_large_image`, `theme-color`.
+- La URL del sitio vive una sola vez en `nuxt.config.ts` (`SITE_URL`) y se expone como `runtimeConfig.public.siteUrl`; también es el `i18n.baseUrl`.
+
+### Imagen og (vista previa en LinkedIn/Slack/X)
+
+- `public/img/og-en.png` y `og-es.png`, 1200×630. `app.vue` pone `og:image`/`twitter:image` como URL **absoluta** según el locale, con ancho, alto, tipo y alt.
+- Se generan con `pnpm og` (`scripts/og/render.mjs`): toma los textos de `i18n/locales/*.json` (`myName`, `myRole`, `hero.availability`), los inserta en la plantilla `scripts/og/card.html` y la captura con Chrome headless. No agrega dependencias; necesita Chrome instalado (o `CHROME_PATH`) y red para Google Fonts.
+- **Regenerar** cada vez que cambien esos textos, la foto `me.jpeg` o la paleta, y commitear los PNG.
+- Validar tras desplegar con el [Post Inspector de LinkedIn](https://www.linkedin.com/post-inspector/) (también refresca su caché).
 - `i18n.baseUrl` = `https://www.angeldlt.dev`.
 - `public/robots.txt` permite todo.
 - `public/favicon.ico`.

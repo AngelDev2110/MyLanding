@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="{{lang}}">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600..800&family=JetBrains+Mono:wght@500;700&display=block" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d1116;
+    --accent: #fab048;
+    --white: #ffffff;
+    --muted: #adb5c0;
+    --border: rgba(255, 255, 255, 0.12);
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; background: var(--ink); }
+  body {
+    position: relative;
+    font-family: "Fraunces", Georgia, serif;
+    color: var(--white);
+  }
+  .glow {
+    position: absolute;
+    inset: -220px auto auto -180px;
+    width: 720px;
+    height: 720px;
+    background: radial-gradient(circle, rgba(250, 176, 72, 0.14) 0%, transparent 62%);
+  }
+  .photo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 630px;
+  }
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 75% center;
+  }
+  .photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--ink) 0%, rgba(13, 17, 22, 0.35) 30%, transparent 55%);
+  }
+  .content {
+    position: absolute;
+    inset: 64px auto 60px 72px;
+    width: 700px;
+    display: flex;
+    flex-direction: column;
+  }
+  .name {
+    font-weight: 800;
+    font-size: 128px;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    word-spacing: 0.06em;
+  }
+  .name span { display: block; }
+  .role {
+    margin-top: 22px;
+    font-weight: 600;
+    font-size: 46px;
+    letter-spacing: -0.01em;
+    color: var(--accent);
+  }
+  .status {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 30px;
+    padding: 12px 22px;
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 700;
+    font-size: 26px;
+  }
+  .status i {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .cmd {
+    margin-top: auto;
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 500;
+    font-size: 26px;
+    color: var(--muted);
+  }
+  .cmd b { color: var(--accent); margin-right: 14px; }
+</style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="photo"><img src="{{photo}}" alt=""></div>
+  <main class="content">
+    <h1 class="name"><span>{{nameFirst}}</span><span>{{nameRest}}</span></h1>
+    <p class="role">{{role}}</p>
+    <p class="status"><i></i>{{availability}}</p>
+    <p class="cmd"><b>$</b>open angeldlt.dev</p>
+  </main>
+</body>
+</html>

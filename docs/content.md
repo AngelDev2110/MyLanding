@@ -6,7 +6,7 @@ Todo el texto visible vive en `i18n/locales/en.json` (default) y `i18n/locales/e
 
 | Sección | Keys i18n | Datos no traducibles |
 |---|---|---|
-| Globales / Hero | `myName`, `myRole`, `tagline`, `funnyQuote`, `terminalCmd`, `yearsExp`, `openToWork`, `hero.{ctaProjects,availability,scroll,photoAlt}` | Foto `public/img/me.jpeg` (también es la `og:image`) |
+| Globales / Hero | `myName`, `myRole`, `tagline`, `funnyQuote`, `terminalCmd`, `yearsExp`, `openToWork`, `hero.{ctaProjects,availability,scroll,photoAlt}` | Foto `public/img/me.jpeg` (también se usa en la imagen og, ver [deployment.md](./deployment.md)) |
 | Navbar | `nav.*` (una key por sección) | `navLinks` en `TheNavbar/index.vue` |
 | About | `about.heading/bio1-3`, `about.chipRole`, `about.chipLocation`, `about.traits.*` | `TRAITS` en `AboutMe/constants.ts` (lista de keys), foto `meFormal.jpeg` |
 | Tech stack | `stack.*`, `stack.categories.{frameworks,languages,tools}` | `TECH_LIST` y `CATEGORIES` en `TechStack/constants.ts` (nombre, icono, categoría) |

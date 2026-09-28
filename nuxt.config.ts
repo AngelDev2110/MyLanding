@@ -1,22 +1,24 @@
+const SITE_URL = "https://www.angeldlt.dev";
+
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
 
   app: {
     head: {
-      // title, description and og/twitter texts are set per locale in app.vue
+      // title, description, og/twitter texts and images are set per locale in app.vue
       meta: [
         { name: "author", content: "Angel De La Torre" },
         { property: "og:type", content: "website" },
-        { property: "og:image", content: "/img/me.jpeg" },
-        { property: "og:image:width", content: "1280" },
-        { property: "og:image:height", content: "960" },
         { property: "og:site_name", content: "Angel De La Torre" },
         { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:image", content: "/img/me.jpeg" },
         { name: "theme-color", content: "#0d1116" },
       ],
     },
+  },
+
+  runtimeConfig: {
+    public: { siteUrl: SITE_URL },
   },
 
   vite: {
@@ -48,7 +50,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    baseUrl: "https://www.angeldlt.dev",
+    baseUrl: SITE_URL,
     defaultLocale: "en",
     locales: [
       { code: "en", name: "English", file: "en.json", language: "en-US" },

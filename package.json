@@ -7,6 +7,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "og": "node scripts/og/render.mjs",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {

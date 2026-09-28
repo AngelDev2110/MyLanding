@@ -1,13 +1,13 @@
 # Plan: presentación visual más impactante
 
-Estado: **en curso** (3 ✅) · Creado: 2026-09-27
+Estado: **en curso** (3 ✅, 7 ✅) · Creado: 2026-09-27
 
 Quiero incorporar estos cinco cambios para que la landing tenga momentos memorables y deje de verse como plantilla. Van en el orden de ejecución recomendado; cada uno se puede entregar y revisar por separado.
 
 | # | Cambio | Impacto | Costo | Comando sugerido |
 |---|---|---|---|---|
 | 3 | Nombre como tipografía de exhibición ✅ | Alto | Bajo | `/impeccable typeset` |
-| 7 | Imagen og propia para LinkedIn/Slack | Alto | Bajo | trabajo directo |
+| 7 | Imagen og propia para LinkedIn/Slack ✅ | Alto | Bajo | trabajo directo |
 | 2 | Transición del hero como escena | Alto | Medio | `/impeccable animate hero` |
 | 5 | Textura propia: fósforo ámbar CRT | Medio | Bajo | `/impeccable bolder` |
 | 6 | Final memorable en Contacto | Medio | Medio | `/impeccable delight contact` |
@@ -62,6 +62,8 @@ Quiero incorporar estos cinco cambios para que la landing tenga momentos memorab
 - El texto de la imagen se lee bien en miniatura (unos 400px de ancho).
 
 **Nota:** los crawlers ven inglés, porque no hay rutas `/es` (ver `docs/deployment.md`). La versión en español solo aplica con la cookie, salvo que después se agregue `app/pages/`.
+
+**Hecho (2026-09-27):** tarjetas `og-en.png`/`og-es.png` (Fraunces + foto a la derecha, `$ open angeldlt.dev` abajo) generadas con `pnpm og` desde `scripts/og/`. `og:image`/`twitter:image` ahora son URLs absolutas por locale (antes `/img/me.jpeg`, relativa). Legible a 400px. Pendiente: validar con el Post Inspector de LinkedIn tras desplegar.
 
 ---
 
