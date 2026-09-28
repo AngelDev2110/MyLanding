@@ -5,44 +5,17 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: "Angel De La Torre — Frontend Developer",
+      // Title, description and og/twitter text are localized in app.vue (useSeoMeta)
       meta: [
-        {
-          name: "description",
-          content:
-            "Angel De La Torre — Frontend Developer in Mexico building fast, clean web interfaces with Vue.js, Nuxt, React, and TypeScript.",
-        },
         { name: "author", content: "Angel De La Torre" },
-        {
-          property: "og:title",
-          content: "Angel De La Torre — Frontend Developer",
-        },
-        {
-          property: "og:description",
-          content:
-            "Frontend Developer based in Mexico. I build web stuff that works, loads fast, and doesn't make people rage-quit.",
-        },
         { property: "og:type", content: "website" },
         { property: "og:image", content: "/img/me.jpeg" },
         { property: "og:image:width", content: "1280" },
         { property: "og:image:height", content: "960" },
-        {
-          property: "og:image:alt",
-          content: "Angel De La Torre — Frontend Developer",
-        },
         { property: "og:site_name", content: "Angel De La Torre" },
         { name: "twitter:card", content: "summary_large_image" },
-        {
-          name: "twitter:title",
-          content: "Angel De La Torre — Frontend Developer",
-        },
-        {
-          name: "twitter:description",
-          content:
-            "Frontend Developer based in Mexico. I build web stuff that works, loads fast, and doesn't make people rage-quit.",
-        },
         { name: "twitter:image", content: "/img/me.jpeg" },
-        { name: "theme-color", content: "#0e1116" },
+        { name: "theme-color", content: "#0d1116" },
       ],
     },
   },
@@ -68,6 +41,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
+    baseUrl: "https://www.angeldlt.dev",
     defaultLocale: "en",
     locales: [
       { code: "en", name: "English", file: "en.json", language: "en-US" },
