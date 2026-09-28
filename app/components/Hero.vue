@@ -83,15 +83,13 @@
           </div>
         </div>
 
-        <div
+        <TerminalWindow
+          title="angel@dev: ~"
           class="hero__terminal"
           :class="{ 'hero__terminal--inactive': !terminalActive }"
           :inert="!terminalActive || undefined"
         >
-          <div class="hero__terminal-bar">
-            <span class="hero__terminal-dot hero__terminal-dot--red" />
-            <span class="hero__terminal-dot hero__terminal-dot--yellow" />
-            <span class="hero__terminal-dot hero__terminal-dot--green" />
+          <template #bar>
             <span ref="avatarSlotRef" class="hero__terminal-avatar">
               <img
                 v-show="showSlotAvatar"
@@ -100,51 +98,48 @@
                 class="hero__terminal-avatar-img"
               />
             </span>
-            <span class="hero__terminal-title">angel@dev: ~</span>
-          </div>
-          <div class="hero__terminal-body">
-            <template v-for="(step, index) in typedSteps" :key="index">
-              <p
-                v-if="step.kind === 'cmd'"
-                class="hero__terminal-line"
-                :class="{ 'hero__terminal-line--dim': step.dim }"
+          </template>
+          <template v-for="(step, index) in typedSteps" :key="index">
+            <p
+              v-if="step.kind === 'cmd'"
+              class="terminal__line"
+              :class="{ 'hero__terminal-dim': step.dim }"
+            >
+              <span
+                class="terminal__prompt"
+                :class="{ 'hero__terminal-pending': !step.started }"
+                >$</span
               >
-                <span
-                  class="hero__terminal-prompt"
-                  :class="{ 'hero__terminal-pending': !step.started }"
-                  >$</span
+              <span class="hero__type terminal__cmd">
+                <span class="hero__type-ghost">{{ step.text }}</span>
+                <span class="hero__type-shown" aria-hidden="true"
+                  >{{ step.typed
+                  }}<span
+                    v-if="step.cursor"
+                    class="hero__terminal-cursor"
+                    :class="{ 'hero__terminal-cursor--paused': !heroInView }"
+                    >▮</span
+                  ></span
                 >
-                <span class="hero__type hero__terminal-cmd">
-                  <span class="hero__type-ghost">{{ step.text }}</span>
-                  <span class="hero__type-shown" aria-hidden="true"
-                    >{{ step.typed
-                    }}<span
-                      v-if="step.cursor"
-                      class="hero__terminal-cursor"
-                      :class="{ 'hero__terminal-cursor--paused': !heroInView }"
-                      >▮</span
-                    ></span
-                  >
-                </span>
-              </p>
-              <p
-                v-else-if="step.kind === 'name'"
-                class="hero__terminal-output"
-                :class="{ 'hero__terminal-pending': !step.visible }"
-              >
-                {{ $t("myName") }} — {{ $t("myRole") }}
-              </p>
-              <p
-                v-else
-                class="hero__terminal-comment"
-                :class="{ 'hero__terminal-pending': !step.visible }"
-              >
-                <span class="hero__terminal-hash">//</span>
-                {{ $t("funnyQuote") }}
-              </p>
-            </template>
-          </div>
-        </div>
+              </span>
+            </p>
+            <p
+              v-else-if="step.kind === 'name'"
+              class="terminal__output hero__terminal-output"
+              :class="{ 'hero__terminal-pending': !step.visible }"
+            >
+              {{ $t("myName") }} — {{ $t("myRole") }}
+            </p>
+            <p
+              v-else
+              class="hero__terminal-comment"
+              :class="{ 'hero__terminal-pending': !step.visible }"
+            >
+              <span class="hero__terminal-hash">//</span>
+              {{ $t("funnyQuote") }}
+            </p>
+          </template>
+        </TerminalWindow>
       </div>
     </div>
 
@@ -513,35 +508,10 @@ function easeInOutCubic(x: number) {
   z-index: 2
   width: min(640px, calc(100% - 40px))
   translate: -50% -50%
-  background: rgba($dark-navy, 0.85)
-  border: 1px solid rgba($accent, 0.22)
-  border-radius: 14px
-  overflow: hidden
-  box-shadow: 0 0 60px rgba($accent, 0.08), 0 24px 60px rgba(0,0,0,0.5)
-  backdrop-filter: blur(8px)
   opacity: var(--terminal-in, 0)
   clip-path: inset(0 0 calc((1 - var(--terminal-in, 0)) * 100%) 0 round 14px)
   &--inactive
     pointer-events: none
-
-.hero__terminal-bar
-  display: flex
-  align-items: center
-  gap: 6px
-  padding: 12px 16px
-  background: rgba(255,255,255,0.04)
-  border-bottom: 1px solid rgba($accent, 0.12)
-
-.hero__terminal-dot
-  width: 12px
-  height: 12px
-  border-radius: 50%
-  &--red
-    background: #ff5f57
-  &--yellow
-    background: #febc2e
-  &--green
-    background: #28c840
 
 .hero__terminal-avatar
   display: inline-flex
@@ -561,48 +531,12 @@ function easeInOutCubic(x: number) {
   object-fit: cover
   object-position: 75% center
 
-.hero__terminal-title
-  font-family: $font-mono
-  font-size: 0.72rem
-  color: $text-muted
-  margin-left: 8px
-  letter-spacing: 0.04em
-
-.hero__terminal-body
-  position: relative
-  padding: 24px 28px 28px
-  display: flex
-  flex-direction: column
-  gap: 14px
-  &::after
-    content: ''
-    position: absolute
-    inset: 0
-    pointer-events: none
-    background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 3px)
-
-.hero__terminal-line
-  font-family: $font-mono
-  font-size: 0.95rem
-  display: flex
-  align-items: baseline
-  gap: 10px
-  &--dim
-    margin-top: 6px
-    .hero__terminal-cmd
-      color: $gray-600
-
-.hero__terminal-output,
-.hero__terminal-prompt,
-.hero__terminal-hash
-  text-shadow: 0 0 8px rgba($accent, 0.45)
-
 .hero__terminal-output
-  font-family: $font-mono
-  font-size: 0.95rem
-  color: $accent
   margin: -6px 0 4px
   padding-left: 22px
+
+.hero__terminal-dim .terminal__cmd
+  color: $gray-600
 
 .hero__type
   display: inline-grid
@@ -621,15 +555,8 @@ function easeInOutCubic(x: number) {
 .hero__terminal-pending
   opacity: 0
 
-.hero__terminal-prompt
-  color: $accent
-  font-weight: 700
-  user-select: none
-
-.hero__terminal-cmd
-  color: $white
-
 .hero__terminal-comment
+  margin: 6px 0
   font-family: $font-display
   font-size: clamp(1.2rem, 2.5vw, 1.55rem)
   color: $white
@@ -641,6 +568,7 @@ function easeInOutCubic(x: number) {
   font-size: 1rem
   margin-right: 8px
   opacity: 0.75
+  text-shadow: 0 0 8px rgba($accent, 0.45)
 
 .hero__terminal-cursor
   display: inline-block
