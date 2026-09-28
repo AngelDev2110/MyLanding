@@ -22,13 +22,17 @@
 
       <div class="navbar__lang">
         <button
-          v-for="localeCode in availableLocales"
-          :key="localeCode"
+          v-for="option in localeOptions"
+          :key="option.code"
+          type="button"
           class="navbar__lang-btn"
-          :class="{ 'navbar__lang-btn--active': currentLocale === localeCode }"
-          @click="setLocale(localeCode)"
+          :class="{ 'navbar__lang-btn--active': currentLocale === option.code }"
+          :lang="option.code"
+          :aria-label="option.name"
+          :aria-pressed="currentLocale === option.code"
+          @click="setLocale(option.code)"
         >
-          {{ localeCode.toUpperCase() }}
+          {{ option.code.toUpperCase() }}
         </button>
       </div>
 
@@ -59,15 +63,19 @@
         </a>
         <div class="navbar__mobile-lang">
           <button
-            v-for="localeCode in availableLocales"
-            :key="localeCode"
+            v-for="option in localeOptions"
+            :key="option.code"
+            type="button"
             class="navbar__lang-btn"
             :class="{
-              'navbar__lang-btn--active': currentLocale === localeCode,
+              'navbar__lang-btn--active': currentLocale === option.code,
             }"
-            @click="setLocale(localeCode)"
+            :lang="option.code"
+            :aria-label="option.name"
+            :aria-pressed="currentLocale === option.code"
+            @click="setLocale(option.code)"
           >
-            {{ localeCode.toUpperCase() }}
+            {{ option.code.toUpperCase() }}
           </button>
         </div>
       </div>
@@ -83,8 +91,15 @@
 // Props and Emits
 
 // Composition API Helpers
-const { locale, availableLocales, setLocale } = useI18n();
+const { locale, locales, setLocale } = useI18n();
 const currentLocale = computed(() => locale.value);
+const localeOptions = computed(() =>
+  locales.value.map((l) =>
+    typeof l === "string"
+      ? { code: l, name: l }
+      : { code: l.code, name: l.name ?? l.code },
+  ),
+);
 const { scrollY } = useInjectWindowScroll();
 
 // Reactive Variables
@@ -93,9 +108,9 @@ const activeSection = ref("hero");
 
 const navLinks = [
   { key: "about" },
-  { key: "stack" },
-  { key: "experience" },
   { key: "projects" },
+  { key: "experience" },
+  { key: "stack" },
   { key: "contact" },
 ];
 
@@ -120,12 +135,21 @@ onMounted(() => {
     const el = document.getElementById(id);
     if (el) observer.observe(el);
   });
+
+  window.addEventListener("keydown", handleKeydown);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("keydown", handleKeydown);
 });
 
 // Methods
 function scrollTo(selector: string) {
-  const el = document.querySelector(selector);
-  if (el) el.scrollIntoView({ behavior: "smooth" });
+  scrollToSelector(selector);
+}
+
+function handleKeydown(event: KeyboardEvent) {
+  if (event.key === "Escape" && menuOpen.value) menuOpen.value = false;
 }
 
 function mobileNavigate(key: string) {
@@ -147,7 +171,7 @@ function mobileNavigate(key: string) {
     padding: 0 60px
 
   &--scrolled
-    background: rgba(14, 17, 22, 0.85)
+    background: rgba($dark-navy, 0.85)
     backdrop-filter: blur(20px)
     box-shadow: 0 1px 0 $border
 

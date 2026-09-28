@@ -10,7 +10,7 @@
       <img
         v-if="props.image"
         :src="`/img/${props.image}`"
-        :alt="props.title"
+        :alt="$t('projects.screenshotAlt', { title: props.title })"
         class="project-card__image"
       />
       <div v-else class="project-card__placeholder">
@@ -30,7 +30,10 @@
 
       <span class="project-card__link">
         {{ $t("projects.viewProject") }}
-        <span class="project-card__arrow">↗︎</span>
+        <span class="project-card__arrow">
+          <AppIcon name="arrow-up-right" :size="16" />
+        </span>
+        <span class="sr-only">({{ $t("contact.newTab") }})</span>
       </span>
     </div>
   </a>
@@ -69,8 +72,9 @@ const props = defineProps<Props>();
   text-decoration: none
   animation-fill-mode: both
   transition: border-color $transition-fast, box-shadow $transition-fast, transform $transition-fast
-  &:hover
-    border-color: rgba(100,255,218,0.25)
+  &:hover,
+  &:focus-visible
+    border-color: rgba($accent, 0.25)
     box-shadow: 0 8px 40px rgba(0,0,0,0.3)
     transform: translateY(-3px)
     .project-card__arrow
@@ -127,11 +131,12 @@ const props = defineProps<Props>();
     margin-bottom: 20px
 
   &__tag
+    overflow-wrap: anywhere
     font-family: $font-mono
     font-size: 0.72rem
     color: $accent
     background: $accent-dim
-    border: 1px solid rgba(100,255,218,0.2)
+    border: 1px solid rgba($accent, 0.2)
     padding: 3px 10px
     border-radius: 4px
 
@@ -145,6 +150,6 @@ const props = defineProps<Props>();
     margin-top: auto
 
   &__arrow
-    font-size: 1rem
+    display: inline-flex
     transition: transform $transition-base
 </style>

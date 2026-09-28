@@ -93,9 +93,12 @@ useIntersectionObserver(
 
   &__line-fill
     width: 100%
-    background: linear-gradient(to bottom, $accent, rgba(100,255,218,0.2))
-    height: 0
-    transition: height 2.5s cubic-bezier(0.16, 1, 0.3, 1)
+    height: 100%
+    background: linear-gradient(to bottom, $accent, rgba($accent, 0.2))
+    // Grow with transform (compositor-only) instead of animating height
+    transform: scaleY(0)
+    transform-origin: top
+    transition: transform 2.5s cubic-bezier(0.16, 1, 0.3, 1)
     &--active
-      height: 100%
+      transform: scaleY(1)
 </style>

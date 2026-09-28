@@ -2,7 +2,7 @@
   "myName": "Angel De La Torre",
   "myRole": "Desarrollador Frontend",
   "funnyQuote": "Depuro con console.log y no me arrepiento.",
-  "tagline": "Construyo webs que funcionan, cargan rápido y no hacen que quieras golpear la pantalla.",
+  "tagline": "Construyo webs que funcionan, cargan rápido y no hacen que quieras golpear la pantalla. Frontend primero, y full stack o backend cuando el proyecto lo pide.",
   "yearsExp": "3 años de experiencia",
   "openToWork": "Abierto a nuevas oportunidades",
   "terminalCmd": "npm run iniciar-dia -- --cafe=true",
@@ -17,8 +17,10 @@
     "label": "Sobre mí",
     "heading": "Siempre encantado de aprender algo nuevo.",
     "bio1": "Soy Desarrollador Frontend en México con 3 años de experiencia construyendo interfaces web rápidas, limpias y que se sienten bien de usar.",
-    "bio2": "Vue.js y Nuxt son mi zona de confort, pero también me muevo bien en todo el ecosistema JS — React, Next.js, TypeScript, lo que se necesite. Me obsesiono con el código limpio y con componentes que le hagan sentido a quien los toque después.",
+    "bio2": "Vue.js y Nuxt son mi zona de confort, pero también me muevo bien en todo el ecosistema JS — React, Next.js, TypeScript, lo que se necesite. Y no me quedo en el navegador: en Noob Draw toda la lógica del juego vive en funciones SQL de Postgres protegidas con Row-Level Security. Me obsesiono con el código limpio y con componentes que le hagan sentido a quien los toque después.",
     "bio3": "Cuando no estoy programando, probablemente estoy tomando café y pensando en programar de todas formas.",
+    "chipRole": "Frontend Dev",
+    "chipLocation": "México",
     "traits": {
       "clean": "Obsesionado con el código limpio",
       "detail": "Detecta hasta un pixel mal alineado",
@@ -51,7 +53,7 @@
           "Armé librerías de componentes que ayudaron al equipo a entregar más rápido",
           "Trabajé de cerca con diseñadores, convirtiendo mockups en interfaces pixel-perfect",
           "Integré APIs REST y manejé estado en flujos de varios pasos genuinamente complicados",
-          "Revisé código, planeé sprints, hice toda la rutina ágil"
+          "Revisé código y planeé sprints"
         ],
         "tags": ["Vue.js", "Nuxt.js", "TypeScript", "Sass", "REST APIs", "Git"]
       },
@@ -90,54 +92,33 @@
       {
         "title": "Angel Front Themes",
         "description": "Generador y editor de paletas y temas de UI en Vue 3 + TypeScript: conversión de color propia (HEX↔RGB↔OKLCH), armonías cromáticas, modo claro/oscuro, validación WCAG y exportación a CSS/Tailwind/SCSS/JSON.",
-        "tags": [
-          "Vue 3",
-          "TypeScript",
-          "Composition API",
-          "Pinia",
-          "Vite",
-          "VueUse",
-          "Vitest",
-          "Canvas API",
-          "OKLCH",
-          "WCAG 2.1",
-          "CSS Custom Properties",
-          "ESLint",
-          "Bun"
-        ]
+        "tags": ["Vue 3", "TypeScript", "OKLCH", "WCAG 2.1", "Vitest"]
       },
       {
         "title": "Noob Draw",
         "description": "Pictionary multijugador donde Postgres es el servidor — funciones SQL protegidas con RLS manejan cada turno, puntaje y pista, sincronizados en vivo por WebSockets.",
         "tags": [
           "React 19",
-          "TypeScript",
-          "Vite",
-          "TanStack Router",
-          "TanStack Query",
           "Supabase",
           "PostgreSQL",
-          "Tailwind CSS v4",
-          "Radix UI",
-          "Vercel",
-          "Multijugador en tiempo real",
           "Row-Level Security",
-          "Sin backend propio",
-          "Elección de líder por presencia",
-          "Temporizadores sincronizados con el servidor"
+          "Multijugador en tiempo real"
         ]
       }
-    ]
+    ],
+    "screenshotAlt": "Captura de {title}"
   },
   "contact": {
     "label": "Contacto",
-    "heading": "Trabajemos juntos",
-    "sub": "¿Tienes un proyecto, una vacante, o solo quieres hablar de algo tecnológico? Aquí estoy.",
+    "heading": "¿Buscas un dev? Hablemos.",
+    "sub": "El frontend es mi terreno, pero también trabajo con gusto en full stack o backend. Estoy disponible para puestos de tiempo completo. ¿Tienes una vacante, un proyecto o solo quieres hablar de algo tecnológico? El correo es la forma más rápida de encontrarme.",
     "email": "angeldev2110{'@'}gmail.com",
     "getInTouch": "Ponte en contacto",
     "copyEmail": "Copiar correo",
     "sendEmail": "Enviar correo",
     "emailCopied": "¡Copiado!",
+    "copyFailed": "No se pudo copiar. Selecciona el correo y cópialo a mano.",
+    "newTab": "se abre en una pestaña nueva",
     "findMe": "Encuéntrame en",
     "socials": {
       "linkedin": {
@@ -159,6 +140,14 @@
     "rights": "Todos los derechos reservados"
   },
   "hero": {
-    "label": "Dev"
+    "ctaProjects": "Ver mis proyectos",
+    "availability": "Disponible para tiempo completo",
+    "scroll": "Desliza",
+    "photoAlt": "Angel De La Torre recargado en un arco de piedra sobre una bahía en México"
+  },
+  "seo": {
+    "title": "Angel De La Torre — Desarrollador Frontend",
+    "description": "Angel De La Torre — Desarrollador Frontend en México que construye interfaces web rápidas y limpias con Vue.js, Nuxt, React y TypeScript.",
+    "socialDescription": "Desarrollador Frontend en México. Construyo webs que funcionan, cargan rápido y no hacen que quieras golpear la pantalla."
   }
 }

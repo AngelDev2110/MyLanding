@@ -6,12 +6,13 @@
       enterClass: 'animate__fadeInUp',
       threshold: 0.3,
     }"
+    @mouseenter="isHovered = true"
     @mousemove="onMouseMove"
     @mouseleave="onMouseLeave"
     :style="cardStyle"
   >
     <div class="tech-card__glow" :style="glowStyle" />
-    <img :src="`/img/${props.src}`" :alt="props.title" class="tech-card__image" />
+    <img :src="`/img/${props.src}`" alt="" class="tech-card__image" />
     <span class="tech-card__title">{{ props.title }}</span>
   </div>
 </template>
@@ -33,14 +34,15 @@ const rotateX = ref(0);
 const rotateY = ref(0);
 const glowX = ref(50);
 const glowY = ref(50);
+const isHovered = ref(false);
 
 // Computed Properties
 const cardStyle = computed(() => ({
-  transform: `perspective(600px) rotateX(${rotateX.value}deg) rotateY(${rotateY.value}deg) scale3d(1.04,1.04,1.04)`,
+  transform: `perspective(600px) rotateX(${rotateX.value}deg) rotateY(${rotateY.value}deg)${isHovered.value ? " scale3d(1.04,1.04,1.04)" : ""}`,
 }));
 
 const glowStyle = computed(() => ({
-  background: `radial-gradient(circle at ${glowX.value}% ${glowY.value}%, rgba(100,255,218,0.15), transparent 70%)`,
+  background: `radial-gradient(circle at ${glowX.value}% ${glowY.value}%, color-mix(in oklch, var(--accent) 15%, transparent), transparent 70%)`,
 }));
 
 // Watchers
@@ -63,6 +65,7 @@ function onMouseMove(e: MouseEvent) {
 }
 
 function onMouseLeave() {
+  isHovered.value = false;
   rotateX.value = 0;
   rotateY.value = 0;
   glowX.value = 50;
@@ -89,8 +92,8 @@ function onMouseLeave() {
   animation-fill-mode: both
   overflow: hidden
   &:hover
-    border-color: rgba(100, 255, 218, 0.35)
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(100,255,218,0.08)
+    border-color: rgba($accent, 0.35)
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba($accent, 0.08)
 
   &__glow
     position: absolute

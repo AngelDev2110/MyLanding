@@ -19,7 +19,6 @@
 
         <ul class="about__traits">
           <li v-for="trait in TRAITS" :key="trait" class="about__trait">
-            <span class="about__trait-icon">▹</span>
             {{ $t(`about.traits.${trait}`) }}
           </li>
         </ul>
@@ -45,15 +44,14 @@
           />
           <div class="about__photo-overlay" />
         </div>
-        <div class="about__photo-border" />
 
         <div class="about__chip about__chip--top">
-          <span class="about__chip-dot" />
-          Frontend Dev
+          <span class="about__chip-dot" aria-hidden="true" />
+          {{ $t("about.chipRole") }}
         </div>
         <div class="about__chip about__chip--bottom">
-          <span class="about__chip-dot" />
-          México 🇲🇽
+          <span class="about__chip-dot" aria-hidden="true" />
+          {{ $t("about.chipLocation") }}
         </div>
       </div>
     </div>
@@ -128,24 +126,28 @@ import { TRAITS } from "./constants";
     padding: 0
     margin: 0 0 32px
     display: grid
-    grid-template-columns: 1fr 1fr
+    grid-template-columns: 1fr
     gap: 12px
     @media (min-width: $bp-sm)
       grid-template-columns: 1fr 1fr
 
   &__trait
-    display: flex
-    align-items: flex-start
-    gap: 10px
+    position: relative
+    padding-left: 18px
     font-family: $font-mono
     font-size: 0.82rem
     color: $text-muted
     line-height: 1.4
-
-  &__trait-icon
-    color: $accent
-    flex-shrink: 0
-    margin-top: 1px
+    // Small accent square marker (replaces the ▹ glyph)
+    &::before
+      content: ''
+      position: absolute
+      left: 0
+      top: 0.45em
+      width: 6px
+      height: 6px
+      border-radius: 1px
+      background: $accent
 
   &__open-badge
     display: inline-flex
@@ -176,8 +178,8 @@ import { TRAITS } from "./constants";
       margin-left: auto
 
   &__photo-container
-    width: 300px
-    height: 360px
+    width: min(300px, 100%)
+    aspect-ratio: 5 / 6
     border-radius: 20px
     overflow: hidden
     position: relative
@@ -200,22 +202,6 @@ import { TRAITS } from "./constants";
     background: linear-gradient(to top, rgba($surface, 0.4) 0%, transparent 60%)
     pointer-events: none
 
-  &__photo-border
-    position: absolute
-    inset: 0
-    width: 300px
-    height: 360px
-    border-radius: 20px
-    border: 2px solid $accent
-    top: 14px
-    left: 14px
-    z-index: -1
-    // Hidden on small screens to avoid horizontal overflow
-    display: none
-    @media (min-width: $bp-md)
-      display: block
-      width: 340px
-      height: 400px
 
   &__chip
     position: absolute

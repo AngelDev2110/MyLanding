@@ -29,7 +29,6 @@
           :key="i"
           class="exp-entry__highlight"
         >
-          <span class="exp-entry__bullet">▹</span>
           {{ h }}
         </li>
       </ul>
@@ -118,7 +117,7 @@ const side = computed(() => (props.index % 2 === 0 ? "left" : "right"));
     width: 100%
     transition: border-color $transition-fast, box-shadow $transition-fast
     &:hover
-      border-color: rgba(100,255,218,0.25)
+      border-color: rgba($accent, 0.25)
       box-shadow: 0 8px 40px rgba(0,0,0,0.3)
 
   &__card-header
@@ -162,17 +161,21 @@ const side = computed(() => (props.index % 2 === 0 ? "left" : "right"));
     gap: 10px
 
   &__highlight
-    display: flex
-    gap: 10px
-    align-items: flex-start
+    position: relative
+    padding-left: 18px
     font-size: 0.9rem
     color: $text-muted
     line-height: 1.6
-
-  &__bullet
-    color: $accent
-    flex-shrink: 0
-    margin-top: 2px
+    // Small accent square marker (replaces the ▹ glyph)
+    &::before
+      content: ''
+      position: absolute
+      left: 0
+      top: 0.6em
+      width: 6px
+      height: 6px
+      border-radius: 1px
+      background: $accent
 
   &__tags
     display: flex
@@ -184,15 +187,15 @@ const side = computed(() => (props.index % 2 === 0 ? "left" : "right"));
     font-size: 0.72rem
     color: $accent
     background: $accent-dim
-    border: 1px solid rgba(100,255,218,0.2)
+    border: 1px solid rgba($accent, 0.2)
     padding: 3px 10px
     border-radius: 4px
 
 @keyframes pulse
   0%, 100%
     opacity: 1
-    box-shadow: 0 0 0 0 rgba(100,255,218,0.4)
+    box-shadow: 0 0 0 0 rgba($accent, 0.4)
   50%
     opacity: 0.6
-    box-shadow: 0 0 0 6px rgba(100,255,218,0)
+    box-shadow: 0 0 0 6px rgba($accent, 0)
 </style>

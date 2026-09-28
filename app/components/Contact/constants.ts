@@ -6,6 +6,8 @@ export interface SocialLink {
   icon: string;
   username: string;
   external: boolean;
+  /** Rendered as a full card; otherwise shown as a text link below the cards. */
+  featured: boolean;
 }
 
 export const SOCIAL_LINKS: SocialLink[] = [
@@ -15,6 +17,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
     icon: "linkedin.svg",
     username: "Angel De La Torre",
     external: true,
+    featured: true,
   },
   {
     key: "github",
@@ -22,6 +25,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
     icon: "github.svg",
     username: "@AngelDev2110",
     external: true,
+    featured: true,
   },
   {
     key: "wakatime",
@@ -29,5 +33,6 @@ export const SOCIAL_LINKS: SocialLink[] = [
     icon: "wakatime.svg",
     username: "@AngelDev21",
     external: true,
+    featured: false,
   },
 ];

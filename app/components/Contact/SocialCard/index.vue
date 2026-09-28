@@ -10,14 +10,19 @@
     }"
   >
     <div class="social-card__icon-wrap">
-      <img :src="`/img/${props.icon}`" :alt="props.label" class="social-card__icon" />
+      <img :src="`/img/${props.icon}`" alt="" class="social-card__icon" />
     </div>
     <div class="social-card__body">
       <span class="social-card__label">{{ props.label }}</span>
       <span class="social-card__username">{{ props.username }}</span>
       <span class="social-card__desc">{{ props.description }}</span>
+      <span v-if="props.external" class="sr-only">
+        ({{ $t("contact.newTab") }})
+      </span>
     </div>
-    <span class="social-card__arrow">↗︎</span>
+    <span class="social-card__arrow">
+      <AppIcon name="arrow-up-right" />
+    </span>
   </a>
 </template>
 
@@ -47,6 +52,7 @@ const props = defineProps<Props>();
 .social-card
   display: flex
   align-items: center
+  text-align: left
   gap: 20px
   background: $surface-card
   border: 1px solid $border
@@ -65,8 +71,9 @@ const props = defineProps<Props>();
     background: linear-gradient(135deg, $accent-dim, transparent)
     opacity: 0
     transition: opacity $transition-base
-  &:hover
-    border-color: rgba(100,255,218,0.3)
+  &:hover,
+  &:focus-visible
+    border-color: rgba($accent, 0.3)
     transform: translateY(-3px)
     box-shadow: 0 12px 40px rgba(0,0,0,0.3)
     &::before
@@ -124,7 +131,7 @@ const props = defineProps<Props>();
     text-overflow: ellipsis
 
   &__arrow
-    font-size: 1.2rem
+    display: inline-flex
     color: $accent
     flex-shrink: 0
     transition: transform $transition-base

@@ -1,7 +1,11 @@
 <template>
   <div id="stack">
     <div ref="wrapperRef" class="tech-stack-wrapper">
-      <div class="tech-stack-progress">
+      <div
+        v-show="isPinned"
+        class="tech-stack-progress"
+        aria-hidden="true"
+      >
         <div
           class="tech-stack-progress__bar"
           :style="{ width: `${progress * 100}%` }"
@@ -14,7 +18,9 @@
           <h2 class="section-heading">{{ $t("stack.heading") }}</h2>
           <p class="section-subheading">{{ $t("stack.sub") }}</p>
           <p class="tech-stack__scroll-hint">
-            <span class="tech-stack__scroll-hint-arrow">↓</span>
+            <span class="tech-stack__scroll-hint-arrow">
+              <AppIcon name="arrow-down" :size="14" />
+            </span>
             {{ $t("stack.scroll") }}
           </p>
         </div>
@@ -39,7 +45,7 @@
           </div>
         </div>
 
-        <div class="tech-stack__dots">
+        <div class="tech-stack__dots" aria-hidden="true">
           <div
             v-for="(cat, i) in CATEGORIES"
             :key="cat"
@@ -93,9 +99,8 @@ const wrapperRef = ref<HTMLElement | null>(null);
 const trackRef = ref<HTMLElement | null>(null);
 const progress = ref(0);
 const activeSlide = ref(0);
-let scrollTriggerInstance: ReturnType<typeof ScrollTrigger.create> | null =
-  null;
-let tween: gsap.core.Tween | null = null;
+const isPinned = ref(false);
+let mm: gsap.MatchMedia | null = null;
 
 // Computed Properties
 const techByCategory = computed(() =>
@@ -112,46 +117,50 @@ const techByCategory = computed(() =>
 
 // Lifecycle Hooks
 onMounted(() => {
-  if (typeof window === "undefined") return;
-
-  const mq = window.matchMedia(`(min-width: 1024px)`);
-  if (!mq.matches) return;
-
-  gsap.registerPlugin(ScrollTrigger);
-
   const track = trackRef.value;
   const wrapper = wrapperRef.value;
   if (!track || !wrapper) return;
 
-  const slides = track.querySelectorAll<HTMLElement>(".tech-stack__slide");
-  const totalSlides = slides.length;
-  const slideWidth = window.innerWidth;
-  const totalTrackWidth = slideWidth * totalSlides;
-  const scrollDistance = totalTrackWidth - slideWidth;
+  gsap.registerPlugin(ScrollTrigger);
 
-  gsap.set(track, { width: totalTrackWidth });
+  // matchMedia builds the pinned scroll only on desktop ($bp-lg) and reverts it
+  // automatically when the viewport crosses the breakpoint.
+  mm = gsap.matchMedia();
+  mm.add("(min-width: 1024px)", () => {
+    const totalSlides = CATEGORIES.length;
+    // Functions + invalidateOnRefresh: distances are recomputed on every resize
+    const scrollDistance = () => window.innerWidth * (totalSlides - 1);
 
-  tween = gsap.to(track, {
-    x: -scrollDistance,
-    ease: "none",
-    scrollTrigger: {
-      trigger: wrapper,
-      start: "top top",
-      end: () => `+=${scrollDistance}`,
-      scrub: 1,
-      pin: true,
-      anticipatePin: 1,
-      onUpdate: (self) => {
-        progress.value = self.progress;
-        activeSlide.value = Math.round(self.progress * (totalSlides - 1));
+    gsap.to(track, {
+      x: () => -scrollDistance(),
+      ease: "none",
+      scrollTrigger: {
+        trigger: wrapper,
+        start: "top top",
+        end: () => `+=${scrollDistance()}`,
+        scrub: 1,
+        pin: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onToggle: (self) => {
+          isPinned.value = self.isActive;
+        },
+        onUpdate: (self) => {
+          progress.value = self.progress;
+          activeSlide.value = Math.round(self.progress * (totalSlides - 1));
+        },
       },
-    },
+    });
+
+    return () => {
+      isPinned.value = false;
+    };
   });
 });
 
 onUnmounted(() => {
-  tween?.kill();
-  ScrollTrigger.getAll().forEach((t) => t.kill());
+  // Reverts only this component's tween and ScrollTrigger
+  mm?.revert();
 });
 </script>
 
@@ -174,7 +183,6 @@ onUnmounted(() => {
   &__bar
     height: 100%
     background: $accent
-    transition: width 0.1s linear
 
 .tech-stack-pin
   width: 100vw
@@ -200,11 +208,11 @@ onUnmounted(() => {
   margin-top: 16px
   font-family: $font-mono
   font-size: 0.75rem
-  color: $gray-600
+  color: $text-muted
   letter-spacing: 0.08em
-  animation: hintBounce 2s ease infinite
 
   &-arrow
+    display: inline-flex
     animation: arrowDown 1.5s ease infinite
 
 .tech-stack__track
@@ -284,12 +292,6 @@ onUnmounted(() => {
     display: flex
     flex-wrap: wrap
     gap: 14px
-
-@keyframes hintBounce
-  0%, 100%
-    opacity: 0.5
-  50%
-    opacity: 1
 
 @keyframes arrowDown
   0%, 100%

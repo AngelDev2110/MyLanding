@@ -25,8 +25,6 @@
 // Props and Emits
 
 // Composition API Helpers
-const { locale, availableLocales, setLocale } = useI18n();
-const currentLocale = computed(() => locale.value);
 
 // Reactive Variables
 const year = new Date().getFullYear();
@@ -92,7 +90,4 @@ const year = new Date().getFullYear();
     margin: 0
     text-align: center
 
-  &__lang
-    display: flex
-    gap: 6px
 </style>

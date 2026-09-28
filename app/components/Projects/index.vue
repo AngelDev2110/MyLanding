@@ -50,7 +50,7 @@ const PROJECTS = computed<ProjectCardProps[]>(() =>
 
 <style lang="sass" scoped>
 .projects
-  background: $surface
+  background: $dark-navy
   position: relative
 
   &__intro

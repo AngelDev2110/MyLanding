@@ -1,14 +1,13 @@
 <template>
   <component :is="props.component" class="appearing-text">
-    <span
-      v-for="(word, index) in words"
-      :key="index"
-      :style="{
-        animationDelay: `${(props.delay ?? 0) + index * 0.1}s`,
-      }"
-    >
-      {{ word }}
-    </span>
+    <template v-for="(word, index) in words" :key="index">
+      <span
+        :style="{
+          animationDelay: `${(props.delay ?? 0) + index * 0.1}s`,
+        }"
+        >{{ word }}</span
+      >{{ index < words.length - 1 ? " " : "" }}
+    </template>
   </component>
 </template>
 
@@ -22,10 +21,8 @@ const words = computed(() => props.text.split(" "));
 </script>
 
 <style lang="sass" scoped>
+// Real spaces between words (not flex gap) so the text copies and reads correctly
 .appearing-text
-  display: flex
-  flex-wrap: wrap
-  gap: 0.5rem
   span
     opacity: 0
     transform: translateY(15px)
