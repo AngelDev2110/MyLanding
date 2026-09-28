@@ -40,9 +40,11 @@ Definida en `app/plugins/intersect.ts` (plugin global). Uso:
   - Cada comando lleva el texto completo transparente (`.hero__type-ghost`, lo leen lectores de pantalla y se puede seleccionar) y encima la parte tipeada (`aria-hidden`), así la terminal no cambia de tamaño mientras se escribe.
   - El cursor se pausa cuando el hero sale de pantalla (se mide la altura real del `<section>`). Posiciones de foto y avatar se miden en `onMounted`, en `resize`, al cambiar la media query y tras cargar las fuentes.
 - **TechStack** (`section#stack`, estático en todos los tamaños): la salida de `cat package.json` dentro de un `TerminalWindow`. Cada categoría de `CATEGORIES` es una key del JSON (`<dl>`: `dt` = key traducida, `dd` = `<ul>` de tecnologías con su logo). Grupos de 4 o menos. En `md+` las filas comparten columnas del grid (`display: contents`) para alinear los arrays; en móvil la key va arriba y los `[` `]` se ocultan. Los logos llevan `alt=""`: el nombre accesible es el texto. Sin pin, sin scroll horizontal y sin GSAP.
-- **Experience**: timeline alternando izquierda/derecha según `index % 2`; la línea se “llena” con `useIntersectionObserver`.
+- **AboutMe**: salida de `cat about.md` en un `TerminalWindow` (markdown “renderizado”: `#` título en Fraunces como `h2`, bio en Nunito, rasgos como lista `-` en mono y `openToWork` como cita `>`; la sintaxis markdown va en mono ámbar y `aria-hidden`). La foto formal va al lado en `lg+` y debajo en móvil, con el mismo borde y resplandor de las ventanas.
+- **Projects**: título de sección + línea `$ ls projects/` (decorativa, `aria-hidden`) + una ventana por proyecto (`ProjectCard` usa `TerminalWindow` con título `~/projects/<carpeta>`, derivado del path de `link`). El link del título se estira con `::after` sobre el cuerpo de la ventana para que toda la tarjeta sea clicable; el anillo de foco se dibuja en la ventana con `:has()` porque su `overflow: hidden` recortaría el del link. Tags como `#tag` en mono. Sin elevación en hover: solo cambia el borde a ámbar.
+- **Experience**: salida de `git log --graph` en un `TerminalWindow`: un `<ol>` con un `ExperienceEntry` (`<li>`) por puesto; `*` ámbar por commit y un riel `|` (`::before`) hasta el siguiente. Cada entrada: periodo · tipo, rol en Fraunces, logros con `-` y tags `#tag`. Una sola columna en todos los tamaños.
 - **Contact** (cierre en la terminal): el correo sale solo de la constante `EMAIL` en `Contact/index.vue` (se muestra, se copia y va en el `mailto:`), partido en usuario y dominio con `<wbr>` para que en pantallas estrechas solo se corte después de la `@`. La confirmación de copiado o el error se imprime como una línea de la terminal dentro de un `role="status"`.
-- **TerminalWindow**: ventana de terminal compartida (Hero y Contact). Pone la barra con los tres puntos, el slot `bar` para extras (el avatar del hero), el `title`, el cuerpo con scanlines y los estilos de línea vía `:slotted`: usar las clases `terminal__line`, `terminal__prompt`, `terminal__cmd` y `terminal__output` en el contenido.
+- **TerminalWindow**: ventana de terminal compartida (Hero, About, Projects, Experience, TechStack y Contact). Pone la barra con los tres puntos, el slot `bar` para extras (el avatar del hero), el `title`, el cuerpo con scanlines y los estilos de línea vía `:slotted`: usar las clases `terminal__line`, `terminal__prompt`, `terminal__cmd` y `terminal__output` en el contenido.
 
 ## Convenciones de componentes
 
@@ -60,7 +62,7 @@ Conventional Commits con scope del componente/área: `feat(contact): …`, `fix(
 
 ## Accesibilidad y movimiento
 
-- `main.sass` define un anillo global `:focus-visible` (acento) y un bloque `prefers-reduced-motion: reduce` que resuelve al instante animaciones/transiciones y desactiva el scroll suave. Los estados `:hover` de CTAs y tarjetas se replican en `:focus-visible`.
+- `main.sass` define un anillo global `:focus-visible` (acento) y un bloque `prefers-reduced-motion: reduce` que resuelve al instante animaciones/transiciones y desactiva el scroll suave. Los estados `:hover` de CTAs y tarjetas se replican en `:focus-visible`. Nada se anima en bucle en el centro de la página (sin puntos que laten en About ni en Experience).
 - Para navegar a una sección usar `scrollToSelector()` (`app/utils/`, auto-importado): respeta reduced-motion.
 - `app.vue` sincroniza `<html lang>` con el locale activo vía `useLocaleHead()`.
 - Links externos llevan un `<span class="sr-only">` con `contact.newTab`; íconos/glifos decorativos van con `aria-hidden="true"` o `alt=""`.

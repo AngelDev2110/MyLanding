@@ -31,6 +31,7 @@ Usar en los encabezados de cada sección para mantener consistencia:
 - Todas las combinaciones de texto pasan WCAG AA (acento 10.3:1, `$text-muted` 9.2:1, `$gray-600` 6.8:1 sobre el fondo). `$gray-700` (2.9:1) solo para separadores/decoración.
 - Textura "fósforo ámbar CRT":
   - Grano: `body::after` en `main.sass`, capa fija a pantalla completa con ruido SVG `feTurbulence` en mosaico (160px, contraste subido con `feComponentTransfer` para que haya puntos claros y oscuros reales) al 5.5% de opacidad, `z-index: 50` (debajo del navbar) y `pointer-events: none`. Es estático, nunca se anima.
-  - Terminal del hero: scanlines con `repeating-linear-gradient` (blanco al 4.5%, cada 3px) en `.hero__terminal-body::after` y resplandor `text-shadow` ámbar **solo** en el texto que ya es ámbar (prompt `$`, claves de `cat now.md`, `//`). No aplicarlo a texto blanco, lo ensucia.
+  - Ventanas de terminal (`TerminalWindow`, usadas en todas las secciones): scanlines con `repeating-linear-gradient` (blanco al 4.5%, cada 3px) en `.terminal__body::after` y resplandor `text-shadow` ámbar **solo** en el texto que ya es ámbar (prompt `$`, claves de `cat now.md` y del `package.json`, marcas markdown de About, `*` del `git log`, `//`). No aplicarlo a texto blanco, lo ensucia.
+  - Títulos grandes dentro de la terminal (About, proyectos, puestos) van en Fraunces: el choque serif/mono es deliberado. La sintaxis (markdown, JSON, `#tags`, `-`) va en mono ámbar; la prosa en Nunito `$text-muted`.
   - Brillos radiales: solo quedan el del hero (arriba a la izquierda) y el de Contact (centro), como resplandor de inicio y cierre. No hay cuadrícula de fondo.
-- Viñetas de lista: cuadrito de acento de 6px con `::before`, no glifos (`▹`).
+- Viñetas de lista: dentro de las terminales, un `-` en mono ámbar (`::before` o `<span aria-hidden>`), como en markdown. No usar glifos (`▹`).

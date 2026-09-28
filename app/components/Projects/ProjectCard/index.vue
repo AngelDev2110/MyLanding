@@ -1,42 +1,48 @@
 <template>
-  <a
-    :href="props.link"
-    target="_blank"
-    rel="noopener noreferrer"
+  <article
     class="project-card animate__animated"
     v-intersect="{ enterClass: 'animate__fadeInUp', threshold: 0.2 }"
   >
-    <div class="project-card__media">
-      <img
-        v-if="props.image"
-        :src="`/img/${props.image}`"
-        :alt="$t('projects.screenshotAlt', { title: props.title })"
-        class="project-card__image"
-      />
-      <div v-else class="project-card__placeholder">
-        <span class="project-card__placeholder-icon">&lt;/&gt;</span>
+    <TerminalWindow :title="`~/projects/${folder}`" class="project-card__window">
+      <div class="project-card__media">
+        <img
+          v-if="props.image"
+          :src="`/img/${props.image}`"
+          :alt="$t('projects.screenshotAlt', { title: props.title })"
+          class="project-card__image"
+        />
+        <div v-else class="project-card__placeholder" aria-hidden="true">
+          &lt;/&gt;
+        </div>
       </div>
-    </div>
 
-    <div class="project-card__body">
-      <h3 class="project-card__title">{{ props.title }}</h3>
+      <h3 class="project-card__title">
+        <a
+          :href="props.link"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-card__link"
+        >
+          {{ props.title }}
+          <span class="sr-only">({{ $t("contact.newTab") }})</span>
+        </a>
+      </h3>
       <p class="project-card__description">{{ props.description }}</p>
 
-      <div class="project-card__tags">
-        <span v-for="tag in props.tags" :key="tag" class="project-card__tag">
-          {{ tag }}
-        </span>
-      </div>
+      <ul class="project-card__tags">
+        <li v-for="tag in props.tags" :key="tag" class="project-card__tag">
+          <span aria-hidden="true">#</span>{{ tag }}
+        </li>
+      </ul>
 
-      <span class="project-card__link">
+      <span class="project-card__cta" aria-hidden="true">
         {{ $t("projects.viewProject") }}
         <span class="project-card__arrow">
           <AppIcon name="arrow-up-right" :size="16" />
         </span>
-        <span class="sr-only">({{ $t("contact.newTab") }})</span>
       </span>
-    </div>
-  </a>
+    </TerminalWindow>
+  </article>
 </template>
 
 <script lang="ts" setup>
@@ -53,6 +59,14 @@ const props = defineProps<Props>();
 // Reactive Variables
 
 // Computed Properties
+// The window title mirrors the deployed path, e.g. /angel-front-themes
+const folder = computed(() => {
+  try {
+    return new URL(props.link).pathname.replace(/^\/|\/$/g, "") || "app";
+  } catch {
+    return "app";
+  }
+});
 
 // Watchers
 
@@ -63,28 +77,27 @@ const props = defineProps<Props>();
 
 <style lang="sass" scoped>
 .project-card
+  position: relative
   display: flex
-  flex-direction: column
-  background: $surface-card
-  border: 1px solid $border
-  border-radius: 16px
-  overflow: hidden
-  text-decoration: none
   animation-fill-mode: both
-  transition: border-color $transition-fast, box-shadow $transition-fast, transform $transition-fast
-  &:hover,
-  &:focus-visible
-    border-color: rgba($accent, 0.25)
-    box-shadow: 0 8px 40px rgba(0,0,0,0.3)
-    transform: translateY(-3px)
-    .project-card__arrow
-      transform: translate(3px, -3px)
-    .project-card__title
-      color: $accent
+
+  &__window
+    flex: 1
+    display: flex
+    flex-direction: column
+    transition: border-color $transition-fast
+    :deep(.terminal__body)
+      flex: 1
+  &:hover &__window,
+  &:focus-within &__window
+    border-color: rgba($accent, 0.5)
 
   &__media
     aspect-ratio: 16 / 9
     background: $surface-2
+    border-radius: 8px
+    overflow: hidden
+    border: 1px solid $border
 
   &__image
     width: 100%
@@ -98,58 +111,73 @@ const props = defineProps<Props>();
     display: flex
     align-items: center
     justify-content: center
-
-  &__placeholder-icon
     font-family: $font-mono
     font-size: 1.6rem
     color: $gray-700
 
-  &__body
-    padding: 28px
-    display: flex
-    flex-direction: column
-    flex: 1
-
   &__title
+    margin: 6px 0 0
     font-family: $font-display
-    font-size: 1.25rem
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem)
+    font-weight: 700
+    line-height: 1.2
+    letter-spacing: -0.01em
+
+  // The title link stretches over the window body (the positioned ancestor), so
+  // the card stays one big target; its focus ring is drawn on the whole window
+  // because the window's overflow: hidden would clip an outline on the link
+  &__link
     color: $white
-    margin: 0 0 10px
-    font-weight: 600
+    text-decoration: none
     transition: color $transition-fast
+    &::after
+      content: ''
+      position: absolute
+      inset: 0
+    &:focus-visible
+      outline: none
+  &:has(.project-card__link:focus-visible) .project-card__window
+    outline: 2px solid $accent
+    outline-offset: 3px
+  &:hover &__link,
+  &__link:focus-visible
+    color: $accent
 
   &__description
-    font-size: 0.9rem
+    margin: 0
+    font-size: 0.95rem
     color: $text-muted
-    line-height: 1.6
-    margin: 0 0 20px
+    line-height: 1.65
 
   &__tags
+    list-style: none
     display: flex
     flex-wrap: wrap
-    gap: 8px
-    margin-bottom: 20px
+    gap: 4px 14px
+    margin: 0
+    padding: 0
 
   &__tag
-    overflow-wrap: anywhere
     font-family: $font-mono
-    font-size: 0.72rem
-    color: $accent
-    background: $accent-dim
-    border: 1px solid rgba($accent, 0.2)
-    padding: 3px 10px
-    border-radius: 4px
+    font-size: 0.78rem
+    color: $text-muted
+    white-space: nowrap
+    span
+      color: $accent
 
-  &__link
-    display: flex
+  &__cta
+    display: inline-flex
     align-items: center
     gap: 8px
-    font-family: $font-mono
-    font-size: 0.82rem
-    color: $accent
     margin-top: auto
+    padding-top: 6px
+    font-family: $font-mono
+    font-size: 0.85rem
+    color: $accent
 
   &__arrow
     display: inline-flex
     transition: transform $transition-base
+  &:hover &__arrow
+    transform: translate(3px, -3px)
 </style>

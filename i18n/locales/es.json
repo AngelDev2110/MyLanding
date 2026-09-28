@@ -18,8 +18,6 @@
     "bio1": "Soy Desarrollador Frontend en México con 3 años de experiencia construyendo interfaces web rápidas, limpias y que se sienten bien de usar.",
     "bio2": "Vue.js y Nuxt son mi zona de confort, pero también me muevo bien en todo el ecosistema JS — React, Next.js, TypeScript, lo que se necesite. Y no me quedo en el navegador: en Noob Draw toda la lógica del juego vive en funciones SQL de Postgres protegidas con Row-Level Security. Me obsesiono con el código limpio y con componentes que le hagan sentido a quien los toque después.",
     "bio3": "Cuando no estoy programando, probablemente estoy tomando café y pensando en programar de todas formas.",
-    "chipRole": "Frontend Dev",
-    "chipLocation": "México",
     "traits": {
       "clean": "Obsesionado con el código limpio",
       "detail": "Detecta hasta un pixel mal alineado",

@@ -18,8 +18,6 @@
     "bio1": "I'm a Frontend Developer based in Mexico with 3 years of hands-on experience building web interfaces that are fast, clean, and actually pleasant to use.",
     "bio2": "Vue.js and Nuxt are my home turf, but I move comfortably across the JS ecosystem too — React, Next.js, TypeScript, you name it. And I don't stop at the browser: in Noob Draw, the whole game logic runs in Postgres SQL functions locked down with Row-Level Security. I obsess over clean code and components that actually make sense to whoever touches them next.",
     "bio3": "When I'm not coding, I'm probably drinking coffee and thinking about it anyway.",
-    "chipRole": "Frontend Dev",
-    "chipLocation": "Mexico",
     "traits": {
       "clean": "Obsessed with clean code",
       "detail": "Notices every misaligned pixel",

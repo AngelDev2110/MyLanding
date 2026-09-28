@@ -1,27 +1,14 @@
 <template>
-  <div
-    class="exp-entry"
-    :class="[`exp-entry--${side}`, { 'exp-entry--first': props.index === 0 }]"
-  >
-    <div class="exp-entry__dot">
-      <span class="exp-entry__dot-inner" />
-    </div>
+  <li class="exp-entry">
+    <span class="exp-entry__graph" aria-hidden="true">*</span>
 
-    <div
-      v-intersect="{
-        enterClass:
-          side === 'left' ? 'animate__fadeInLeft' : 'animate__fadeInRight',
-        threshold: 0.2,
-      }"
-      class="exp-entry__card animate__animated"
-    >
-      <div class="exp-entry__card-header">
-        <div>
-          <span class="exp-entry__type">{{ props.entry.type }}</span>
-          <h3 class="exp-entry__role">{{ props.entry.role }}</h3>
-        </div>
+    <div class="exp-entry__body">
+      <p class="exp-entry__meta">
         <span class="exp-entry__period">{{ props.entry.period }}</span>
-      </div>
+        <span class="exp-entry__sep" aria-hidden="true">·</span>
+        <span>{{ props.entry.type }}</span>
+      </p>
+      <h3 class="exp-entry__role">{{ props.entry.role }}</h3>
 
       <ul class="exp-entry__highlights">
         <li
@@ -33,13 +20,13 @@
         </li>
       </ul>
 
-      <div class="exp-entry__tags">
-        <span v-for="tag in props.entry.tags" :key="tag" class="exp-entry__tag">
-          {{ tag }}
-        </span>
-      </div>
+      <ul class="exp-entry__tags">
+        <li v-for="tag in props.entry.tags" :key="tag" class="exp-entry__tag">
+          <span aria-hidden="true">#</span>{{ tag }}
+        </li>
+      </ul>
     </div>
-  </div>
+  </li>
 </template>
 
 <script lang="ts" setup>
@@ -56,7 +43,6 @@ const props = defineProps<Props>();
 // Reactive Variables
 
 // Computed Properties
-const side = computed(() => (props.index % 2 === 0 ? "left" : "right"));
 
 // Watchers
 
@@ -66,135 +52,106 @@ const side = computed(() => (props.index % 2 === 0 ? "left" : "right"));
 </script>
 
 <style lang="sass" scoped>
+// git log --graph: a "*" per commit and a "|" rail joining it to the next one
 .exp-entry
-  display: flex
-  animation-fill-mode: both
   position: relative
-  justify-content: flex-end
-  padding-right: calc(50% + 40px)
-  padding-bottom: 56px
-  &--right
-    justify-content: flex-start
-    padding-right: 0
-    padding-left: calc(50% + 40px)
-  @media (max-width: $bp-md)
-    padding-right: 0
-    padding-left: 40px
-    justify-content: flex-start
-    &--right
-      padding-left: 40px
-
-  &__dot
+  display: grid
+  grid-template-columns: 2ch 1fr
+  column-gap: 10px
+  @media (min-width: $bp-sm)
+    column-gap: 14px
+  padding-bottom: 32px
+  &::before
+    content: ''
     position: absolute
-    left: 50%
-    top: 0
-    transform: translateX(-50%)
-    width: 16px
-    height: 16px
-    background: $surface
-    border: 2px solid $accent
-    border-radius: 50%
-    z-index: 1
-    display: flex
-    align-items: center
-    justify-content: center
-    @media (max-width: $bp-md)
-      left: 0
+    left: calc(1ch - 0.5px)
+    top: 1.6em
+    bottom: 4px
+    width: 1px
+    background: rgba($accent, 0.45)
+  &:last-child
+    padding-bottom: 4px
+    &::before
+      display: none
 
-  &__dot-inner
-    width: 6px
-    height: 6px
-    background: $accent
-    border-radius: 50%
-    animation: pulse 2.5s ease infinite
-
-  &__card
-    background: $surface-card
-    border: 1px solid $border
-    border-radius: 16px
-    padding: 28px
-    max-width: 460px
-    width: 100%
-    transition: border-color $transition-fast, box-shadow $transition-fast
-    &:hover
-      border-color: rgba($accent, 0.25)
-      box-shadow: 0 8px 40px rgba(0,0,0,0.3)
-
-  &__card-header
-    display: flex
-    align-items: flex-start
-    justify-content: space-between
-    gap: 12px
-    margin-bottom: 20px
-    flex-wrap: wrap
-
-  &__type
+  &__graph
     font-family: $font-mono
-    font-size: 0.72rem
+    font-size: 1.05rem
+    line-height: 1.5
+    font-weight: 700
+    text-align: center
     color: $accent
-    letter-spacing: 0.12em
-    text-transform: uppercase
-    display: block
-    margin-bottom: 6px
+    text-shadow: 0 0 8px rgba($accent, 0.45)
 
-  &__role
-    font-family: $font-display
-    font-size: 1.25rem
-    color: $white
+  &__body
+    min-width: 0
+
+  // Narrow screens stack period and type instead of leaving a dangling "·"
+  &__meta
+    display: flex
+    flex-direction: column
+    @media (min-width: $bp-sm)
+      flex-direction: row
+      flex-wrap: wrap
+    gap: 2px 10px
     margin: 0
-    font-weight: 600
+    font-family: $font-mono
+    font-size: 0.8rem
+    line-height: 1.9
+    color: $text-muted
 
   &__period
-    font-family: $font-mono
-    font-size: 0.78rem
-    color: $text-muted
-    white-space: nowrap
-    flex-shrink: 0
-    margin-top: 4px
+    color: $accent
+
+  &__sep
+    display: none
+    color: $gray-600
+    @media (min-width: $bp-sm)
+      display: inline
+
+  &__role
+    margin: 2px 0 14px
+    font-family: $font-display
+    font-size: clamp(1.3rem, 2.6vw, 1.7rem)
+    font-weight: 700
+    line-height: 1.2
+    letter-spacing: -0.01em
+    color: $white
 
   &__highlights
     list-style: none
     padding: 0
-    margin: 0 0 20px
+    margin: 0 0 14px
     display: flex
     flex-direction: column
-    gap: 10px
+    gap: 8px
 
   &__highlight
     position: relative
-    padding-left: 18px
-    font-size: 0.9rem
+    padding-left: 14px
+    font-size: 0.95rem
     color: $text-muted
     line-height: 1.6
     &::before
-      content: ''
+      content: '-'
       position: absolute
       left: 0
-      top: 0.6em
-      width: 6px
-      height: 6px
-      border-radius: 1px
-      background: $accent
+      font-family: $font-mono
+      color: $accent
 
   &__tags
+    list-style: none
     display: flex
     flex-wrap: wrap
-    gap: 8px
+    gap: 4px 14px
+    margin: 0
+    padding: 0
 
   &__tag
     font-family: $font-mono
-    font-size: 0.72rem
-    color: $accent
-    background: $accent-dim
-    border: 1px solid rgba($accent, 0.2)
-    padding: 3px 10px
-    border-radius: 4px
-
-@keyframes pulse
-  0%, 100%
-    opacity: 1
-    box-shadow: 0 0 0 0 rgba($accent, 0.4)
-  50%
-    opacity: 0.6
-    box-shadow: 0 0 0 6px rgba($accent, 0)
+    font-size: 0.78rem
+    color: $text-muted
+    white-space: nowrap
+    span
+      color: $accent
 </style>
