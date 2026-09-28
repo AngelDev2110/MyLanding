@@ -137,7 +137,14 @@
     "ctaProjects": "Ver mis proyectos",
     "availability": "Disponible para tiempo completo",
     "scroll": "Desliza",
-    "photoAlt": "Angel De La Torre recargado en un arco de piedra sobre una bahía en México"
+    "photoAlt": "Angel De La Torre recargado en un arco de piedra sobre una bahía en México",
+    "now": {
+      "locationLabel": "ubicación",
+      "location": "México",
+      "statusLabel": "estado",
+      "rolesLabel": "roles",
+      "roles": "Frontend primero · full stack o backend, bienvenidos"
+    }
   },
   "seo": {
     "title": "Angel De La Torre — Desarrollador Frontend",

@@ -137,7 +137,14 @@
     "ctaProjects": "See my projects",
     "availability": "Open to full-time roles",
     "scroll": "Scroll",
-    "photoAlt": "Angel De La Torre leaning on a stone arch above a bay in Mexico"
+    "photoAlt": "Angel De La Torre leaning on a stone arch above a bay in Mexico",
+    "now": {
+      "locationLabel": "location",
+      "location": "Mexico",
+      "statusLabel": "status",
+      "rolesLabel": "roles",
+      "roles": "Frontend first · full stack or backend welcome"
+    }
   },
   "seo": {
     "title": "Angel De La Torre — Frontend Developer",

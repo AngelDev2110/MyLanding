@@ -1,93 +1,95 @@
 <template>
-  <section id="hero" class="hero">
+  <section id="hero" ref="heroRef" class="hero">
     <div class="hero__bg-glow" aria-hidden="true" />
 
     <div class="hero__panel" :style="sceneVars">
       <div class="hero__panel-inner">
-        <div class="hero__left">
-          <div
-            class="hero__intro"
-            :class="{ 'hero__intro--inactive': terminalActive }"
-            :inert="terminalActive || undefined"
-          >
-            <h1 class="hero__name">
-              <AppearingText
-                component="span"
-                :text="nameLines.first"
-                class="hero__name-line"
-              />{{ " " }}<AppearingText
-                component="span"
-                :text="nameLines.rest"
-                class="hero__name-line"
-                :delay="0.1"
-              />
-            </h1>
-            <AppearingText
-              component="h2"
-              :text="$t('myRole')"
-              class="hero__role"
-              :delay="0.5"
-            />
-            <p
-              class="hero__tagline animate__animated animate__fadeInUp"
-              style="animation-delay: 0.5s"
-            >
-              {{ $t("tagline") }}
-            </p>
-
+        <div class="hero__stage">
+          <div class="hero__left">
             <div
-              class="hero__ctas animate__animated animate__fadeInUp"
-              style="animation-delay: 0.7s"
+              class="hero__intro"
+              :class="{ 'hero__intro--inactive': terminalActive }"
+              :inert="terminalActive || undefined"
             >
-              <a
-                href="#projects"
-                class="hero__cta hero__cta--primary"
-                @click.prevent="scrollToSection('#projects')"
+              <h1 class="hero__name">
+                <AppearingText
+                  component="span"
+                  :text="nameLines.first"
+                  class="hero__name-line"
+                />{{ " " }}<AppearingText
+                  component="span"
+                  :text="nameLines.rest"
+                  class="hero__name-line"
+                  :delay="0.1"
+                />
+              </h1>
+              <AppearingText
+                component="h2"
+                :text="$t('myRole')"
+                class="hero__role"
+                :delay="0.5"
+              />
+              <p
+                class="hero__tagline animate__animated animate__fadeInUp"
+                style="animation-delay: 0.5s"
               >
-                {{ $t("hero.ctaProjects") }}
-                <span class="hero__cta-arrow">
-                  <AppIcon name="arrow-right" :size="16" />
+                {{ $t("tagline") }}
+              </p>
+
+              <div
+                class="hero__ctas animate__animated animate__fadeInUp"
+                style="animation-delay: 0.7s"
+              >
+                <a
+                  href="#projects"
+                  class="hero__cta hero__cta--primary"
+                  @click.prevent="scrollToSection('#projects')"
+                >
+                  {{ $t("hero.ctaProjects") }}
+                  <span class="hero__cta-arrow">
+                    <AppIcon name="arrow-right" :size="16" />
+                  </span>
+                </a>
+                <a
+                  href="#contact"
+                  class="hero__cta hero__cta--secondary"
+                  @click.prevent="scrollToSection('#contact')"
+                >
+                  {{ $t("contact.getInTouch") }}
+                </a>
+              </div>
+
+              <p
+                class="hero__badge animate__animated animate__fadeInUp"
+                style="animation-delay: 1s"
+              >
+                <span class="hero__badge-status">
+                  <span class="hero__badge-dot" aria-hidden="true" />
+                  {{ $t("hero.availability") }}
                 </span>
-              </a>
-              <a
-                href="#contact"
-                class="hero__cta hero__cta--secondary"
-                @click.prevent="scrollToSection('#contact')"
-              >
-                {{ $t("contact.getInTouch") }}
-              </a>
+                <span class="hero__badge-sep" aria-hidden="true">·</span>
+                <span>{{ $t("yearsExp") }}</span>
+              </p>
             </div>
-
-            <p
-              class="hero__badge animate__animated animate__fadeInUp"
-              style="animation-delay: 1s"
-            >
-              <span class="hero__badge-status">
-                <span class="hero__badge-dot" aria-hidden="true" />
-                {{ $t("hero.availability") }}
-              </span>
-              <span class="hero__badge-sep" aria-hidden="true">·</span>
-              <span>{{ $t("yearsExp") }}</span>
-            </p>
           </div>
-        </div>
 
-        <div ref="photoWrapRef" class="hero__right">
-          <div class="hero__photo-frame" :style="photoStyle">
-            <img
-              src="/img/me.jpeg"
-              :alt="$t('hero.photoAlt')"
-              class="hero__photo"
-            />
-            <div class="hero__photo-glow" />
+          <div ref="photoWrapRef" class="hero__right">
+            <div class="hero__photo-frame" :style="photoStyle">
+              <img
+                src="/img/me.jpeg"
+                :alt="$t('hero.photoAlt')"
+                class="hero__photo"
+              />
+              <div class="hero__photo-glow" />
+            </div>
           </div>
         </div>
 
         <TerminalWindow
           title="angel@dev: ~"
           class="hero__terminal"
-          :class="{ 'hero__terminal--inactive': !terminalActive }"
-          :inert="!terminalActive || undefined"
+          :class="{ 'hero__terminal--inactive': terminalHidden }"
+          :inert="terminalHidden || undefined"
         >
           <template #bar>
             <span ref="avatarSlotRef" class="hero__terminal-avatar">
@@ -123,13 +125,16 @@
                 >
               </span>
             </p>
-            <p
-              v-else-if="step.kind === 'name'"
-              class="terminal__output hero__terminal-output"
+            <dl
+              v-else-if="step.kind === 'now'"
+              class="hero__now"
               :class="{ 'hero__terminal-pending': !step.visible }"
             >
-              {{ $t("myName") }} — {{ $t("myRole") }}
-            </p>
+              <template v-for="entry in nowEntries" :key="entry.label">
+                <dt class="hero__now-key">{{ entry.label }}:</dt>
+                <dd class="hero__now-value">{{ entry.value }}</dd>
+              </template>
+            </dl>
             <p
               v-else
               class="hero__terminal-comment"
@@ -166,27 +171,31 @@ const { scrollY } = useInjectWindowScroll();
 const { t } = useI18n();
 
 // Reactive Variables
+const heroRef = ref<HTMLElement | null>(null);
 const photoWrapRef = ref<HTMLElement | null>(null);
 const avatarSlotRef = ref<HTMLElement | null>(null);
 const viewportHeight = ref(800);
-const isDesktop = ref(false);
-const reduceMotion = ref(false);
+const heroHeight = ref(Infinity);
+const scene = ref(false);
 const travel = ref({ dx: 0, dy: 0 });
 
-const SWITCH_AT = 0.4;
+// Must match $scene in the <style> block: the scroll scene only runs where it
+// has room and the visitor accepts motion; everywhere else the hero is static
+const SCENE_QUERY =
+  "(min-width: 1024px) and (prefers-reduced-motion: no-preference)";
+const SWITCH_AT = 0.22;
 const AVATAR_SIZE = 22;
 const FRAME = { width: 280, height: 340, radius: 20 };
-const HERO_HEIGHT_VH = 3;
-// Scroll positions in viewport heights; the 300vh hero leaves 2vh of sticky scroll,
-// and typing ends at 1.8 so the finished terminal holds before the next section
+// Scroll positions in viewport heights; the 180vh scene leaves 0.8vh of sticky
+// scroll, and typing ends at 0.7 so the finished terminal holds before leaving
 const RANGES = {
-  introOut: [0.25, SWITCH_AT],
-  photo: [0.22, 0.55],
-  terminalIn: [0.35, 0.5],
-  typing: [0.55, 1.8],
+  introOut: [0.08, SWITCH_AT],
+  photo: [0.06, 0.32],
+  terminalIn: [0.16, 0.3],
+  typing: [0.3, 0.7],
 } as const;
 // Pause, in typed-character units, before each command's output appears
-const OUTPUT_WEIGHT = { name: 6, quote: 10 };
+const OUTPUT_WEIGHT = { now: 8, quote: 10 };
 
 // Computed Properties
 const nameLines = computed(() => {
@@ -194,32 +203,36 @@ const nameLines = computed(() => {
   return { first, rest: rest.join(" ") };
 });
 
+const nowEntries = computed(() => [
+  { label: t("hero.now.locationLabel"), value: t("hero.now.location") },
+  { label: t("hero.now.statusLabel"), value: t("hero.availability") },
+  { label: t("hero.now.rolesLabel"), value: t("hero.now.roles") },
+]);
+
 const scrollInVh = computed(
   () => (scrollY?.value ?? 0) / viewportHeight.value,
 );
 
-const terminalActive = computed(() => scrollInVh.value >= SWITCH_AT);
-const heroInView = computed(() => scrollInVh.value < HERO_HEIGHT_VH);
-const animatedTravel = computed(() => isDesktop.value && !reduceMotion.value);
+const terminalActive = computed(
+  () => scene.value && scrollInVh.value >= SWITCH_AT,
+);
+const terminalHidden = computed(() => scene.value && !terminalActive.value);
+const heroInView = computed(() => (scrollY?.value ?? 0) < heroHeight.value);
 
 const introProgress = computed(() =>
-  reduceMotion.value
-    ? Number(terminalActive.value)
-    : easeOutCubic(segment(RANGES.introOut)),
+  scene.value ? easeOutCubic(segment(RANGES.introOut)) : 0,
 );
 
 const terminalProgress = computed(() =>
-  reduceMotion.value
-    ? Number(terminalActive.value)
-    : easeOutCubic(segment(RANGES.terminalIn)),
+  scene.value ? easeOutCubic(segment(RANGES.terminalIn)) : 1,
 );
 
 const photoProgress = computed(() =>
-  animatedTravel.value ? easeInOutCubic(segment(RANGES.photo)) : 0,
+  scene.value ? easeInOutCubic(segment(RANGES.photo)) : 0,
 );
 
 const showSlotAvatar = computed(
-  () => !animatedTravel.value || photoProgress.value >= 1,
+  () => !scene.value || photoProgress.value >= 1,
 );
 
 const sceneVars = computed(() => ({
@@ -228,9 +241,7 @@ const sceneVars = computed(() => ({
 }));
 
 const photoStyle = computed(() => {
-  if (!animatedTravel.value) {
-    return { opacity: terminalActive.value ? 0 : 1 };
-  }
+  if (!scene.value) return {};
   const p = photoProgress.value;
   const scale = 1 + (AVATAR_SIZE / FRAME.width - 1) * p;
   const inset = ((FRAME.height - FRAME.width) / 2) * p;
@@ -243,18 +254,18 @@ const photoStyle = computed(() => {
 });
 
 const typedSteps = computed(() => {
-  const commands = ["whoami", "cat philosophy.md", t("terminalCmd")];
+  const commands = ["cat now.md", "cat philosophy.md", t("terminalCmd")];
   const units = [
     commands[0]!.length,
-    OUTPUT_WEIGHT.name,
+    OUTPUT_WEIGHT.now,
     commands[1]!.length,
     OUTPUT_WEIGHT.quote,
     commands[2]!.length,
   ];
   const total = units.reduce((sum, unit) => sum + unit, 0);
-  let budget = reduceMotion.value
-    ? total
-    : Math.round(segment(RANGES.typing) * total);
+  let budget = scene.value
+    ? Math.round(segment(RANGES.typing) * total)
+    : total;
 
   const spent = units.map((unit) => {
     const used = Math.min(unit, Math.max(budget, 0));
@@ -275,7 +286,7 @@ const typedSteps = computed(() => {
   });
   return [
     command(0, 0),
-    { kind: "name" as const, visible: spent[1]! >= units[1]! },
+    { kind: "now" as const, visible: spent[1]! >= units[1]! },
     command(1, 2),
     { kind: "quote" as const, visible: spent[3]! >= units[3]! },
     command(2, 4),
@@ -285,22 +296,18 @@ const typedSteps = computed(() => {
 // Watchers
 
 // Lifecycle Hooks
-let desktopQuery: MediaQueryList | null = null;
-let motionQuery: MediaQueryList | null = null;
+let sceneQuery: MediaQueryList | null = null;
 
 onMounted(() => {
-  desktopQuery = window.matchMedia("(min-width: 1024px)");
-  motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-  desktopQuery.addEventListener("change", syncMedia);
-  motionQuery.addEventListener("change", syncMedia);
+  sceneQuery = window.matchMedia(SCENE_QUERY);
+  sceneQuery.addEventListener("change", syncMedia);
   window.addEventListener("resize", measure);
   document.fonts?.ready.then(measure);
   syncMedia();
 });
 
 onUnmounted(() => {
-  desktopQuery?.removeEventListener("change", syncMedia);
-  motionQuery?.removeEventListener("change", syncMedia);
+  sceneQuery?.removeEventListener("change", syncMedia);
   window.removeEventListener("resize", measure);
 });
 
@@ -310,13 +317,14 @@ function scrollToSection(selector: string) {
 }
 
 function syncMedia() {
-  isDesktop.value = desktopQuery?.matches ?? false;
-  reduceMotion.value = motionQuery?.matches ?? false;
-  measure();
+  scene.value = sceneQuery?.matches ?? false;
+  // The layout switches with the media query; measure once Vue has re-rendered
+  nextTick(measure);
 }
 
 function measure() {
   viewportHeight.value = window.innerHeight;
+  heroHeight.value = heroRef.value?.offsetHeight ?? Infinity;
   const wrap = photoWrapRef.value?.getBoundingClientRect();
   const slot = avatarSlotRef.value?.getBoundingClientRect();
   if (!wrap || !slot || !wrap.width) return;
@@ -340,11 +348,17 @@ function easeInOutCubic(x: number) {
 </script>
 
 <style lang="sass" scoped>
+// Must match SCENE_QUERY in the script
+$scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
+
+// Static by default: the intro, then the finished terminal in the flow.
+// Only $scene pins the panel and turns the hero into a scroll-driven scene.
 .hero
   position: relative
-  height: 300vh
   background: $dark-navy
   padding: 0
+  @media #{$scene}
+    height: 180vh
 
 .hero__bg-glow
   position: absolute
@@ -359,37 +373,48 @@ function easeInOutCubic(x: number) {
   z-index: 0
 
 .hero__panel
-  position: sticky
-  top: 0
-  height: 100vh
-  height: 100svh
+  position: relative
   z-index: 2
-  display: flex
-  align-items: stretch
+  @media #{$scene}
+    position: sticky
+    top: 0
+    height: 100vh
+    height: 100svh
 
 .hero__panel-inner
   position: relative
-  width: 100%
-  height: 100%
+  padding: 0 20px $section-padding-mobile
+  @media (min-width: $bp-md)
+    padding: 0 60px $section-padding
+  @media (min-width: $bp-lg)
+    padding: 0 100px $section-padding
+  @media #{$scene}
+    height: 100%
+    padding-bottom: 0
+
+.hero__stage
   display: flex
   align-items: center
   justify-content: space-between
-  padding: 68px 20px 68px
-  box-sizing: border-box
-  @media (min-width: $bp-md)
-    padding: 68px 60px
-  @media (min-width: $bp-lg)
-    padding: 68px 100px
+  gap: 48px
+  // Clears the fixed 68px navbar without a forced full-screen height, so the
+  // terminal peeks in right below the intro instead of after an empty band
+  padding: clamp(84px, 14svh, 132px) 0 48px
+  @media #{$scene}
+    height: 100%
+    min-height: 0
+    padding: 68px 0
 
 .hero__left
   flex: 1
   min-width: 0
 
 .hero__intro
-  opacity: calc(1 - var(--intro-out, 0))
-  transform: translateY(calc(var(--intro-out, 0) * -24px))
   &--inactive
     pointer-events: none
+  @media #{$scene}
+    opacity: calc(1 - var(--intro-out, 0))
+    transform: translateY(calc(var(--intro-out, 0) * -24px))
 
   .hero__name
     font-family: $font-display
@@ -427,7 +452,7 @@ function easeInOutCubic(x: number) {
 
 .hero__ctas
   display: flex
-  gap: 16px
+  gap: 12px 16px
   margin-top: 32px
   flex-wrap: wrap
   animation-fill-mode: both
@@ -502,14 +527,17 @@ function easeInOutCubic(x: number) {
     animation: pulse 2s ease infinite
 
 .hero__terminal
-  position: absolute
-  top: 50%
-  left: 50%
+  position: relative
   z-index: 2
-  width: min(640px, calc(100% - 40px))
-  translate: -50% -50%
-  opacity: var(--terminal-in, 0)
-  clip-path: inset(0 0 calc((1 - var(--terminal-in, 0)) * 100%) 0 round 14px)
+  max-width: 640px
+  @media #{$scene}
+    position: absolute
+    top: 50%
+    left: 50%
+    width: min(640px, calc(100% - 40px))
+    translate: -50% -50%
+    opacity: var(--terminal-in, 0)
+    clip-path: inset(0 0 calc((1 - var(--terminal-in, 0)) * 100%) 0 round 14px)
   &--inactive
     pointer-events: none
 
@@ -531,9 +559,23 @@ function easeInOutCubic(x: number) {
   object-fit: cover
   object-position: 75% center
 
-.hero__terminal-output
+.hero__now
+  display: grid
+  grid-template-columns: auto 1fr
+  gap: 4px 14px
   margin: -6px 0 4px
   padding-left: 22px
+  font-family: $font-mono
+  font-size: 0.9rem
+  line-height: 1.5
+
+.hero__now-key
+  color: $accent
+  text-shadow: 0 0 8px rgba($accent, 0.45)
+
+.hero__now-value
+  margin: 0
+  color: $white
 
 .hero__terminal-dim .terminal__cmd
   color: $gray-600
@@ -609,9 +651,10 @@ function easeInOutCubic(x: number) {
   background: linear-gradient(to top, rgba($dark-navy, 0.55) 0%, transparent 60%)
   pointer-events: none
 
+// Only the scene has something to scroll for
 .hero__scroll-indicator
   display: none
-  @media (min-width: $bp-md)
+  @media #{$scene}
     display: flex
   position: fixed
   bottom: 40px

@@ -12,7 +12,7 @@ Cada sección es un elemento con `id` (`hero`, `about`, `stack`, `experience`, `
 
 - `useScrollProvider()` se llama una sola vez en `app.vue`: escucha `window.scroll` y hace `provide("scrollY", readonly(ref))`.
 - Los componentes lo consumen con `useInjectWindowScroll()` (devuelve `{ scrollY }`, posiblemente `undefined` → usar `scrollY?.value ?? 0`).
-- Usuarios: `Hero` (escena intro → terminal ligada al scroll, ver abajo) y `TheNavbar` (fondo con blur cuando `scrollY > 60`).
+- Usuarios: `Hero` (escena intro → terminal ligada al scroll en desktop, ver abajo) y `TheNavbar` (fondo con blur cuando `scrollY > 60`).
 - No usar `useScroll`/`useWindowScroll` de VueUse para esto; se reemplazó a propósito por este patrón (commit `1626f82`).
 
 ## Animaciones de entrada: directiva `v-intersect`
@@ -29,14 +29,16 @@ Definida en `app/plugins/intersect.ts` (plugin global). Uso:
 
 ## Secciones con comportamiento no obvio
 
-- **Hero** (escena ligada al scroll): el `<section>` mide `300vh` (`HERO_HEIGHT_VH`, debe coincidir con el CSS) y el panel interno es `position: sticky` de `100vh`, lo que deja 2vh de scroll para la escena. Intro y terminal están **siempre en el DOM**; el scroll (en unidades de `innerHeight`, rangos en `RANGES` dentro de `Hero.vue`) calcula progresos 0→1 que se aplican con las variables CSS `--intro-out` y `--terminal-in` y con estilos inline:
-  - 0.25–0.4: la intro se desvanece y sube. En 0.4 (`SWITCH_AT`) el estado activo cambia: el oculto queda `inert` y sin `pointer-events`.
-  - 0.22–0.55 (solo desktop con movimiento): la foto viaja y se encoge (FLIP con `transform` + `clip-path` de rectángulo a círculo) hasta el avatar de la barra de la terminal; al llegar, la reemplaza el `<img>` del avatar.
-  - 0.35–0.5: la ventana de la terminal se abre con `clip-path`.
-  - 0.55–1.8: los comandos se tipean según el scroll (1.8–2.0 es una pausa con la terminal completa antes de salir); cada salida aparece completa tras una pausa (`OUTPUT_WEIGHT`) y el cursor espera al final del comando.
+- **Hero** (escena ligada al scroll solo en desktop): la escena corre únicamente con `(min-width: 1024px) and (prefers-reduced-motion: no-preference)` (`SCENE_QUERY` en el script y `$scene` en el CSS; deben coincidir). El layout lo decide la media query de CSS, no JS, para que el SSR ya pinte el modo correcto.
+  - **Modo estático** (móvil, tablet y movimiento reducido): intro arriba (sin altura forzada, así la terminal asoma justo debajo) y la terminal ya completa en el flujo, sin sticky ni tipeo. El avatar se ve fijo en la barra; en desktop con movimiento reducido la foto queda estática a la derecha.
+  - **Modo escena**: el `<section>` mide `180vh` y el panel interno es `position: sticky` de `100vh`, lo que deja 0.8vh de scroll. Intro y terminal están **siempre en el DOM**; el scroll (en unidades de `innerHeight`, rangos en `RANGES`) calcula progresos 0→1 que se aplican con `--intro-out`, `--terminal-in` y estilos inline:
+    - 0.08–0.22: la intro se desvanece y sube. En 0.22 (`SWITCH_AT`) el estado activo cambia: el oculto queda `inert` y sin `pointer-events`.
+    - 0.06–0.32: la foto viaja y se encoge (FLIP con `transform` + `clip-path` de rectángulo a círculo) hasta el avatar de la barra; al llegar, la reemplaza el `<img>` del avatar.
+    - 0.16–0.3: la ventana de la terminal se abre con `clip-path`.
+    - 0.3–0.7: los comandos se tipean según el scroll (0.7–0.8 es una pausa con la terminal completa); cada salida aparece tras una pausa (`OUTPUT_WEIGHT`) y el cursor espera al final del comando.
+  - Comandos: `cat now.md` (ubicación, disponibilidad y roles como `<dl>`, keys `hero.now.*`), `cat philosophy.md` (`funnyQuote`) y `terminalCmd`. No repiten el nombre ni el rol del h1.
   - Cada comando lleva el texto completo transparente (`.hero__type-ghost`, lo leen lectores de pantalla y se puede seleccionar) y encima la parte tipeada (`aria-hidden`), así la terminal no cambia de tamaño mientras se escribe.
-  - Con `prefers-reduced-motion`: sin viaje de foto ni tipeo; en 0.4 se pasa directo a la terminal completa. En móvil (< 1024px) no hay foto: el avatar aparece fijo y solo hay tipeo.
-  - Las posiciones de foto y avatar se miden en `onMounted`, en `resize` y tras cargar las fuentes.
+  - El cursor se pausa cuando el hero sale de pantalla (se mide la altura real del `<section>`). Posiciones de foto y avatar se miden en `onMounted`, en `resize`, al cambiar la media query y tras cargar las fuentes.
 - **TechStack**: dos marcados distintos en el mismo componente. Desktop (≥1024px, `gsap.matchMedia()` en `onMounted`, que construye/revierte el pin al cruzar el breakpoint; distancias como funciones con `invalidateOnRefresh` para soportar resize) usa GSAP ScrollTrigger con `pin` + `scrub` para desplazar horizontalmente un slide por categoría, con barra de progreso y dots. Mobile usa `.tech-stack-mobile` como grid vertical. El breakpoint está hardcodeado en JS (`1024px`) y debe coincidir con `$bp-lg`. El wrapper es `<div id="stack">`, no `<section>`.
 - **Experience**: timeline alternando izquierda/derecha según `index % 2`; la línea se “llena” con `useIntersectionObserver`.
 - **Contact** (cierre en la terminal): el correo sale solo de la constante `EMAIL` en `Contact/index.vue` (se muestra, se copia y va en el `mailto:`), partido en usuario y dominio con `<wbr>` para que en pantallas estrechas solo se corte después de la `@`. La confirmación de copiado o el error se imprime como una línea de la terminal dentro de un `role="status"`.
