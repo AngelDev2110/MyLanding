@@ -6,12 +6,12 @@ Todo el texto visible vive en `i18n/locales/en.json` (default) y `i18n/locales/e
 
 | Sección | Keys i18n | Datos no traducibles |
 |---|---|---|
-| Globales / Hero | `myName`, `myRole`, `tagline`, `funnyQuote`, `terminalCmd`, `yearsExp`, `openToWork`, `hero.{ctaProjects,availability,scroll,photoAlt}`, `hero.now.*` (salida de `cat now.md`; el valor de `status` reutiliza `hero.availability`) | Foto `public/img/me.jpeg` (también se usa en la imagen og, ver [deployment.md](./deployment.md)) |
+| Globales / Hero | `myName`, `myRole`, `tagline`, `funnyQuote`, `terminalCmd`, `yearsExp`, `hero.{ctaProjects,availability,scroll,photoAlt}`, `hero.now.*` (salida de `cat now.md`: ubicación y roles) | Foto `public/img/me.jpeg` (también se usa en la imagen og, ver [deployment.md](./deployment.md)) |
 | Navbar | `nav.*` (una key por sección) | `navLinks` en `TheNavbar/index.vue` |
-| About | `about.heading/bio1-3`, `about.traits.*`, `openToWork` (cita final de `about.md`) | `TRAITS` en `AboutMe/constants.ts` (lista de keys), foto `meFormal.jpeg` |
+| About | `about.heading/bio1-3`, `about.traits.<key>.{claim,proof}` | `TRAITS` en `AboutMe/constants.ts` (`key` + `href` de la prueba), foto `meFormal.jpeg` |
 | Tech stack | `stack.heading`, `stack.sub`, `stack.categories.{frameworks,styling,languages,backend,workflow}` (se muestran como keys del JSON, en minúsculas), `stack.scroll` (pista en la barra de estado del modo fijado) | `TECH_LIST` y `CATEGORIES` en `TechStack/constants.ts` (nombre, icono, categoría) |
 | Experience | `experience.entries[]` → `role`, `period`, `type`, `highlights[]`, `tags[]` | — (todo en i18n) |
-| Projects | `projects.entries[]` → `title`, `description`, `tags[]` | `PROJECT_LINKS` en `Projects/constants.ts` (`link`, `image`) |
+| Projects | `projects.entries[]` → `title`, `description`, `tags[]`; `projects.viewProject`, `projects.viewCode` | `PROJECT_LINKS` en `Projects/constants.ts` (`link`, `repo`, `image`) |
 | Contact | `contact.*`, `contact.socials.<key>.description` | `SOCIAL_LINKS` en `Contact/constants.ts`, constante `EMAIL` en `Contact/index.vue` |
 | Footer | `footer.built`, `footer.stats` | `WAKATIME_URL` en `TheFooter/constants.ts` |
 | SEO / meta | `seo.title`, `seo.description`, `seo.socialDescription` | `useSeoMeta` en `app.vue`; meta estáticas en `app.head` de `nuxt.config.ts` |
@@ -20,9 +20,10 @@ Todo el texto visible vive en `i18n/locales/en.json` (default) y `i18n/locales/e
 
 - **Tecnología**: añadir entrada a `TECH_LIST` y el SVG en `public/img/`. Nombre no se traduce. Mantener cada categoría en 4 elementos o menos; si una crece, partirla en una categoría nueva (tipo en `TechCategory`, orden en `CATEGORIES` y `stack.categories.<key>` en ambos locales).
 - **Experiencia**: añadir objeto a `experience.entries` en ambos locales. Se lee con `tm()` + `rt()`; el `role` se usa como `key` del `v-for`, así que debe ser único.
-- **Proyecto**: añadir objeto a `projects.entries` en ambos locales **y** una entrada en `PROJECT_LINKS` en la **misma posición** — se emparejan por índice. `image: null` muestra un placeholder `</>`. Si el proyecto se sirve bajo `angeldlt.dev/<ruta>`, añadir también la `routeRule` de proxy (ver [deployment.md](./deployment.md)).
+- **Proyecto**: añadir objeto a `projects.entries` en ambos locales **y** una entrada en `PROJECT_LINKS` en la **misma posición** — se emparejan por índice. `repo` es la URL del código en GitHub (link "Code" de la tarjeta; el de Angel Front Themes apunta a `angel-vue-themes`, su nombre original). `image: null` muestra un placeholder `</>`. Si el proyecto se sirve bajo `angeldlt.dev/<ruta>`, añadir también la `routeRule` de proxy (ver [deployment.md](./deployment.md)).
 - **Red social**: añadir a `SocialKey`, a `SOCIAL_LINKS` y `contact.socials.<key>.description` en ambos locales. Se imprime en la terminal de Contact como `open <key>` (la key es el comando visible, en minúsculas) con la descripción como comentario `//`. Máximo 4 acciones en esa terminal (hoy: copiar, enviar, LinkedIn, GitHub); lo demás va al footer como nota, como WakaTime.
-- **Trait**: añadir key a `TRAITS` y `about.traits.<key>` en ambos locales.
+- **Trait**: cada rasgo es una afirmación con su prueba. Añadir `{ key, href }` a `TRAITS` (`href` = repo o ancla de una sección, p. ej. `#experience`) y `about.traits.<key>.{claim,proof}` en ambos locales. Sin prueba enlazable, no entra.
+- **Copy sin repeticiones**: la disponibilidad (`hero.availability`) sale una vez en el hero (badge) y una en Contacto (inicio de `contact.sub`, con la misma redacción); "full stack o backend" solo en `hero.now.roles`; el rol solo en el h1/h2 del hero, el puesto de Experiencia y el SEO; los años solo en `yearsExp`. Revisar antes de añadir copy nuevo.
 
 ## Gotchas de vue-i18n
 

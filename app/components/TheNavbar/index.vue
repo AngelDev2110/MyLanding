@@ -209,10 +209,12 @@ function mobileNavigate(key: string) {
     list-style: none
     margin: 0
     padding: 0
-    gap: 32px
+    gap: 20px
     margin-left: auto
     @media (min-width: $bp-md)
       display: flex
+    @media (min-width: $bp-lg)
+      gap: 32px
 
   &__link
     font-family: $font-mono
@@ -220,6 +222,7 @@ function mobileNavigate(key: string) {
     color: $text-muted
     text-decoration: none
     letter-spacing: 0.05em
+    white-space: nowrap
     transition: color $transition-fast
     position: relative
     padding-bottom: 2px
@@ -242,9 +245,11 @@ function mobileNavigate(key: string) {
   &__lang
     display: none
     gap: 4px
-    margin-left: 20px
+    margin-left: 4px
     @media (min-width: $bp-md)
       display: flex
+    @media (min-width: $bp-lg)
+      margin-left: 20px
 
   &__lang-btn
     font-family: $font-mono

@@ -2,9 +2,8 @@
   "myName": "Angel De La Torre",
   "myRole": "Frontend Developer",
   "funnyQuote": "I debug with console.log and I regret nothing.",
-  "tagline": "I build web stuff that works, loads fast, and doesn't make people rage-quit. Frontend first, but happy to go full stack or backend.",
+  "tagline": "I build web stuff that works, loads fast, and doesn't make people rage-quit.",
   "yearsExp": "3 yrs experience",
-  "openToWork": "Open to new opportunities",
   "terminalCmd": "npm run start-day -- --coffee=true",
   "nav": {
     "about": "About",
@@ -14,15 +13,27 @@
     "contact": "Contact"
   },
   "about": {
-    "heading": "Always delighted to learn something new.",
-    "bio1": "I'm a Frontend Developer based in Mexico with 3 years of hands-on experience building web interfaces that are fast, clean, and actually pleasant to use.",
-    "bio2": "Vue.js and Nuxt are my home turf, but I move comfortably across the JS ecosystem too — React, Next.js, TypeScript, you name it. And I don't stop at the browser: in Noob Draw, the whole game logic runs in Postgres SQL functions locked down with Row-Level Security. I obsess over clean code and components that actually make sense to whoever touches them next.",
+    "heading": "Pixel-perfect UI on code that stays clean.",
+    "bio1": "I turn mockups into interfaces that match them pixel for pixel, built from components the next dev can read without a map.",
+    "bio2": "Vue and Nuxt are home turf; React, Next.js, and TypeScript are the neighborhood. And I don't stop at the browser: I'm just as happy writing the SQL, the access rules, and the realtime sync behind it.",
     "bio3": "When I'm not coding, I'm probably drinking coffee and thinking about it anyway.",
     "traits": {
-      "clean": "Obsessed with clean code",
-      "detail": "Notices every misaligned pixel",
-      "collab": "Easy to work with, seriously",
-      "learner": "Always poking at something new"
+      "detail": {
+        "claim": "Sweats every misaligned pixel",
+        "proof": "this site's code"
+      },
+      "clean": {
+        "claim": "Clean, tested code",
+        "proof": "angel-vue-themes"
+      },
+      "backend": {
+        "claim": "Comfortable past the browser",
+        "proof": "noob-draw"
+      },
+      "collab": {
+        "claim": "Easy to work with, seriously",
+        "proof": "designer handoffs & code reviews"
+      }
     }
   },
   "stack": {
@@ -39,7 +50,7 @@
   },
   "experience": {
     "heading": "Where I've worked (so far)",
-    "sub": "Three years of shipping real products, breaking things in staging (not prod, mostly...), and learning what code actually needs to last.",
+    "sub": "Shipping real products, breaking things in staging (not prod, mostly...), and learning what code actually needs to last.",
     "entries": [
       {
         "role": "Frontend Developer",
@@ -82,8 +93,9 @@
   },
   "projects": {
     "heading": "Things I've built",
-    "sub": "A couple of things I've been building lately — more coming soon.",
+    "sub": "Two live apps, code included — more on the way.",
     "viewProject": "View project",
+    "viewCode": "Code",
     "entries": [
       {
         "title": "Angel Front Themes",
@@ -106,7 +118,7 @@
   },
   "contact": {
     "heading": "Need a developer? Let's talk.",
-    "sub": "Frontend is my home turf, but I'm just as happy going full stack or backend. I'm open to full-time roles. Got one, a project, or just want to chat about something tech? Email is the fastest way to reach me.",
+    "sub": "Open to full-time roles. Got one, a project, or just want to talk tech? Email is the fastest way to reach me.",
     "getInTouch": "Get in touch",
     "copyEmail": "Copy email",
     "sendEmail": "Send email",
@@ -134,7 +146,6 @@
     "now": {
       "locationLabel": "location",
       "location": "Mexico",
-      "statusLabel": "status",
       "rolesLabel": "roles",
       "roles": "Frontend first · full stack or backend welcome"
     }

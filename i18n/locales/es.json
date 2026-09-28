@@ -2,9 +2,8 @@
   "myName": "Angel De La Torre",
   "myRole": "Desarrollador Frontend",
   "funnyQuote": "Depuro con console.log y no me arrepiento.",
-  "tagline": "Construyo webs que funcionan, cargan rápido y no hacen que quieras golpear la pantalla. Frontend primero, y full stack o backend cuando el proyecto lo pide.",
+  "tagline": "Construyo webs que funcionan, cargan rápido y no hacen que quieras golpear la pantalla.",
   "yearsExp": "3 años de experiencia",
-  "openToWork": "Abierto a nuevas oportunidades",
   "terminalCmd": "npm run iniciar-dia -- --cafe=true",
   "nav": {
     "about": "Sobre mí",
@@ -14,15 +13,27 @@
     "contact": "Contacto"
   },
   "about": {
-    "heading": "Siempre encantado de aprender algo nuevo.",
-    "bio1": "Soy Desarrollador Frontend en México con 3 años de experiencia construyendo interfaces web rápidas, limpias y que se sienten bien de usar.",
-    "bio2": "Vue.js y Nuxt son mi zona de confort, pero también me muevo bien en todo el ecosistema JS — React, Next.js, TypeScript, lo que se necesite. Y no me quedo en el navegador: en Noob Draw toda la lógica del juego vive en funciones SQL de Postgres protegidas con Row-Level Security. Me obsesiono con el código limpio y con componentes que le hagan sentido a quien los toque después.",
+    "heading": "UI fiel al pixel, sobre código que se mantiene limpio.",
+    "bio1": "Convierto mockups en interfaces que les son fieles pixel por pixel, hechas con componentes que el siguiente dev puede leer sin mapa.",
+    "bio2": "Vue y Nuxt son mi casa; React, Next.js y TypeScript, el barrio. Y no me quedo en el navegador: escribo con el mismo gusto el SQL, las reglas de acceso y la sincronización en tiempo real que hay detrás.",
     "bio3": "Cuando no estoy programando, probablemente estoy tomando café y pensando en programar de todas formas.",
     "traits": {
-      "clean": "Obsesionado con el código limpio",
-      "detail": "Detecta hasta un pixel mal alineado",
-      "collab": "Fácil de tratar, en serio",
-      "learner": "Siempre aprendiendo algo nuevo"
+      "detail": {
+        "claim": "Detecta hasta un pixel mal alineado",
+        "proof": "el código de este sitio"
+      },
+      "clean": {
+        "claim": "Código limpio y con tests",
+        "proof": "angel-vue-themes"
+      },
+      "backend": {
+        "claim": "Cómodo más allá del navegador",
+        "proof": "noob-draw"
+      },
+      "collab": {
+        "claim": "Fácil de tratar, en serio",
+        "proof": "handoffs con diseño y code reviews"
+      }
     }
   },
   "stack": {
@@ -39,7 +50,7 @@
   },
   "experience": {
     "heading": "Dónde he trabajado (hasta ahora)",
-    "sub": "Tres años enviando productos reales, rompiendo cosas en staging (no en producción, casi nunca...) y aprendiendo qué necesita realmente el código para durar.",
+    "sub": "Enviando productos reales, rompiendo cosas en staging (no en producción, casi nunca...) y aprendiendo qué necesita realmente el código para durar.",
     "entries": [
       {
         "role": "Desarrollador Frontend",
@@ -82,8 +93,9 @@
   },
   "projects": {
     "heading": "Cosas que he construido",
-    "sub": "Un par de cosas que he estado construyendo últimamente — vienen más.",
+    "sub": "Dos apps en producción, con el código a la vista — vienen más.",
     "viewProject": "Ver proyecto",
+    "viewCode": "Código",
     "entries": [
       {
         "title": "Angel Front Themes",
@@ -106,7 +118,7 @@
   },
   "contact": {
     "heading": "¿Buscas un dev? Hablemos.",
-    "sub": "El frontend es mi terreno, pero también trabajo con gusto en full stack o backend. Estoy disponible para puestos de tiempo completo. ¿Tienes una vacante, un proyecto o solo quieres hablar de algo tecnológico? El correo es la forma más rápida de encontrarme.",
+    "sub": "Disponible para tiempo completo. ¿Tienes una vacante, un proyecto o solo quieres hablar de algo técnico? El correo es la forma más rápida de encontrarme.",
     "getInTouch": "Ponte en contacto",
     "copyEmail": "Copiar correo",
     "sendEmail": "Enviar correo",
@@ -134,7 +146,6 @@
     "now": {
       "locationLabel": "ubicación",
       "location": "México",
-      "statusLabel": "estado",
       "rolesLabel": "roles",
       "roles": "Frontend primero · full stack o backend, bienvenidos"
     }

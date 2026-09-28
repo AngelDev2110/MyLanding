@@ -22,16 +22,38 @@
             <p>{{ $t("about.bio3") }}</p>
 
             <ul class="about__traits">
-              <li v-for="trait in TRAITS" :key="trait" class="about__trait">
+              <li v-for="trait in TRAITS" :key="trait.key" class="about__trait">
                 <span class="about__md-mark" aria-hidden="true">-</span>
-                {{ $t(`about.traits.${trait}`) }}
+                <span class="about__trait-text">
+                  {{ $t(`about.traits.${trait.key}.claim`) }}
+                  <span class="about__trait-arrow" aria-hidden="true">
+                    <AppIcon name="arrow-right" :size="14" />
+                  </span>
+                  <a
+                    v-if="isExternal(trait.href)"
+                    :href="trait.href"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="about__proof"
+                  >
+                    {{ splitLastWord($t(`about.traits.${trait.key}.proof`)).head
+                    }}<span class="about__proof-tail"
+                      >{{ splitLastWord($t(`about.traits.${trait.key}.proof`)).tail
+                      }}<AppIcon name="arrow-up-right" :size="13"
+                    /></span>
+                    <span class="sr-only">({{ $t("contact.newTab") }})</span>
+                  </a>
+                  <a
+                    v-else
+                    :href="trait.href"
+                    class="about__proof"
+                    @click.prevent="scrollToSection(trait.href)"
+                  >
+                    {{ $t(`about.traits.${trait.key}.proof`) }}
+                  </a>
+                </span>
               </li>
             </ul>
-
-            <p class="about__quote">
-              <span class="about__md-mark" aria-hidden="true">&gt;</span>
-              {{ $t("openToWork") }}
-            </p>
           </div>
         </TerminalWindow>
       </div>
@@ -69,6 +91,19 @@ import { TRAITS } from "./constants";
 // Lifecycle Hooks
 
 // Methods
+function scrollToSection(selector: string) {
+  scrollToSelector(selector);
+}
+
+// The last word travels with the ↗ icon so the icon never wraps onto a line alone
+function splitLastWord(text: string) {
+  const index = text.lastIndexOf(" ") + 1;
+  return { head: text.slice(0, index), tail: text.slice(index) };
+}
+
+function isExternal(href: string) {
+  return href.startsWith("http");
+}
 </script>
 
 <style lang="sass" scoped>
@@ -108,13 +143,6 @@ import { TRAITS } from "./constants";
       color: $text-muted
       line-height: 1.75
       font-size: 1rem
-    .about__quote
-      display: flex
-      gap: 10px
-      margin-top: 6px
-      font-family: $font-mono
-      font-size: 0.85rem
-      color: $accent
 
   &__md-mark
     font-family: $font-mono
@@ -143,17 +171,36 @@ import { TRAITS } from "./constants";
     margin: 4px 0 0
     display: grid
     gap: 8px
-    @media (min-width: $bp-sm)
-      grid-template-columns: 1fr 1fr
-      gap: 8px 24px
 
   &__trait
     display: flex
     gap: 10px
     font-family: $font-mono
     font-size: 0.85rem
-    line-height: 1.5
+    line-height: 1.6
     color: $white
+
+  &__trait-arrow
+    display: inline-flex
+    vertical-align: -2px
+    margin: 0 4px
+    color: $gray-600
+
+  // Markdown link: the proof reads as amber link text, underlined like the footer's
+  &__proof
+    color: $accent
+    text-decoration: underline
+    text-decoration-color: rgba($accent, 0.35)
+    text-underline-offset: 3px
+    transition: text-decoration-color $transition-fast
+    .app-icon
+      margin-left: 4px
+      vertical-align: -1px
+
+  &__proof-tail
+    white-space: nowrap
+    &:hover
+      text-decoration-color: $accent
 
   &__photo-wrap
     flex-shrink: 0

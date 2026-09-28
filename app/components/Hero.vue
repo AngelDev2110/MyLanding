@@ -203,7 +203,6 @@ const nameLines = computed(() => {
 
 const nowEntries = computed(() => [
   { label: t("hero.now.locationLabel"), value: t("hero.now.location") },
-  { label: t("hero.now.statusLabel"), value: t("hero.availability") },
   { label: t("hero.now.rolesLabel"), value: t("hero.now.roles") },
 ]);
 

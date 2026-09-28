@@ -42,6 +42,7 @@ const PROJECTS = computed<ProjectCardProps[]>(() =>
     description: rt(entry.description),
     tags: (entry.tags as any[]).map((tag) => rt(tag)),
     link: PROJECT_LINKS[index]?.link ?? "#",
+    repo: PROJECT_LINKS[index]?.repo ?? null,
     image: PROJECT_LINKS[index]?.image ?? null,
   })),
 );

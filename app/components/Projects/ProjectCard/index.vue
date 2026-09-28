@@ -35,12 +35,26 @@
         </li>
       </ul>
 
-      <span class="project-card__cta" aria-hidden="true">
-        {{ $t("projects.viewProject") }}
-        <span class="project-card__arrow">
-          <AppIcon name="arrow-up-right" :size="16" />
+      <div class="project-card__actions">
+        <span class="project-card__cta" aria-hidden="true">
+          {{ $t("projects.viewProject") }}
+          <span class="project-card__arrow">
+            <AppIcon name="arrow-up-right" :size="16" />
+          </span>
         </span>
-      </span>
+        <a
+          v-if="props.repo"
+          :href="props.repo"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-card__code"
+        >
+          {{ $t("projects.viewCode") }}
+          <span class="sr-only">: {{ props.title }}</span>
+          <AppIcon name="arrow-up-right" :size="16" />
+          <span class="sr-only">({{ $t("contact.newTab") }})</span>
+        </a>
+      </div>
     </TerminalWindow>
   </article>
 </template>
@@ -165,15 +179,40 @@ const folder = computed(() => {
     span
       color: $accent
 
+  &__actions
+    display: flex
+    align-items: center
+    flex-wrap: wrap
+    gap: 0 24px
+    margin-top: auto
+
   &__cta
     display: inline-flex
     align-items: center
     gap: 8px
-    margin-top: auto
-    padding-top: 6px
     font-family: $font-mono
     font-size: 0.85rem
     color: $accent
+
+  // Sits above the title's stretched link, so the card opens the demo and this opens the repo
+  &__code
+    position: relative
+    z-index: 1
+    display: inline-flex
+    align-items: center
+    gap: 8px
+    min-height: 44px
+    font-family: $font-mono
+    font-size: 0.85rem
+    color: $text-muted
+    text-decoration: underline
+    text-decoration-color: rgba($text-muted, 0.35)
+    text-underline-offset: 3px
+    transition: color $transition-fast, text-decoration-color $transition-fast
+    &:hover,
+    &:focus-visible
+      color: $accent
+      text-decoration-color: $accent
 
   &__arrow
     display: inline-flex
