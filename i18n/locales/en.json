@@ -34,7 +34,8 @@
       "languages": "languages",
       "backend": "backend",
       "workflow": "workflow"
-    }
+    },
+    "scroll": "Scroll to explore"
   },
   "experience": {
     "heading": "Where I've worked (so far)",

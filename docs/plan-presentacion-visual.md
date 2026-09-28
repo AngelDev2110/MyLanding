@@ -54,12 +54,12 @@ La ronda anterior (nombre de exhibición, imagen og, escena del hero, textura CR
 **Qué hacer**
 - Reemplazar el pin por un bloque estático y agrupado con forma de terminal, p. ej. `cat package.json` con `"dependencies"` por grupo.
 - Grupos de 4 elementos o menos, o con jerarquía clara dentro del grupo.
-- Si GSAP deja de usarse en el sitio, retirar la dependencia y actualizar `docs/technologies.md`.
+- Si GSAP deja de usarse en el sitio, retirar la dependencia y actualizar `docs/technologies.md`. (Se mantiene: lo usa el modo fijado de TechStack.)
 
 **Archivos:** `TechStack/index.vue`, `TechStack/constants.ts`, `TechCard/`, locales, `docs/architecture.md`, `docs/technologies.md`.
 
 **Criterios de aceptación**
-- Sin pin ni scroll horizontal en ningún tamaño.
+- ~~Sin pin ni scroll horizontal en ningún tamaño.~~ **Cambio de decisión (2026-09-28):** se conserva el scroll horizontal fijado en desktop, ya con el estilo de terminal (`less package.json`), solo con `(min-width: 1024px) and (prefers-reduced-motion: no-preference)`; en el resto es estático. Se refresca el pin al cambiar de idioma.
 - Mismo landmark (`section#stack`) en todos los breakpoints.
 - Los logos siguen teniendo nombre accesible.
 

@@ -32,7 +32,7 @@ The site itself is the proof. Four differentiators, all confirmed as equally imp
 
 ## Capabilities and Constraints
 
-- Stack is fixed: Nuxt 4, Vue 3, TypeScript, indented Sass, `@nuxtjs/i18n`, animate.css. See `docs/` for conventions.
+- Stack is fixed: Nuxt 4, Vue 3, TypeScript, indented Sass, `@nuxtjs/i18n`, GSAP ScrollTrigger, animate.css. See `docs/` for conventions.
 - SSR: browser-only code must run in `onMounted` or be guarded.
 - SEO/meta is English-only in `nuxt.config.ts`.
 - Projects content (i18n) and `PROJECT_LINKS` pair by index.

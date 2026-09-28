@@ -23,6 +23,7 @@ Stack del proyecto, dónde se configura cada pieza y cómo se usa en el código.
 
 | Librería | Uso en el proyecto |
 |---|---|
+| GSAP ^3.14 + `ScrollTrigger` | Solo en `TechStack/index.vue`: scroll horizontal fijado del `package.json` en desktop sin movimiento reducido, vía `gsap.matchMedia()`. Se registra el plugin dentro de `onMounted` y se revierte con `mm.revert()` en `onUnmounted`. |
 | animate.css ^4.1 | Importado globalmente en `main.sass` (`@use 'animate.css'`). Se usan sus clases (`animate__animated`, `animate__fadeInUp`, …) junto con la directiva `v-intersect`. |
 | @vueuse/core ^14 | `useClipboard` (Contact, copiar email) y `useIntersectionObserver` (línea del timeline de Experience). Se importa explícitamente desde `@vueuse/core` (no está como módulo de Nuxt). |
 | normalize.css | Copia local en `app/assets/normalize/normalize.css`, importada en `app.vue`. |

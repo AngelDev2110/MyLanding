@@ -9,7 +9,7 @@ Todo el texto visible vive en `i18n/locales/en.json` (default) y `i18n/locales/e
 | Globales / Hero | `myName`, `myRole`, `tagline`, `funnyQuote`, `terminalCmd`, `yearsExp`, `openToWork`, `hero.{ctaProjects,availability,scroll,photoAlt}`, `hero.now.*` (salida de `cat now.md`; el valor de `status` reutiliza `hero.availability`) | Foto `public/img/me.jpeg` (también se usa en la imagen og, ver [deployment.md](./deployment.md)) |
 | Navbar | `nav.*` (una key por sección) | `navLinks` en `TheNavbar/index.vue` |
 | About | `about.heading/bio1-3`, `about.traits.*`, `openToWork` (cita final de `about.md`) | `TRAITS` en `AboutMe/constants.ts` (lista de keys), foto `meFormal.jpeg` |
-| Tech stack | `stack.heading`, `stack.sub`, `stack.categories.{frameworks,styling,languages,backend,workflow}` (se muestran como keys del JSON, en minúsculas) | `TECH_LIST` y `CATEGORIES` en `TechStack/constants.ts` (nombre, icono, categoría) |
+| Tech stack | `stack.heading`, `stack.sub`, `stack.categories.{frameworks,styling,languages,backend,workflow}` (se muestran como keys del JSON, en minúsculas), `stack.scroll` (pista en la barra de estado del modo fijado) | `TECH_LIST` y `CATEGORIES` en `TechStack/constants.ts` (nombre, icono, categoría) |
 | Experience | `experience.entries[]` → `role`, `period`, `type`, `highlights[]`, `tags[]` | — (todo en i18n) |
 | Projects | `projects.entries[]` → `title`, `description`, `tags[]` | `PROJECT_LINKS` en `Projects/constants.ts` (`link`, `image`) |
 | Contact | `contact.*`, `contact.socials.<key>.{label,description}` | `SOCIAL_LINKS` en `Contact/constants.ts`, constante `EMAIL` en `Contact/index.vue` |
