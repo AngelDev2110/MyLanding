@@ -1,7 +1,5 @@
 <template>
   <section id="hero" ref="heroRef" class="hero">
-    <div class="hero__bg-glow" aria-hidden="true" />
-
     <div class="hero__panel" :style="sceneVars">
       <div class="hero__panel-inner">
         <div class="hero__stage">
@@ -360,18 +358,6 @@ $scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
   @media #{$scene}
     height: 180vh
 
-.hero__bg-glow
-  position: absolute
-  top: 0
-  left: -5%
-  width: 100vw
-  height: 100vw
-  max-width: 700px
-  max-height: 700px
-  background: radial-gradient(circle, rgba($accent, 0.08) 0%, transparent 65%)
-  pointer-events: none
-  z-index: 0
-
 .hero__panel
   position: relative
   z-index: 2
@@ -466,7 +452,7 @@ $scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
   text-decoration: none
   padding: 12px 24px
   border-radius: 6px
-  transition: all $transition-base
+  transition: background-color $transition-fast, border-color $transition-fast, color $transition-fast
   font-weight: 500
   letter-spacing: 0.02em
   &--primary
@@ -651,7 +637,7 @@ $scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
   background: linear-gradient(to top, rgba($dark-navy, 0.55) 0%, transparent 60%)
   pointer-events: none
 
-// Only the scene has something to scroll for
+// Only the scene has something to scroll for. Static line: the availability dot is the page's only live pulse
 .hero__scroll-indicator
   display: none
   @media #{$scene}
@@ -674,7 +660,6 @@ $scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
   width: 1px
   height: 48px
   background: linear-gradient(to bottom, $accent, transparent)
-  animation: scrollPulse 1.8s ease infinite
 
 .hero__scroll-text
   font-family: $font-mono
@@ -690,16 +675,6 @@ $scene: "(min-width: #{$bp-lg}) and (prefers-reduced-motion: no-preference)"
   50%
     opacity: 0.5
     transform: scale(0.8)
-
-@keyframes scrollPulse
-  0%, 100%
-    opacity: 1
-    transform: scaleY(1)
-    transform-origin: top
-  50%
-    opacity: 0.4
-    transform: scaleY(0.6)
-    transform-origin: top
 
 @keyframes blink
   0%, 100%

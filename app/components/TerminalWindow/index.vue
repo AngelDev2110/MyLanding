@@ -1,9 +1,11 @@
 <template>
   <div class="terminal">
     <div class="terminal__bar">
-      <span class="terminal__dot terminal__dot--red" aria-hidden="true" />
-      <span class="terminal__dot terminal__dot--yellow" aria-hidden="true" />
-      <span class="terminal__dot terminal__dot--green" aria-hidden="true" />
+      <span class="terminal__dots" aria-hidden="true">
+        <span class="terminal__dot" />
+        <span class="terminal__dot" />
+        <span class="terminal__dot" />
+      </span>
       <slot name="bar" />
       <span class="terminal__title">{{ props.title }}</span>
     </div>
@@ -37,38 +39,39 @@ const props = defineProps<Props>();
 
 <style lang="sass" scoped>
 .terminal
-  background: rgba($dark-navy, 0.85)
+  background: $dark-navy
   border: 1px solid rgba($accent, 0.22)
   border-radius: 14px
   overflow: hidden
-  box-shadow: 0 0 60px rgba($accent, 0.08), 0 24px 60px rgba(0, 0, 0, 0.5)
-  backdrop-filter: blur(8px)
+  box-shadow: 0 24px 60px rgba($black, 0.5)
   text-align: left
 
 .terminal__bar
   display: flex
   align-items: center
-  gap: 6px
   padding: 12px 16px
-  background: rgba(255, 255, 255, 0.04)
+  background: rgba($accent, 0.05)
   border-bottom: 1px solid rgba($accent, 0.12)
 
+// Monochrome amber window controls: same phosphor as the text, no macOS colors
+.terminal__dots
+  display: inline-flex
+  gap: 6px
+  flex-shrink: 0
+
 .terminal__dot
-  width: 12px
-  height: 12px
+  width: 10px
+  height: 10px
   border-radius: 50%
-  &--red
-    background: #ff5f57
-  &--yellow
-    background: #febc2e
-  &--green
-    background: #28c840
+  border: 1.5px solid rgba($accent, 0.55)
+  &:first-child
+    background: rgba($accent, 0.55)
 
 .terminal__title
   font-family: $font-mono
   font-size: 0.72rem
   color: $text-muted
-  margin-left: 8px
+  margin-left: 14px
   letter-spacing: 0.04em
 
 .terminal__body

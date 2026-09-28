@@ -1,10 +1,14 @@
 <template>
-  <nav class="navbar" :class="{ 'navbar--scrolled': isScrolled }">
+  <nav class="navbar" :class="{ 'navbar--scrolled': isScrolled || menuOpen }">
     <div class="navbar__inner">
-      <a href="#hero" class="navbar__logo" @click.prevent="scrollTo('#hero')">
-        <span class="navbar__logo-bracket">&lt;</span>
-        ADT
-        <span class="navbar__logo-bracket">/&gt;</span>
+      <a
+        href="#hero"
+        class="navbar__logo"
+        :aria-label="$t('myName')"
+        @click.prevent="scrollTo('#hero')"
+      >
+        angel<span class="navbar__logo-host">@dev:~</span
+        ><span class="navbar__logo-prompt">$</span>
       </a>
 
       <ul class="navbar__links">
@@ -181,19 +185,24 @@ function mobileNavigate(key: string) {
     gap: 32px
     height: 68px
 
+  // Same prompt as the terminal windows, so the page's mark belongs to its world
   &__logo
     font-family: $font-mono
-    font-size: 1.1rem
+    font-size: 1rem
     font-weight: 700
     color: $white
     text-decoration: none
-    letter-spacing: 0.03em
     flex-shrink: 0
     transition: color $transition-fast
     &:hover
       color: $accent
-    &-bracket
+    &-host
+      font-weight: 400
+      color: $text-muted
+    &-prompt
+      margin-left: 0.5ch
       color: $accent
+      text-shadow: 0 0 8px rgba($accent, 0.45)
 
   &__links
     display: none
@@ -246,7 +255,7 @@ function mobileNavigate(key: string) {
     padding: 4px 10px
     border-radius: 4px
     cursor: pointer
-    transition: all $transition-fast
+    transition: color $transition-fast, border-color $transition-fast, background-color $transition-fast
     &:hover
       border-color: $accent
       color: $accent
@@ -272,7 +281,7 @@ function mobileNavigate(key: string) {
       height: 2px
       background: $white
       border-radius: 2px
-      transition: all $transition-base
+      transition: transform $transition-base, opacity $transition-base
     &--open
       span:nth-child(1)
         transform: translateY(7px) rotate(45deg)
@@ -309,20 +318,14 @@ function mobileNavigate(key: string) {
     padding-top: 4px
 
 // Transitions
+// Reveals top-down with clip-path instead of animating max-height (no layout per frame)
 .mobile-menu-enter-active,
 .mobile-menu-leave-active
-  transition: all $transition-base
-  overflow: hidden
+  transition: opacity $transition-base, transform $transition-base, clip-path $transition-base
 
 .mobile-menu-enter-from,
 .mobile-menu-leave-to
   opacity: 0
-  max-height: 0
   transform: translateY(-8px)
-
-.mobile-menu-enter-to,
-.mobile-menu-leave-from
-  opacity: 1
-  max-height: 300px
-  transform: translateY(0)
+  clip-path: inset(0 0 100% 0)
 </style>

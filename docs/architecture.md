@@ -12,7 +12,7 @@ Cada sección es un elemento con `id` (`hero`, `about`, `stack`, `experience`, `
 
 - `useScrollProvider()` se llama una sola vez en `app.vue`: escucha `window.scroll` y hace `provide("scrollY", readonly(ref))`.
 - Los componentes lo consumen con `useInjectWindowScroll()` (devuelve `{ scrollY }`, posiblemente `undefined` → usar `scrollY?.value ?? 0`).
-- Usuarios: `Hero` (escena intro → terminal ligada al scroll en desktop, ver abajo) y `TheNavbar` (fondo con blur cuando `scrollY > 60`).
+- Usuarios: `Hero` (escena intro → terminal ligada al scroll en desktop, ver abajo) y `TheNavbar` (fondo con blur cuando `scrollY > 60` o con el menú móvil abierto).
 - No usar `useScroll`/`useWindowScroll` de VueUse para esto; se reemplazó a propósito por este patrón (commit `1626f82`).
 
 ## Animaciones de entrada: directiva `v-intersect`

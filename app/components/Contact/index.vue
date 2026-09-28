@@ -1,7 +1,5 @@
 <template>
   <section id="contact" class="contact">
-    <div class="contact__bg-glow" />
-
     <div class="contact__inner">
       <div class="contact__header">
         <h2 class="section-heading">{{ $t("contact.heading") }}</h2>
@@ -147,20 +145,7 @@ async function handleCopy() {
   overflow: hidden
   text-align: center
 
-  &__bg-glow
-    position: absolute
-    top: 50%
-    left: 50%
-    transform: translate(-50%, -50%)
-    width: 600px
-    height: 600px
-    background: radial-gradient(circle, rgba($accent, 0.05) 0%, transparent 70%)
-    pointer-events: none
-    z-index: 0
-
   &__inner
-    position: relative
-    z-index: 1
     max-width: 680px
     margin: 0 auto
     display: flex

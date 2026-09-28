@@ -171,6 +171,6 @@ import { TRAITS } from "./constants";
     object-position: top center
     border-radius: 14px
     border: 1px solid rgba($accent, 0.22)
-    // Same phosphor edge as the terminal windows, so the photo reads as part of the set
-    box-shadow: 0 0 60px rgba($accent, 0.08), 0 24px 60px rgba(0, 0, 0, 0.5)
+    // Same edge and depth as the terminal windows, so the photo reads as part of the set
+    box-shadow: 0 24px 60px rgba($black, 0.5)
 </style>

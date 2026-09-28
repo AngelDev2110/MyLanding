@@ -9,7 +9,7 @@ La ronda anterior (nombre de exhibición, imagen og, escena del hero, textura CR
 | 1 | Escena del hero más corta y solo en desktop ✅ | P1 | `/impeccable distill` + `adapt` |
 | 2 | TechStack estático como `package.json` ✅ | P1 | `/impeccable distill` + `harden` |
 | 3 | La terminal atraviesa el centro ✅ | P2 | `/impeccable bolder` |
-| 4 | Quitar los recursos de plantilla | P2 | `/impeccable quieter` |
+| 4 | Quitar los recursos de plantilla ✅ | P2 | `/impeccable quieter` |
 | 5 | Cerrar en la terminal, sin diluir | P2 | `/impeccable distill` |
 | 6 | Copy sin repeticiones y con pruebas | P2 | `/impeccable clarify` |
 | 7 | Accesibilidad e i18n | P3 | `/impeccable harden` |

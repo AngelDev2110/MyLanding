@@ -54,30 +54,18 @@ const props = defineProps<Props>();
   align-items: center
   text-align: left
   gap: 20px
-  background: $surface-card
+  background: transparent
   border: 1px solid $border
-  border-radius: 16px
+  border-radius: 14px
   padding: 24px 28px
   text-decoration: none
-  transition: all $transition-base
+  transition: border-color $transition-fast, background-color $transition-fast
   animation-fill-mode: both
   cursor: pointer
-  position: relative
-  overflow: hidden
-  &::before
-    content: ''
-    position: absolute
-    inset: 0
-    background: linear-gradient(135deg, $accent-dim, transparent)
-    opacity: 0
-    transition: opacity $transition-base
   &:hover,
   &:focus-visible
-    border-color: rgba($accent, 0.3)
-    transform: translateY(-3px)
-    box-shadow: 0 12px 40px rgba(0,0,0,0.3)
-    &::before
-      opacity: 1
+    border-color: rgba($accent, 0.5)
+    background: rgba($accent, 0.04)
     .social-card__arrow
       transform: translate(3px, -3px)
     .social-card__label
