@@ -39,7 +39,8 @@ Definida en `app/plugins/intersect.ts` (plugin global). Uso:
   - Las posiciones de foto y avatar se miden en `onMounted`, en `resize` y tras cargar las fuentes.
 - **TechStack**: dos marcados distintos en el mismo componente. Desktop (≥1024px, `gsap.matchMedia()` en `onMounted`, que construye/revierte el pin al cruzar el breakpoint; distancias como funciones con `invalidateOnRefresh` para soportar resize) usa GSAP ScrollTrigger con `pin` + `scrub` para desplazar horizontalmente un slide por categoría, con barra de progreso y dots. Mobile usa `.tech-stack-mobile` como grid vertical. El breakpoint está hardcodeado en JS (`1024px`) y debe coincidir con `$bp-lg`. El wrapper es `<div id="stack">`, no `<section>`.
 - **Experience**: timeline alternando izquierda/derecha según `index % 2`; la línea se “llena” con `useIntersectionObserver`.
-- **Contact**: el email se renderiza desde i18n (`contact.email`) pero se copia/enlaza desde la constante `EMAIL` en `Contact/index.vue` — mantener ambos sincronizados.
+- **Contact** (cierre en la terminal): el correo sale solo de la constante `EMAIL` en `Contact/index.vue` (se muestra, se copia y va en el `mailto:`), partido en usuario y dominio con `<wbr>` para que en pantallas estrechas solo se corte después de la `@`. La confirmación de copiado o el error se imprime como una línea de la terminal dentro de un `role="status"`.
+- **TerminalWindow**: ventana de terminal compartida (Hero y Contact). Pone la barra con los tres puntos, el slot `bar` para extras (el avatar del hero), el `title`, el cuerpo con scanlines y los estilos de línea vía `:slotted`: usar las clases `terminal__line`, `terminal__prompt`, `terminal__cmd` y `terminal__output` en el contenido.
 
 ## Convenciones de componentes
 

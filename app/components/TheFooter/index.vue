@@ -1,19 +1,10 @@
 <template>
   <footer class="footer">
-    <div class="footer__inner">
-      <div class="footer__left">
-        <span class="footer__logo">
-          <span class="footer__logo-bracket">&lt;</span>
-          ADT
-          <span class="footer__logo-bracket">/&gt;</span>
-        </span>
-        <p class="footer__built">{{ $t("footer.built") }}</p>
-      </div>
-
-      <p class="footer__copy">
-        © {{ year }} Angel De La Torre. {{ $t("footer.rights") }}.
-      </p>
-    </div>
+    <p class="footer__line">
+      <span>© {{ year }} Angel De La Torre. {{ $t("footer.rights") }}.</span>
+      <span class="footer__sep" aria-hidden="true">·</span>
+      <span>{{ $t("footer.built") }}</span>
+    </p>
   </footer>
 </template>
 
@@ -40,54 +31,27 @@ const year = new Date().getFullYear();
 
 <style lang="sass" scoped>
 .footer
-  background: $dark-navy
+  background: $surface
   border-top: 1px solid $border
-  padding: 32px 20px
+  padding: 24px 20px
+
+.footer__line
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 4px 12px
+  margin: 0
+  font-family: $font-mono
+  font-size: 0.72rem
+  color: $gray-600
+  text-align: center
+  letter-spacing: 0.04em
   @media (min-width: $bp-md)
-    padding: 32px 60px
-  @media (min-width: $bp-lg)
-    padding: 32px 100px
+    flex-direction: row
+    justify-content: center
 
-  &__inner
-    display: flex
-    flex-direction: column
-    align-items: center
-    gap: 20px
-    @media (min-width: $bp-md)
-      flex-direction: row
-      justify-content: space-between
-      align-items: center
-
-  &__left
-    display: flex
-    flex-direction: column
-    align-items: center
-    gap: 6px
-    @media (min-width: $bp-md)
-      align-items: flex-start
-
-  &__logo
-    font-family: $font-mono
-    font-size: 1rem
-    font-weight: 700
-    color: $white
-    letter-spacing: 0.03em
-
-  &__logo-bracket
-    color: $accent
-
-  &__built
-    font-family: $font-mono
-    font-size: 0.72rem
-    color: $gray-600
-    margin: 0
-    letter-spacing: 0.04em
-
-  &__copy
-    font-family: $font-mono
-    font-size: 0.75rem
-    color: $text-muted
-    margin: 0
-    text-align: center
-
+.footer__sep
+  display: none
+  @media (min-width: $bp-md)
+    display: inline
 </style>

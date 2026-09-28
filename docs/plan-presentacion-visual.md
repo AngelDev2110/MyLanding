@@ -1,6 +1,6 @@
 # Plan: presentación visual más impactante
 
-Estado: **en curso** (3 ✅, 7 ✅, 2 ✅, 5 ✅) · Creado: 2026-09-27
+Estado: **completado** (3 ✅, 7 ✅, 2 ✅, 5 ✅, 6 ✅) · Creado: 2026-09-27
 
 Quiero incorporar estos cinco cambios para que la landing tenga momentos memorables y deje de verse como plantilla. Van en el orden de ejecución recomendado; cada uno se puede entregar y revisar por separado.
 
@@ -10,7 +10,7 @@ Quiero incorporar estos cinco cambios para que la landing tenga momentos memorab
 | 7 | Imagen og propia para LinkedIn/Slack ✅ | Alto | Bajo | trabajo directo |
 | 2 | Transición del hero como escena ✅ | Alto | Medio | `/impeccable animate hero` |
 | 5 | Textura propia: fósforo ámbar CRT ✅ | Medio | Bajo | `/impeccable bolder` |
-| 6 | Final memorable en Contacto | Medio | Medio | `/impeccable delight contact` |
+| 6 | Final memorable en Contacto ✅ | Medio | Medio | `/impeccable delight contact` |
 
 ## Restricciones que aplican a todo
 
@@ -132,6 +132,8 @@ Quiero incorporar estos cinco cambios para que la landing tenga momentos memorab
 - Funciona igual con teclado y con lector de pantalla.
 - Con movimiento reducido no hay animación.
 - El copy sigue en tu voz y en los dos idiomas.
+
+**Hecho (2026-09-27):** Contacto cierra con una terminal (`TerminalWindow`, compartida con el hero): `$ mail angel` → tu correo en Fraunces grande → botones "Copiar/Enviar correo" con texto visible (48px) → la confirmación o el error se imprime como línea de la terminal (`role="status"`) → prompt final con cursor. El correo sale solo de `EMAIL` (se quitó `contact.email` de i18n) y se corta solo tras la `@`. Footer reducido a una línea discreta del mismo fondo. Verificado a 1440, 375 y 320px, en inglés y en español, incluido el estado de copiado.
 
 ---
 

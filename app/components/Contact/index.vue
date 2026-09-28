@@ -9,56 +9,42 @@
       </div>
 
       <div
-        class="contact__email-wrap animate__animated"
+        class="contact__terminal-wrap animate__animated"
         v-intersect="{ enterClass: 'animate__fadeInUp', threshold: 0.3 }"
       >
-        <span class="contact__email-label">{{ $t("contact.getInTouch") }}</span>
-        <div class="contact__email-row">
-          <span class="contact__email-text">{{ $t("contact.email") }}</span>
-          <div class="contact__email-btns">
-            <button
-              class="contact__icon-btn"
-              type="button"
-              :aria-label="$t('contact.copyEmail')"
-              @click="handleCopy"
-            >
-              <Transition name="copy-icon" mode="out-in">
-                <span v-if="!copied" key="copy" class="contact__email-icon">
-                  <AppIcon name="copy" />
-                </span>
-                <span
-                  v-else
-                  key="success"
-                  class="contact__email-icon contact__email-icon--success"
-                >
-                  <AppIcon name="check" />
-                </span>
-              </Transition>
+        <TerminalWindow title="angel@dev: ~/contact" class="contact__terminal">
+          <p class="terminal__line">
+            <span class="terminal__prompt">$</span>
+            <span class="terminal__cmd">mail angel</span>
+          </p>
+          <p class="contact__email">{{ emailUser }}@<wbr />{{ emailDomain }}</p>
+          <div class="contact__actions">
+            <button type="button" class="contact__action" @click="handleCopy">
+              <AppIcon :name="copied ? 'check' : 'copy'" />
+              {{ $t("contact.copyEmail") }}
             </button>
-            <a
-              :href="`mailto:${EMAIL}`"
-              class="contact__icon-btn"
-              :aria-label="$t('contact.sendEmail')"
-            >
-              <span class="contact__email-icon">
-                <AppIcon name="mail" />
-              </span>
+            <a :href="`mailto:${EMAIL}`" class="contact__action">
+              <AppIcon name="mail" />
+              {{ $t("contact.sendEmail") }}
             </a>
           </div>
-        </div>
-        <div role="status" aria-live="polite">
-          <Transition name="copy-toast">
-            <div v-if="copied" class="contact__toast">
+          <p
+            role="status"
+            aria-live="polite"
+            class="terminal__output contact__status"
+            :class="{ 'contact__status--error': copyFailed && !copied }"
+          >
+            <template v-if="copied">
+              <AppIcon name="check" :size="16" />
               {{ $t("contact.emailCopied") }}
-            </div>
-            <div
-              v-else-if="copyFailed"
-              class="contact__toast contact__toast--error"
-            >
-              {{ $t("contact.copyFailed") }}
-            </div>
-          </Transition>
-        </div>
+            </template>
+            <template v-else-if="copyFailed">{{ $t("contact.copyFailed") }}</template>
+          </p>
+          <p class="terminal__line" aria-hidden="true">
+            <span class="terminal__prompt">$</span>
+            <span class="contact__cursor">▮</span>
+          </p>
+        </TerminalWindow>
       </div>
 
       <div class="contact__divider">
@@ -110,6 +96,7 @@ const { t } = useI18n();
 
 // Reactive Variables
 const EMAIL = "angeldev2110@gmail.com";
+const [emailUser, emailDomain] = EMAIL.split("@");
 const copyFailed = ref(false);
 let copyFailedTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -188,112 +175,61 @@ async function handleCopy() {
       margin-left: auto
       margin-right: auto
 
-  &__email-wrap
-    position: relative
-    display: flex
-    flex-direction: column
-    align-items: center
-    gap: 12px
-    animation-fill-mode: both
-    margin-bottom: 48px
-
-  &__email-label
-    font-family: $font-mono
-    font-size: 0.75rem
-    color: $text-muted
-    letter-spacing: 0.1em
-    text-transform: uppercase
-
-  &__email-row
-    display: flex
-    flex-direction: column
-    align-items: stretch
+  &__terminal-wrap
     width: 100%
-    max-width: 100%
-    @media (min-width: $bp-sm)
-      flex-direction: row
-      width: auto
-    background: $surface-card
-    border: 1px solid $border
-    border-radius: 12px
-    overflow: hidden
-    transition: all $transition-base
-    &:hover
-      border-color: rgba($accent, 0.4)
-      box-shadow: 0 0 30px rgba($accent, 0.1)
+    margin-bottom: 56px
+    animation-fill-mode: both
 
-  &__email-text
-    display: flex
-    align-items: center
-    justify-content: center
-    padding: 16px 24px
-    font-family: $font-mono
-    font-size: clamp(0.85rem, 2.5vw, 1.1rem)
-    overflow-wrap: anywhere
+  &__email
+    margin: 4px 0 0
+    font-family: $font-display
+    font-size: clamp(1rem, 5.4vw, 2.75rem)
+    font-weight: 700
+    line-height: 1.15
+    letter-spacing: -0.015em
     color: $white
-    letter-spacing: 0.02em
+    overflow-wrap: anywhere
 
-  &__email-btns
+  &__actions
     display: flex
-    border-top: 1px solid $border
-    @media (min-width: $bp-sm)
-      border-top: none
+    flex-wrap: wrap
+    gap: 12px
+    margin-top: 8px
 
-  &__icon-btn
-    display: flex
-    align-items: center
-    justify-content: center
-    flex: 1
-    min-height: 48px
-    background: none
-    border: none
-    border-left: 1px solid $border
-    &:first-child
-      border-left: none
-    @media (min-width: $bp-sm)
-      flex: 0 0 52px
-      &:first-child
-        border-left: 1px solid $border
-    text-decoration: none
-    cursor: pointer
-    transition: background $transition-fast
-    &:hover
-      background: $accent-dim
-
-  &__email-icon
-    color: $accent
+  &__action
     display: inline-flex
     align-items: center
     justify-content: center
-    width: 22px
-    transition: all $transition-fast
-    &--success
-      color: $accent
-      animation: successPop 0.3s cubic-bezier(0.4, 0, 0.2, 1)
-
-  &__toast
-    position: absolute
-    bottom: -36px
-    left: 50%
-    transform: translateX(-50%)
+    gap: 10px
+    flex: 1 1 180px
+    min-height: 48px
+    padding: 0 20px
     font-family: $font-mono
-    font-size: 0.78rem
+    font-size: 0.9rem
+    font-weight: 500
     color: $accent
     background: $accent-dim
-    border: 1px solid rgba($accent, 0.25)
-    padding: 5px 14px
-    border-radius: 100px
-    white-space: nowrap
-    pointer-events: none
+    border: 1px solid rgba($accent, 0.3)
+    border-radius: 8px
+    text-decoration: none
+    cursor: pointer
+    transition: background $transition-fast, border-color $transition-fast
+    &:hover,
+    &:focus-visible
+      background: rgba($accent, 0.2)
+      border-color: $accent
+
+  &__status
+    display: flex
+    align-items: center
+    gap: 8px
+    min-height: 1.5em
     &--error
-      color: $white
-      background: $surface-2
-      border-color: $border
-      white-space: normal
-      width: max-content
-      max-width: min(90vw, 360px)
-      border-radius: 12px
-      line-height: 1.4
+      color: $text-muted
+      text-shadow: none
+
+  &__cursor
+    color: $accent
 
   &__divider
     display: flex
@@ -335,33 +271,4 @@ async function handleCopy() {
     &:hover
       text-decoration-color: $accent
 
-// Transitions
-.copy-icon-enter-active,
-.copy-icon-leave-active
-  transition: all $transition-fast
-
-.copy-icon-enter-from
-  opacity: 0
-  transform: scale(0.5)
-
-.copy-icon-leave-to
-  opacity: 0
-  transform: scale(0.5)
-
-.copy-toast-enter-active,
-.copy-toast-leave-active
-  transition: all $transition-base
-
-.copy-toast-enter-from,
-.copy-toast-leave-to
-  opacity: 0
-  transform: translateX(-50%) translateY(8px)
-
-@keyframes successPop
-  0%
-    transform: scale(0.5)
-  60%
-    transform: scale(1.2)
-  100%
-    transform: scale(1)
 </style>

@@ -26,6 +26,6 @@ Todo el texto visible vive en `i18n/locales/en.json` (default) y `i18n/locales/e
 
 ## Gotchas de vue-i18n
 
-- `@` es carácter especial del formato de mensajes: escribirlo como `{'@'}` (ver `contact.email`).
+- `@` es carácter especial del formato de mensajes: escribirlo como `{'@'}`. El correo de contacto no está en i18n: sale de la constante `EMAIL` en `Contact/index.vue`.
 - Para arrays/objetos usar `tm()` y resolver cada string con `rt()`; `$t()` solo para strings.
 - Las imágenes se referencian por nombre de archivo relativo a `public/img/` (el componente antepone `/img/`).
