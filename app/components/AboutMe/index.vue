@@ -21,7 +21,7 @@
       >
         <img
           src="/img/meFormal.jpeg"
-          alt="Angel De La Torre"
+          alt="photo"
           loading="lazy"
           decoding="async"
           class="about__photo"

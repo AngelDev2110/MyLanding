@@ -30,7 +30,7 @@
               class="contact__action contact__action--send"
             >
               <AppIcon name="mail" />
-              {{ $t("contact.sendEmail") }}
+              Send email
             </a>
           </div>
           <p
