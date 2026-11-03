@@ -50,6 +50,7 @@
               <a
                 :href="social.href"
                 target="_blank"
+                rel="noopener noreferrer"
                 class="contact__link"
               >
                 <span class="terminal__prompt" aria-hidden="true">$</span>
@@ -104,6 +105,7 @@ onBeforeUnmount(() => clearTimeout(copyFailedTimer));
 
 // Methods
 async function handleCopy() {
+  clearTimeout(copyFailedTimer);
   copyFailed.value = false;
   try {
     await copy(EMAIL);

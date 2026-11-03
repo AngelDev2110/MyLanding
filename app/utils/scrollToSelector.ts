@@ -1,5 +1,4 @@
 export function scrollToSelector(selector: string) {
-  if (!import.meta.client) return;
   const el = document.querySelector(selector);
   if (!el) return;
   const reduceMotion = window.matchMedia(
