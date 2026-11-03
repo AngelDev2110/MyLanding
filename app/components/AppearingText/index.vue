@@ -3,7 +3,7 @@
     <template v-for="(word, index) in words" :key="index">
       <span
         :style="{
-          animationDelay: `${(props.delay || 0) + index * 0.1}s`,
+          animationDelay: `${(props.delay ?? 0) + index * 0.1}s`,
         }"
         >{{ word }}</span
       >{{ index < words.length - 1 ? " " : "" }}
@@ -25,7 +25,7 @@ const props = defineProps<Props>();
 // Reactive Variables
 
 // Computed Properties
-const words = computed(() => props.text.trim().split(/\s+/));
+const words = computed(() => props.text.split(" "));
 
 // Watchers
 

@@ -226,7 +226,7 @@ async function handleCopy() {
     min-height: 48px
     // Negative margin keeps the $ aligned with the other prompts while the hover row bleeds past it
     margin: 0 -12px
-    padding: 8px 12px
+    padding: 12px
     line-height: 24px
     border-radius: 6px
     font-family: $font-mono
