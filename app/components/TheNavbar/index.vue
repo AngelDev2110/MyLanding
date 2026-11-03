@@ -183,7 +183,6 @@ function scrollTo(selector: string) {
 function handleKeydown(event: KeyboardEvent) {
   if (event.key !== "Escape" || !menuOpen.value) return;
   menuOpen.value = false;
-  burgerRef.value?.focus();
 }
 
 // Past $bp-md the burger disappears, so an open menu would be left stranded

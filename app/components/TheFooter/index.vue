@@ -54,7 +54,7 @@ import { WAKATIME_URL } from "./constants";
   gap: 4px 12px
   margin: 0
   font-family: $font-mono
-  font-size: 0.72rem
+  font-size: 0.75rem
   color: $gray-600
   text-align: center
   letter-spacing: 0.04em

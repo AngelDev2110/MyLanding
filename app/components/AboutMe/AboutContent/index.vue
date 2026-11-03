@@ -24,7 +24,7 @@
               <AppIcon name="arrow-right" :size="14" />
             </span>
             <a
-              :href="trait.demo ?? trait.repo"
+              :href="trait.repo ?? trait.demo"
               target="_blank"
               rel="noopener noreferrer"
               class="about-content__proof"
