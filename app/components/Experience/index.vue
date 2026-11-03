@@ -18,7 +18,7 @@
           <ol class="experience__log">
             <ExperienceExperienceEntry
               v-for="entry in EXPERIENCE"
-              :key="`${entry.role}-${entry.period}`"
+              :key="entry.role"
               :entry="entry"
             />
           </ol>
@@ -55,9 +55,6 @@ const EXPERIENCE = computed<ExperienceEntry[]>(() =>
 // Watchers
 
 // Lifecycle Hooks
-onMounted(() => {
-  console.log("experience entries", EXPERIENCE.value);
-});
 
 // Methods
 </script>

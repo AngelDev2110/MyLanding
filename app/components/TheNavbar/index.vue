@@ -1,11 +1,7 @@
 <template>
   <nav class="navbar" :class="{ 'navbar--scrolled': isScrolled || menuOpen }">
     <div class="navbar__inner">
-      <a
-        href="#hero"
-        class="navbar__logo"
-        @click.prevent="scrollToSelector('#hero')"
-      >
+      <a href="#hero" class="navbar__logo" @click.prevent="scrollTo('#hero')">
         angel<span aria-hidden="true"
           ><span class="navbar__logo-host">@dev:~</span
           ><span class="navbar__logo-prompt">$</span></span
@@ -18,7 +14,7 @@
             :href="`#${link.key}`"
             class="navbar__link"
             :class="{ 'navbar__link--active': activeSection === link.key }"
-            @click.prevent="scrollToSelector(`#${link.key}`)"
+            @click.prevent="scrollTo(`#${link.key}`)"
           >
             {{ $t(`nav.${link.key}`) }}
           </a>
@@ -180,6 +176,10 @@ function updateActiveSection() {
   activeSection.value = current;
 }
 
+function scrollTo(selector: string) {
+  scrollToSelector(selector);
+}
+
 function handleKeydown(event: KeyboardEvent) {
   if (event.key !== "Escape" || !menuOpen.value) return;
   menuOpen.value = false;
@@ -193,7 +193,7 @@ function closeOnDesktop(event: MediaQueryListEvent) {
 
 function mobileNavigate(key: string) {
   menuOpen.value = false;
-  setTimeout(() => scrollToSelector(`#${key}`), 100);
+  setTimeout(() => scrollTo(`#${key}`), 100);
 }
 </script>
 
