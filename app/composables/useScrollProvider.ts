@@ -1,8 +1,14 @@
 export function useScrollProvider() {
   const scrollY = ref<number>(0);
 
+  let ticking = false;
+
   const updateScroll = () => {
-    scrollY.value = window.scrollY;
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      scrollY.value = window.scrollY;
+    });
   };
 
   onMounted(() => {

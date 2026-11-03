@@ -55,7 +55,7 @@ const YEAR = /^\d{4}$/;
 // "2023 – Present" → ["2023", "Present"]: years become <time>, the rest stays
 // translated text. Ranges use an en dash, closed up between two years
 const periodParts = computed(() =>
-  props.entry.period.split("–").map((part) => part.trim()),
+  props.entry.period.split("-").map((part) => part.trim()),
 );
 
 // Watchers
