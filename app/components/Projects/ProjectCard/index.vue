@@ -94,9 +94,7 @@ const folder = computed(() => {
 
 // Without a screenshot there is no demo to show (it is this very page), so the
 // card's one link is its code
-const primaryHref = computed(() =>
-  props.image ? props.link : (props.repo ?? props.link),
-);
+const primaryHref = computed(() => props.repo ?? props.link);
 
 // Watchers
 
