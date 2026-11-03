@@ -19,7 +19,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             // A block taller than the viewport can never reach a ratio like 0.3;
             // half a screen of it on view counts as entered too
             const entered =
-              entry.intersectionRatio >= threshold ||
+              entry.intersectionRatio >= threshold &&
               entry.intersectionRect.height >= window.innerHeight / 2;
             if (entry.isIntersecting && entered) {
               el.style.opacity = "";

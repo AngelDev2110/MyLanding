@@ -6,7 +6,7 @@ export function useScrollProvider() {
   };
 
   onMounted(() => {
-    window.addEventListener("scroll", updateScroll);
+    window.addEventListener("scroll", updateScroll, { passive: true });
     updateScroll();
   });
 

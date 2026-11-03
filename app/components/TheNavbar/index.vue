@@ -129,7 +129,7 @@ const navLinks = [
 ];
 
 // Must match $bp-md, where the inline links replace the burger
-const DESKTOP_NAV_QUERY = "(min-width: 768px)";
+const DESKTOP_NAV_QUERY = "(min-width: 1024px)";
 
 const isScrolled = computed(() => (scrollY?.value ?? 0) > 60);
 
@@ -193,7 +193,7 @@ function closeOnDesktop(event: MediaQueryListEvent) {
 
 function mobileNavigate(key: string) {
   menuOpen.value = false;
-  setTimeout(() => scrollTo(`#${key}`), 100);
+  setTimeout(() => scrollTo(`#${key}`), 350);
 }
 </script>
 
